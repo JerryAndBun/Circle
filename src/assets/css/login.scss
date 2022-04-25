@@ -1,0 +1,28 @@
+
+/* 
+////////////
+一下是中间部分
+////////////
+*/
+// @import './global.scss';
+*{
+    margin: 0;
+    padding: 0;
+}
+.mainbox{
+    position: relative;
+    width: auto;
+    height: 618px;
+    background:url(../assets/imgs/埃罗芒老师.png) no-repeat;
+    // background-image:url(../assets/imgs/埃罗芒老师.png);
+    background-position: center;
+    background-size: 150%;
+    // transition: linear 0.9s;
+    // transform: translate(background-position(0px,-240px));
+    animation: play 1.3s ease-in-out;
+    background-position: 0px -240px;
+}
+@keyframes play {
+    from{background-position: 0px 0px;}
+    to{background-position: 0px -240px;}
+}

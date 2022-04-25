@@ -1,0 +1,313 @@
+/* 
+head */
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+}
+
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+
+.iconfont {
+  font-size: 18px;
+  display: inline-block;
+  font-weight: 800;
+  color: #b4b4b4;
+}
+
+.head {
+  min-width: 1100px;
+  height: 60px;
+  background-color: white;
+}
+
+@media screen and (min-width: 1151px) and (max-width: 1810px) {
+  .head .headmain {
+    width: calc(100% - 200px) !important;
+  }
+  .lv1guide {
+    margin-left: 96.5px;
+    margin-right: 96.5px;
+  }
+  .lv1guideul {
+    width: 1710px !important;
+    margin: 0,96.5px;
+  }
+}
+
+@media screen and (min-width: 1050px) and (max-width: 1150px) {
+  .head .headmain {
+    width: 1050px;
+    margin: auto calc(50% - 525px) !important;
+  }
+}
+
+.head .headmain {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  max-width: 1710px;
+  min-width: 1050px;
+  justify-content: space-between;
+  margin: 0 auto;
+  height: 60px;
+}
+
+.head .navbox {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  display: inline-block;
+  width: 168px;
+  height: 60px;
+}
+
+#lv1guide {
+  position: relative;
+  width: 1920px;
+  margin: 0 auto;
+  visibility: hidden;
+  z-index: 10;
+  height: 40px;
+  background-color: #fff;
+}
+
+.lv1guideul {
+  display: inline-block;
+  width: 1710px;
+  margin: 0px 96.5px;
+  height: 40px;
+  font-size: 14px;
+  list-style: none;
+  background-color: #fff;
+}
+
+.lv1guideul li {
+  display: inline-block;
+}
+
+.lv1 {
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  width: auto;
+  margin-right: 20px;
+  float: left;
+}
+
+.lv1 a {
+  color: #333;
+  padding: 0px 6px;
+}
+
+.lv1 a:hover {
+  color: #0f9bf1;
+}
+
+/* .lv1 a:hover{
+    color: #fd4c5d;
+} */
+#lv2guide {
+  position: relative;
+  width: 1920px;
+  margin: 0 auto;
+  visibility: hidden;
+  z-index: 10;
+  line-height: 40px;
+  background-color: white;
+  height: 40px;
+  font-size: 14px;
+}
+
+.lv2guideul {
+  display: none;
+  line-height: 40px;
+  height: 40px;
+  width: 1710px;
+  margin: 0px 74px;
+  /* visibility: hidden; */
+  font-size: 14px;
+  list-style: none;
+  /* left: 50px; */
+  background-color: #fff;
+}
+
+.lv2guideul li {
+  z-index: 10;
+  float: left;
+  /* position: absolute; */
+  margin-left: 20px;
+}
+
+.lv2guideul li a {
+  z-index: 10;
+  color: #333;
+  padding: 0px 6px;
+}
+
+.lv2guideul li a:hover {
+  color: #0f9bf1;
+}
+
+/* .lv2guideul1{ */
+/* display: ; */
+/* } */
+.lv2guideul:nth-child(0) {
+  /* display: block; */
+  position: absolute;
+  /* left: 50px; */
+}
+
+.head .searcharea {
+  position: relative;
+  height: 60px !important;
+  width: 300px;
+}
+
+.navbox img {
+  display: inline-block;
+  /* width: 94px; */
+  height: 46px;
+}
+
+.daohangbox {
+  /* background-color: red; */
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+}
+
+.daohangbox2 {
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+}
+
+.icon-gongneng {
+  vertical-align: middle;
+  transition: all 0.3s;
+  /* margin-top: 4px; */
+}
+
+.daohangbox a {
+  font-size: 14px;
+  color: #333;
+}
+
+.iconbox {
+  font-size: 16px;
+  position: absolute;
+  float: right;
+  width: 20px;
+  height: 20px;
+  top: 32%;
+  right: -41px;
+  color: #cfcfcf;
+}
+
+.head .searchbox {
+  position: absolute;
+  top: 22%;
+  left: 51px;
+  height: 30px;
+  width: 300px;
+  text-indent: 1rem;
+  border: solid #dfdcdc 1px;
+  border-radius: 40px;
+  outline: none;
+}
+
+.headguide {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 280px;
+  list-style: none;
+  float: right;
+  justify-content: space-between;
+}
+
+.headguide li {
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  width: 20px;
+  align-items: center;
+  text-align: center;
+}
+
+.headguide .guide-upload {
+  margin-top: 2px;
+  vertical-align: middle;
+  display: flex;
+  border: 1px solid #0f9bf1;
+  justify-content: space-between;
+  align-items: center;
+  width: 52px;
+  height: 26px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background-color: #0f9bf1;
+}
+
+.word {
+  /* transform: translateY(-16px); */
+  transition: all 0.3s;
+  visibility: hidden;
+  z-index: 3;
+  transform-origin: top center;
+  height: 24px;
+  line-height: 24px;
+  width: 40px;
+  left: -11px;
+  display: inline-block;
+  position: absolute;
+  top: 25px;
+  color: #8a8a8a;
+  text-align: center;
+  font-size: 12px;
+}
+
+.guideicon, icon-shouji {
+  transition: all 0.3s;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.guide-upload .icon-shangchuan {
+  color: white !important;
+}
+
+.icon-shangchuana {
+  line-height: 20px;
+}
+
+.icon-fangdajing {
+  color: #0f9bf1;
+}
+
+.iconfont:hover {
+  color: #0f9bf1;
+}
+
+/* .icon-gongneng:hover{
+} */
+.headguide a {
+  color: #fff;
+  position: relative;
+  font-size: 14px;
+  height: 20px;
+  width: 28px;
+}
+/*# sourceMappingURL=header.css.map */
