@@ -7,8 +7,12 @@
       <div class="slider_area">
         <Banner class="banner"></Banner>
       </div>
+      <!-- count:{{$store.state.sum}} -->
+      <!-- {{$store.state.username}} -->
+      <!-- {{$store.state.userpassword}} -->
       <VideoPreview v-for=""></VideoPreview>
     </div>
+    
   </div>
 </template>
 
@@ -27,7 +31,6 @@ export default {
     load() {
       console.log("123");
       alert("?");
-      // import('../Myjs/acfun')
     }
   }
 };

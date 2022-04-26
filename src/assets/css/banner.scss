@@ -28,16 +28,19 @@
 
     //未激活样式
     .swiper-pagination-bullet {
-        width: 15px;
-        height: 6px;
+        width: 8px;
+        height: 8px;
         border-radius: 5px;
         background-color: $rice;
         opacity: 1;
+        border-radius: 10px;
     }
 
 
     //激活样式
     .swiper-pagination-bullet-active {
         background-color: $main-blue;
+        width: 15px;
+        height: 8px;
     }
 }

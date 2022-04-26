@@ -53,6 +53,7 @@ export default {
 @import "../assets/css/swiper";
 .swiper .swiper-pagination-bullet-active {
   background-color: #fff;
+  // border-radius: 50px;
 }
 .swiper {
   width: 100%;

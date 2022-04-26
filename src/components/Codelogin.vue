@@ -8,10 +8,12 @@
     <div class="loginbox">
       <div class="loginform">
         <div class="accountbox"><i class="accountboxi"></i>
-          <input class="account" type="text" placeholder="请输入账号/邮箱">
+          <input class="account" v-model.trim="username" type="text" placeholder="请输入账号/邮箱">
+          <!-- {{loginfor.username}}
+          {{loginfor.userpassword}} -->
         </div>
         <div class="passwordbox"><i class="passwordboxi"></i>
-          <input class="password" type="password" placeholder="请输入密码">
+          <input class="password" v-model.trim="userpassword" type="password" placeholder="请输入密码">
         </div>
         <div class="loginbutton">登&nbsp&nbsp录</div>
       </div>
@@ -39,7 +41,41 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex";
 export default {
+  data() {
+    return {
+      // loginform: {
+      //   username: "",
+      //   userpassword: ""
+      // }
+      // username:'',
+      // userpassword:'',
+    };
+  },
+  computed: {
+      // ...mapState(["username", "userpassword"])
+      username:{
+        get(){
+          return this.$store.state.username
+        },
+        set(newval){
+          this.$store.commit('setUsername',newval)
+        }
+      },
+      userpassword:{
+        get(){
+          return this.$store.state.userpassword
+        },
+        set(newval){
+          this.$store.commit('setUserPassword',newval)
+        }
+      }
+  },
+  // computed: {
+  //   ...mapGetters(["bigusername", "biguserpassword"]),
+  //   ...mapState(["username", "userpassword"])
+  // },
   mounted() {
     var loginbox = document.querySelector(".loginbox");
     var logintips = document.querySelector(".logintips");
@@ -89,10 +125,9 @@ export default {
         window.isqr = -window.isqr;
         window.timer = setInterval(window.timerrunner, 3000);
       }
-    
     }
-    switc.addEventListener("click",swt );
-    accountswitch.addEventListener("click",swt );
+    switc.addEventListener("click", swt);
+    accountswitch.addEventListener("click", swt);
   },
   beforeRouteEnter(to, from, next) {
     if (window.isqr) {
@@ -105,5 +140,5 @@ export default {
 
 <style lang='scss' scoped>
 // @import "../assets/css/global";
-@import '../assets/css/codelogin.scss';
+@import "../assets/css/codelogin.scss";
 </style>

@@ -4,6 +4,8 @@
     <div class="mainbox">
       <!-- <div class="login-container"> -->
         <router-view></router-view>
+          {{$store.state.username}}
+          {{$store.state.userpassword}}
         <!-- <div class="contentbox">
           <div class="switch-img"></div>
           <div class="loginheaderbox">
@@ -43,7 +45,6 @@
         </div> -->
       <!-- </div> -->
     </div>
-    <!-- <router-view></router-view> -->
     <Footer></Footer>
   </div>
 </template>
@@ -53,12 +54,16 @@ import Header from "../components/Header.vue";
 import Footer from "../components/Footer.vue";
 import CodeLogin from '../components/Codelogin.vue'
 import Register from '../components/Register.vue'
+import {mapState} from '../store/index'
 export default {
   components: {
     Header,
     Footer,
     CodeLogin,
     Register
+  },
+  computed:{
+    // ...mapState(['username','userpassword'])
   },
   //加载login的js
   methods: {},
