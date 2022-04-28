@@ -3,6 +3,7 @@
 一下是中间部分
 ////////////
 */
+@import './var';
 
 .mainbox{
     position: relative;
@@ -181,10 +182,23 @@
     margin-top: 11px;
     border: none;
 }
-.password{
-    font-size: 24px !important;
+.alertdiv{
+    visibility: hidden;
+    width: 322px;
+    margin-bottom: 5px;
+    margin-left: 32px;
+    font-size: 14px;
+    .icon-gantanhao{
+        &::before{
+            font-size: 14px;
+        }
+        color: $main-pink-red;
+    }
+    .alertspan{
+        color: $main-pink-red;
+        margin-left: 4px;
+    }
 }
-
 .loginbox .account::placeholder,.loginbox .password::placeholder{
     font-size: 14px;
     color: #bebebe;

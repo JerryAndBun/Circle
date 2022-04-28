@@ -14,21 +14,24 @@ export default new Vuex.Store({
         // uid,
         // nickname,
         // islogin:false,
-        username:'',
+        nickname:'',
         userpassword:'',
-        sum:0,
+        email:'',
     },
     getters:{
         // islogin
-        // bigusername:state=>state.username,
+        // bignickname:state=>state.nickname,
         // biguserpassword:state=>state.userpassword
     },
     mutations:{
-        setUsername:(state,payload)=>{
-            state.username=payload;
+        setNickname:(state,payload)=>{
+            state.nickname=payload;
         },
         setUserPassword:(state,UserPassword)=>{
             state.userpassword=UserPassword;
+        },
+        setEmail:(state,Email)=>{
+            state.email=Email;
         }
     },
     actions:{}

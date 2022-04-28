@@ -2,18 +2,21 @@
   <div class="contentbox">
     <div class="switch-img"></div>
     <div class="loginheaderbox">
-      <h3 class="loginheader">手机扫码登录
+      <h3 class="loginheader" ref="h3">手机扫码登录
       </h3>
     </div>
     <div class="loginbox">
       <div class="loginform">
-        <div class="accountbox"><i class="accountboxi"></i>
-          <input class="account" v-model.trim="username" type="text" placeholder="请输入账号/邮箱">
-          <!-- {{loginfor.username}}
-          {{loginfor.userpassword}} -->
+        <div class="alertdiv" ref="alertdiv">
+          <i class="iconfont icon-gantanhao"></i>
+          <span class="alertspan" ref="alertspan">请输入账号</span>
         </div>
-        <div class="passwordbox"><i class="passwordboxi"></i>
-          <input class="password" v-model.trim="userpassword" type="password" placeholder="请输入密码">
+        <div class="accountbox" ref="accountdiv"><i class="accountboxi"></i>
+          <input class="account" v-model.trim="email" type="text" placeholder="请输入账号/邮箱" @blur="lose_account">
+        </div>
+
+        <div class="passwordbox" ref="passdiv"><i class="passwordboxi"></i>
+          <input class="password" v-model.trim="userpassword" type="password" placeholder="请输入密码" @blur="lose_pass">
         </div>
         <div class="loginbutton" @click="sendrequest">登&nbsp&nbsp录</div>
       </div>
@@ -46,25 +49,58 @@ import axios from "axios";
 export default {
   data() {
     return {
-        username: "12313",
-        userpassword: "123"
+      email: "",
+      userpassword: ""
     };
   },
   methods: {
+    lose_account() {
+      if (!this.email) {
+        this.$refs.accountdiv.style.border = "rgb(255, 100, 100) 1px solid";
+        this.$refs.alertdiv.style.visibility = "visible";
+        this.$refs.alertspan.innerHTML = "请输入账号/邮箱";
+      } else {
+        this.$refs.accountdiv.style.border = "rgb(221, 221, 221) 1px solid";
+        if(this.userpassword){
+          this.$refs.alertdiv.style.visibility = "hidden";
+        }
+      }
+    },
+    lose_pass() {
+      if (!this.userpassword) {
+        this.$refs.passdiv.style.border = "rgb(255, 100, 100) 1px solid";
+        this.$refs.alertdiv.style.visibility = "visible";
+        this.$refs.alertspan.innerHTML = "请输入密码";
+      } else {
+        this.$refs.passdiv.style.border = "rgb(221, 221, 221) 1px solid";
+        if(this.email){
+          this.$refs.alertdiv.style.visibility = "hidden";
+        }
+      }
+    },
     sendrequest() {
       console.log(132);
-      axios.post("http://localhost:8080/lr/login",{
-        username:this.username,
-        userpassword:this.userpassword
-      }).then(
-        (response) => {
-          console.log(response.data);
-        },
-        (error) => {
-          // console.log(error);
-          console.log("GG", error.message);
-        }
-      );
+      axios
+        .post("http://localhost:8080/lr/login", {
+          email: this.email,
+          userpassword: this.userpassword
+        })
+        .then(
+          (response) => {
+            console.log(response.data);
+            let data = response.data
+            if(data.status===200){
+              alert('登陆成功')
+            }
+            else{
+              alert('登陆失败,请检查用户名与密码')
+            }
+          },
+          (error) => {
+            // console.log(error);
+            console.log("GG", error.message);
+          }
+        );
     }
   },
   mounted() {
