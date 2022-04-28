@@ -27,7 +27,7 @@ export default {
   //加载login的js
   methods: {},
   beforeRouteLeave(to, from, next) {
-    clearInterval(timer);
+    clearInterval(window.timer);
     next();
   },
   

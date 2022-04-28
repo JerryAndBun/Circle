@@ -61,7 +61,7 @@ export default {
         this.$refs.alertspan.innerHTML = "请输入账号/邮箱";
       } else {
         this.$refs.accountdiv.style.border = "rgb(221, 221, 221) 1px solid";
-        if(this.userpassword){
+        if (this.userpassword) {
           this.$refs.alertdiv.style.visibility = "hidden";
         }
       }
@@ -73,7 +73,7 @@ export default {
         this.$refs.alertspan.innerHTML = "请输入密码";
       } else {
         this.$refs.passdiv.style.border = "rgb(221, 221, 221) 1px solid";
-        if(this.email){
+        if (this.email) {
           this.$refs.alertdiv.style.visibility = "hidden";
         }
       }
@@ -88,12 +88,12 @@ export default {
         .then(
           (response) => {
             console.log(response.data);
-            let data = response.data
-            if(data.status===200){
-              alert('登陆成功')
-            }
-            else{
-              alert('登陆失败,请检查用户名与密码')
+            let data = response.data;
+            if (data.status === 200) {
+              alert("登陆成功");
+            } else {
+              this.$refs.alertdiv.style.visibility = "visible";
+              this.$refs.alertspan.innerHTML = "用户名或密码错误";
             }
           },
           (error) => {
@@ -108,6 +108,7 @@ export default {
     var logintips = document.querySelector(".logintips");
     var clicklink = document.querySelector(".clicklink");
     var accountswitch = document.querySelector(".login-account-switch");
+    var alertdiv = document.querySelector('.alertdiv')
     var accountlogin = document.querySelector(".loginheader");
     var loginform = document.querySelector(".loginform");
     var switc = document.querySelector(".switch-img");
@@ -127,6 +128,7 @@ export default {
     statusbutton.addEventListener("click", function () {
       clearInterval(window.timer);
       qrcodebox.style.visibility = "hidden";
+      // this.$refs.alertdiv.style.visibility = "hidden";
       window.timer = setInterval(window.timerrunner, 3000);
     });
     //点击刷新
@@ -149,6 +151,7 @@ export default {
         clicklink.style.visibility = "visible";
         accountswitch.innerHTML = "账号登录";
         accountlogin.innerHTML = "手机扫码登录";
+        alertdiv.style.visibility = "hidden";
         window.isqr = -window.isqr;
         window.timer = setInterval(window.timerrunner, 3000);
       }
