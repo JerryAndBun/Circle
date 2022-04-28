@@ -21,7 +21,7 @@
         <a href="" class="checkcode">获取验证码</a>
       </div>
       <div class="submitbox"></div>
-      <div class="register_button"><a href="">注册</a></div>
+      <div class="register_button" @click="sendrequest"><a href="">注册</a></div>
       <label for="user_item">
         <div class="item_box">
           <input type="checkbox" class="user_item_input" id="user_item">
@@ -34,7 +34,40 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    sendrequest() {
+      console.log(132);
+      axios.get("http://localhost:8080/register").then(
+        (response) => {
+          console.log(response.data);
+        },
+        (error) => {
+          // console.log(error);
+          console.log("GG", error.message);
+        }
+      );
+    }
+  },
+  computed: {
+    username: {
+      get() {
+        return this.$store.state.username;
+      },
+      set(newval) {
+        this.$store.commit("setUsername", newval);
+      }
+    },
+    userpassword: {
+      get() {
+        return this.$store.state.userpassword;
+      },
+      set(newval) {
+        this.$store.commit("setUserPassword", newval);
+      }
+    }
+  }
+};
 </script>
 
 <style lang='scss' scoped>

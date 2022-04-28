@@ -15,7 +15,7 @@
         <div class="passwordbox"><i class="passwordboxi"></i>
           <input class="password" v-model.trim="userpassword" type="password" placeholder="请输入密码">
         </div>
-        <div class="loginbutton">登&nbsp&nbsp录</div>
+        <div class="loginbutton" @click="sendrequest">登&nbsp&nbsp录</div>
       </div>
       <div class="mabox">
         <img class="ma" src="../assets/imgs/二维码.png" alt="">
@@ -42,40 +42,31 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import axios from "axios";
 export default {
   data() {
     return {
-      // loginform: {
-      //   username: "",
-      //   userpassword: ""
-      // }
-      // username:'',
-      // userpassword:'',
+        username: "12313",
+        userpassword: "123"
     };
   },
-  computed: {
-      // ...mapState(["username", "userpassword"])
-      username:{
-        get(){
-          return this.$store.state.username
+  methods: {
+    sendrequest() {
+      console.log(132);
+      axios.post("http://localhost:8080/lr/login",{
+        username:this.username,
+        userpassword:this.userpassword
+      }).then(
+        (response) => {
+          console.log(response.data);
         },
-        set(newval){
-          this.$store.commit('setUsername',newval)
+        (error) => {
+          // console.log(error);
+          console.log("GG", error.message);
         }
-      },
-      userpassword:{
-        get(){
-          return this.$store.state.userpassword
-        },
-        set(newval){
-          this.$store.commit('setUserPassword',newval)
-        }
-      }
+      );
+    }
   },
-  // computed: {
-  //   ...mapGetters(["bigusername", "biguserpassword"]),
-  //   ...mapState(["username", "userpassword"])
-  // },
   mounted() {
     var loginbox = document.querySelector(".loginbox");
     var logintips = document.querySelector(".logintips");
