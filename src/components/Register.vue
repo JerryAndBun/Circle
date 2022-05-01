@@ -1,39 +1,53 @@
 <template>
-  <div class="contentbox">
-    <div class="form" v-if="isdisappear">
-      <div class="registerheader">
-        <!-- <a href="">asdasd</a> -->
-        <h3 class="loginheader">用户注册
-        </h3>
-        <router-link to="/login" href="" class="backtologin">返回登录</router-link>
-      </div>
-      <div class="infobox"><i class="iconfont icon-shouji"></i>
-        <input class="account" type="text" v-model="email" placeholder="请输入手机号/邮箱" @blur="losephone">
-      </div>
-      <div class="alertdiv" ref="alertdiv1"> <i class="iconfont icon-gantanhao"></i>手机号长度应为11个字符</div>
-      <div class="infobox"><i class="iconfont icon-yonghu"></i>
-        <input class="account" type="text" v-model="nickname" placeholder="请输入昵称" @blur="losenickname">
-      </div>
-      <div class="alertdiv" ref="alertdiv2"> <i class="iconfont icon-gantanhao"></i>昵称长度应为2-15个字符，且不包含特殊字符</div>
-      <div class="infobox"><i class="iconfont icon-yaoshi"></i>
-        <input class="account" type="password" v-model="userpassword" placeholder="请输入密码" @blur="losepass">
-      </div>
-      <div class="alertdiv" ref="alertdiv3"> <i class="iconfont icon-gantanhao"></i>密码不能为空</div>
-      <div class="infobox"><i class="iconfont icon-yanzhengma"></i>
-        <input class="checkinput account" type="text" placeholder="请输入验证码">
-        <a href="" class="checkcode">获取验证码</a>
-      </div>
-      <div class="submitbox"></div>
-      <div class="register_button" ref="register_button" @click="requestRegister"><a href="javascript:;">注册并登录</a></div>
-      <label for="user_item">
-        <div class="item_box">
-          <input type="checkbox" class="user_item_input" id="user_item" @change="colorchange">
-          <a class="item_text">我已经认真阅读并同意Circle的</a>
-          <a href="" class="agreement">《使用协议》</a>
+  <div>
+    <div class="contentbox" v-if="isdisappear">
+      <div class="form">
+        <div class="registerheader">
+          <!-- <a href="">asdasd</a> -->
+          <h3 class="loginheader">用户注册
+          </h3>
+          <router-link to="/login" href="" class="backtologin">返回登录</router-link>
         </div>
-      </label>
+        <div class="infobox"><i class="iconfont icon-shouji"></i>
+          <input class="account" type="text" v-model="email" placeholder="请输入邮箱" @blur="loseemail">
+        </div>
+        <div class="alertdiv" ref="alertdiv1"> <i class="iconfont icon-gantanhao"></i>邮箱格式错误</div>
+        <div class="infobox"><i class="iconfont icon-yonghu"></i>
+          <input class="account" type="text" v-model="nickname" placeholder="请输入昵称" @blur="losenickname">
+        </div>
+        <div class="alertdiv" ref="alertdiv2"> <i class="iconfont icon-gantanhao"></i>昵称长度应为2-15个字符，且不包含特殊字符</div>
+        <div class="infobox"><i class="iconfont icon-yaoshi"></i>
+          <input class="account" type="password" v-model="userpassword" placeholder="请输入密码" @blur="losepass">
+        </div>
+        <div class="alertdiv" ref="alertdiv3"> <i class="iconfont icon-gantanhao"></i>密码不能为空</div>
+        <div class="infobox"><i class="iconfont icon-yanzhengma"></i>
+          <input class="checkinput account" type="text" placeholder="请输入验证码">
+          <a href="" class="checkcode">获取验证码</a>
+        </div>
+        <div class="submitbox"></div>
+        <div class="register_button" ref="register_button" @click="requestRegister"><a href="javascript:;">注册并登录</a></div>
+        <label for="user_item">
+          <div class="item_box">
+            <input type="checkbox" class="user_item_input" id="user_item" @change="colorchange">
+            <a class="item_text">我已经认真阅读并同意Circle的</a>
+            <a href="" class="agreement">《使用协议》</a>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="loginsuccess" v-if="issuccess">
+      <img src="../assets/imgs/头像.jpg" alt="" class="touxiang">
+      <div class="welcomediv">
+        <span class="nickname">{{nickname}}</span>
+        <br>
+        <span>欢迎来到Circle</span>
+        <br>
+        <span class="text">{{second}}秒后自动跳转</span>
+      </div>
+      <br>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -42,7 +56,9 @@ export default {
   data() {
     return {
       ischecked: false,
-      isdisappear: true
+      isdisappear: true,
+      issuccess: false,
+      second: 3
     };
   },
   methods: {
@@ -50,7 +66,7 @@ export default {
       if (!this.ischecked) {
         return;
       }
-      var _this = this
+      var tti;
       axios
         .post("http://localhost:8080/lr/register", {
           email: this.email,
@@ -60,10 +76,21 @@ export default {
         .then(
           (response) => {
             this.isdisappear = false;
+            this.issuccess = true;
             // console.log(this);
-            setTimeout(()=>{
+
+            tti = setInterval(() => {
+              this.second--;
+            }, 1000);
+            setTimeout(() => {
               this.$router.push("/");
-            }, 2000);
+              clearInterval(tti);
+              this.isdisappear = true;
+              this.issuccess = false;
+            }, 3000);
+            sessionStorage.setItem("email", this.email);
+            sessionStorage.setItem("pass", this.userpassword);
+            sessionStorage.setItem("islogin", true);
           },
           (error) => {
             console.log("GG", error.message);
@@ -72,7 +99,6 @@ export default {
     },
     colorchange() {
       this.ischecked = !this.ischecked;
-      // console.log(!true);
       if (this.ischecked) {
         this.$refs.register_button.style.backgroundColor = "rgb(15,155,241)";
         // console.log('truele');
@@ -80,8 +106,9 @@ export default {
         this.$refs.register_button.style.backgroundColor = "#999";
       }
     },
-    losephone() {
-      if (!this.email) {
+    loseemail() {
+      const accountreg = /^\w{5,10}@\w{2,3}\.com$/g;
+      if (!accountreg.test(this.email)) {
         this.$refs.alertdiv1.style.visibility = "visible";
       } else {
         this.$refs.alertdiv1.style.visibility = "hidden";

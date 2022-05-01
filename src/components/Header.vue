@@ -22,8 +22,10 @@
             <i class="iconfont icon-shouji"></i>
           </a>
         </li>
-        <li class="logintext">
-          <router-link href="" to="/login" class="logintextlink">登录/注册</router-link>
+        <li class="logintext" >
+          <router-link href="" to="/login" class="logintextlink" v-if="islogintext">登录/注册</router-link>
+          <div class="avatar" ref="avatar" v-if="isavatat">
+          </div>
         </li>
         <li ref="guide" class="guide guide-msg">
           <a href="javascript:;">
@@ -191,6 +193,12 @@
 
 <script>
 export default {
+  data() {
+    return {
+      islogintext: true,
+      isavatat:false
+    };
+  },
   methods: {},
   //Header 的交互逻辑js
   mounted() {
@@ -331,6 +339,21 @@ export default {
         }, 250);
       };
     });
+  },
+  // beforeRouteEnter(from,to,next) {
+  //   if(sessionStorage.getItem('islogin')){
+  //   }
+  //   next()
+  // }
+  created() {
+    if (sessionStorage.getItem("islogin")) {
+      this.islogintext=false
+      this.isavatat=true
+    }
+    else{
+      this.islogintext=true
+      this.isavatat=false
+    }
   }
 };
 // test()

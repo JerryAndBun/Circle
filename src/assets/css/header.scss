@@ -50,7 +50,7 @@ head */
 }
 #lv1guide{
     position: relative;
-    width: auto;
+    width: 1190px;
     margin: 0 auto;
     visibility: hidden;
     z-index: 10;
@@ -90,7 +90,7 @@ head */
 } */
 #lv2guide{
     position: relative;
-    width: auto;
+    width: 1190px;
     margin: 0 auto;
     visibility: hidden;
     z-index: 10;
@@ -201,6 +201,8 @@ head */
     float: right;
     justify-content: space-between;
     .logintext{
+        // vertical-align: middle;
+        position: relative;
         width: 62px;
         .logintextlink{
             color:$unfocus !important;
@@ -278,4 +280,22 @@ head */
     font-size: 14px;
     height: 20px;
     width: 28px;
+}
+// 头像
+.avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -20px;
+    margin-left: -20px;
+    // background-image: url(../assets/imgs/头像.jpg);
+    background-image: url(../assets/imgs/头像.jpg);
+    background-size: auto 100%;
+    // background: url('../imgs/头像.jpg') no-repeat center;
+    // img{
+    //     background-size: 60px;
+    // }
 }

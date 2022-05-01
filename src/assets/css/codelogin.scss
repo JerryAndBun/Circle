@@ -34,7 +34,7 @@
     background-color: rgb(255, 255, 255);
     box-sizing: border-box;
     padding: 25px;
-    border-radius: 3px;
+    border-radius: 15px;
 }
 .login-container{
     position: absolute;
@@ -51,11 +51,12 @@
     z-index: 4;
     width: 54px;
     height: 54px;
-    top: 5px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
 }
 .loginheaderbox{
     position: relative;
+    // top: 0%;
     width: 250px;
     height: 38px;
 }
@@ -89,6 +90,7 @@
 .loginbox{
     position: relative;
     height: 240px;
+    margin-bottom: 72px;
     width: 380px;
     background-color: #fff;
 }
@@ -104,11 +106,11 @@
 .mabox{
     /* position: relative; */
     height: 168px;
+    margin-top: 44px;
     width: 168px;
     float: left;
 }
 .qrcodebox{
-    visibility: hidden;
     margin-top: 44px;
     position: absolute;
     height: 168px;
@@ -153,9 +155,8 @@
     cursor: pointer;
     
 }
-.loginbox .ma{
+.mabox .ma{
     border: rgb(218, 216, 216) 1px solid;
-    margin-top: 44px;
     width: 168px;
     height: 168px;
     z-index: 1;
@@ -167,7 +168,7 @@
 }
 .loginform{
     position: absolute;
-    visibility: hidden;
+    // visibility: hidden;
     width: 380px;
     height: 169px;
     padding-top: 50px;
@@ -183,7 +184,7 @@
     border: none;
 }
 .alertdiv{
-    visibility: hidden;
+    // visibility: hidden;
     width: 322px;
     margin-bottom: 5px;
     margin-left: 32px;
@@ -264,6 +265,12 @@
     text-decoration: underline;
     margin: 0 auto 15px;
 }
+.loginopts{
+    position: relative;
+    width: 380px;
+    // top: 460px;
+    // left: 50px;
+}
 .loginopts a{
     font-size: 14px;
     text-decoration: none;
@@ -278,4 +285,51 @@
 }
 .register{
     color: #333 !important;
+}
+.loginsuccess {
+    opacity: .95;
+    position: absolute;
+    left: 50%;
+    margin-left: -450px;
+    /* transform: -50%; */
+    top: 88px;
+    width: 430px;
+    height: 408px;
+    background-color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    padding: 25px;
+    border-radius: 15px;
+    .touxiang {
+        position: absolute;
+        border-radius: 10px;
+        top: 40px;
+        left: 50%;
+        margin-left: -62.5px;
+        width: 125px;
+        height: 125px;
+    }
+
+    .welcomediv {
+        // background-color: red;
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        margin-left: -100px;
+        width: 200px;
+        top: 190px;
+        color: $main-pink;
+
+        .nickname {
+            font-size: 24px;
+        }
+
+        .text {
+            // text-align: center;
+            position: absolute;
+            top: 100px;
+            margin-left: -100px;
+            width: 200px;
+            color: $unfocus;
+        }
+    }
 }

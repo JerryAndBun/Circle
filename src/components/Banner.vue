@@ -1,6 +1,6 @@
 <template>
   <div class="banner_box">
-    <swiper :options="swiperOption" ref="mySwiper" @someSwiperEvent="callback">
+    <swiper :options="swiperOption" ref="mySwiper" >
       <swiper-slide><img class="pic" src="../assets/imgs/banners/1.png" /></swiper-slide>
       <swiper-slide><img class="pic" src="../assets/imgs/banners/2.png" /></swiper-slide>
       <swiper-slide><img class="pic" src="../assets/imgs/banners/3.png" /></swiper-slide>
@@ -42,7 +42,6 @@ export default {
   mounted() {
     // current swiper instance
     // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-    console.log("this is current swiper instance object", this.swiper);
     // this.swiper.slideTo(3, 1000, false);
   }
 };

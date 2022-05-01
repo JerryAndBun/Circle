@@ -12,7 +12,7 @@
       <!-- {{$store.state.userpassword}} -->
       <VideoPreview v-for=""></VideoPreview>
     </div>
-    
+
   </div>
 </template>
 
@@ -25,13 +25,19 @@ export default {
   components: {
     Header,
     Banner,
-    VideoPreview,
+    VideoPreview
   },
   methods: {
     load() {
       console.log("123");
       alert("?");
     }
+  },
+  beforeRouteEnter(from,to,next) {
+    if(localStorage.getItem('islogin')){
+      
+    }
+    next()
   }
 };
 </script>
