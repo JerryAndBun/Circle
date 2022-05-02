@@ -48,7 +48,7 @@
     <div class="loginsuccess" v-if="issuccess">
       <img src="../assets/imgs/头像.jpg" alt="" class="touxiang">
       <div class="welcomediv">
-        <span class="nickname">{{email}}</span>
+        <span class="nickname">{{nickname}}</span>
         <br>
         <span>欢迎来到Circle</span>
         <br>
@@ -68,6 +68,7 @@ export default {
     return {
       email: "",
       userpassword: "",
+      nickname: "",
       isdisappear: true,
       issuccess: false,
       isqrbox: true,
@@ -147,12 +148,11 @@ export default {
         })
         .then(
           (response) => {
-            console.log(response.data);
-            let data = response.data;
-            if (data.status === 200) {
+            let { data } = response.data;
+            console.log(data);
+            if (response.data.status === 200) {
               this.isdisappear = false;
               this.issuccess = true;
-              // console.log(this);
               tti = setInterval(() => {
                 this.second--;
               }, 1000);
@@ -162,10 +162,12 @@ export default {
                 this.isdisappear = true;
                 this.issuccess = false;
               }, 3000);
-              sessionStorage.setItem("email", this.email);
-              sessionStorage.setItem("pass", this.userpassword);
-              sessionStorage.setItem("islogin",true);
-              
+              this.$store.commit("setNickname",data.nickname);
+              this.$store.commit("setUserPassword",data.userpassword);
+              this.$store.commit("setEmail",data.email);
+              this.$store.commit("setUid",data.uid);
+              this.$store.commit("setIsLogin",true);
+              this.nickname = data.nickname;
             } else {
               this.$refs.alertdiv.style.visibility = "visible";
               this.$refs.alertspan.innerHTML = "用户名或密码错误";

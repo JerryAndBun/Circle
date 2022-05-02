@@ -9,17 +9,17 @@
           <router-link to="/login" href="" class="backtologin">返回登录</router-link>
         </div>
         <div class="infobox"><i class="iconfont icon-shouji"></i>
-          <input class="account" type="text" v-model="email" placeholder="请输入邮箱" @blur="loseemail">
+          <input class="account" type="text" v-model="email" placeholder="请输入邮箱" ref="email" @blur="loseemail">
         </div>
         <div class="alertdiv" ref="alertdiv1"> <i class="iconfont icon-gantanhao"></i>邮箱格式错误</div>
         <div class="infobox"><i class="iconfont icon-yonghu"></i>
-          <input class="account" type="text" v-model="nickname" placeholder="请输入昵称" @blur="losenickname">
+          <input class="account" type="text" v-model="nickname" placeholder="请输入昵称" ref="nickname" @blur="losenickname">
         </div>
-        <div class="alertdiv" ref="alertdiv2"> <i class="iconfont icon-gantanhao"></i>昵称长度应为2-15个字符，且不包含特殊字符</div>
+        <div class="alertdiv" ref="alertdiv2"> <i class="iconfont icon-gantanhao"></i>昵称长度应为3-15个字符，且不包含特殊字符</div>
         <div class="infobox"><i class="iconfont icon-yaoshi"></i>
-          <input class="account" type="password" v-model="userpassword" placeholder="请输入密码" @blur="losepass">
+          <input class="account" type="password" v-model="userpassword" placeholder="请输入密码" ref="password" @blur="losepass">
         </div>
-        <div class="alertdiv" ref="alertdiv3"> <i class="iconfont icon-gantanhao"></i>密码不能为空</div>
+        <div class="alertdiv" ref="alertdiv3"> <i class="iconfont icon-gantanhao"></i>密码长度应为3-15个字符</div>
         <div class="infobox"><i class="iconfont icon-yanzhengma"></i>
           <input class="checkinput account" type="text" placeholder="请输入验证码">
           <a href="" class="checkcode">获取验证码</a>
@@ -55,15 +55,27 @@ import axios from "axios";
 export default {
   data() {
     return {
-      ischecked: false,
+      email: "",
+      userpassword: "",
+      nickname: "",
+      isagreement: false,
       isdisappear: true,
       issuccess: false,
+      islegalemail: false,
+      islegalnickname: false,
+      islegalpassword: false,
       second: 3
     };
   },
   methods: {
     requestRegister() {
-      if (!this.ischecked) {
+      // 发送请求前验证数据合法性
+      // this.colorchange();
+      this.loseemail();
+      this.losenickname();
+      this.losepass();
+      if (!this.isagreement || !this.islegalemail || !this.islegalnickname || !this.islegalpassword) {
+        alert("不合法");
         return;
       }
       var tti;
@@ -75,10 +87,9 @@ export default {
         })
         .then(
           (response) => {
+            let { data } = response.data;
             this.isdisappear = false;
             this.issuccess = true;
-            // console.log(this);
-
             tti = setInterval(() => {
               this.second--;
             }, 1000);
@@ -88,9 +99,12 @@ export default {
               this.isdisappear = true;
               this.issuccess = false;
             }, 3000);
-            sessionStorage.setItem("email", this.email);
-            sessionStorage.setItem("pass", this.userpassword);
-            sessionStorage.setItem("islogin", true);
+            // console.log(data);
+            localStorage.setItem("email", JSON.stringify(data.email));
+            localStorage.setItem("password", JSON.stringify(data.userpassword));
+            localStorage.setItem("nickname", JSON.stringify(data.nickname));
+            localStorage.setItem("uid", JSON.stringify(data.uid));
+            localStorage.setItem("islogin", JSON.stringify(true));
           },
           (error) => {
             console.log("GG", error.message);
@@ -98,10 +112,9 @@ export default {
         );
     },
     colorchange() {
-      this.ischecked = !this.ischecked;
-      if (this.ischecked) {
+      this.isagreement = !this.isagreement;
+      if (this.isagreement) {
         this.$refs.register_button.style.backgroundColor = "rgb(15,155,241)";
-        // console.log('truele');
       } else {
         this.$refs.register_button.style.backgroundColor = "#999";
       }
@@ -110,48 +123,28 @@ export default {
       const accountreg = /^\w{5,10}@\w{2,3}\.com$/g;
       if (!accountreg.test(this.email)) {
         this.$refs.alertdiv1.style.visibility = "visible";
+        this.islegalemail = false;
       } else {
         this.$refs.alertdiv1.style.visibility = "hidden";
+        this.islegalemail = true;
       }
     },
     losenickname() {
-      if (!this.nickname) {
+      if (this.nickname.length < 3 || this.nickname.length > 15) {
         this.$refs.alertdiv2.style.visibility = "visible";
+        this.islegalnickname = false;
       } else {
         this.$refs.alertdiv2.style.visibility = "hidden";
+        this.islegalnickname = true;
       }
     },
     losepass() {
-      if (!this.userpassword) {
+      if (this.userpassword.length < 3 || this.userpassword.length > 15) {
         this.$refs.alertdiv3.style.visibility = "visible";
+        this.islegalpassword = false;
       } else {
         this.$refs.alertdiv3.style.visibility = "hidden";
-      }
-    }
-  },
-  computed: {
-    email: {
-      get() {
-        return this.$store.state.email;
-      },
-      set(newval) {
-        this.$store.commit("setEmail", newval);
-      }
-    },
-    nickname: {
-      get() {
-        return this.$store.state.nickname;
-      },
-      set(newval) {
-        this.$store.commit("setNickname", newval);
-      }
-    },
-    userpassword: {
-      get() {
-        return this.$store.state.userpassword;
-      },
-      set(newval) {
-        this.$store.commit("setUserPassword", newval);
+        this.islegalpassword = true;
       }
     }
   }
