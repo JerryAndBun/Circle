@@ -100,11 +100,11 @@ export default {
               this.issuccess = false;
             }, 3000);
             // console.log(data);
-            localStorage.setItem("email", JSON.stringify(data.email));
-            localStorage.setItem("password", JSON.stringify(data.userpassword));
-            localStorage.setItem("nickname", JSON.stringify(data.nickname));
-            localStorage.setItem("uid", JSON.stringify(data.uid));
-            localStorage.setItem("islogin", JSON.stringify(true));
+            this.$store.commit("setNickname", data.nickname);
+            this.$store.commit("setUserPassword", data.userpassword);
+            this.$store.commit("setEmail", data.email);
+            this.$store.commit("setUid", data.uid);
+            this.$store.commit("setIsLogin", true);
           },
           (error) => {
             console.log("GG", error.message);
