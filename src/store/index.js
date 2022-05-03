@@ -21,35 +21,35 @@ export default new Vuex.Store({
         nickname:state=>{
             let nickname = state.nickname
             if(!nickname){
-                nickname=JSON.parse(window.localStorage.getItem('nickname'))
+                nickname=JSON.parse(window.localStorage.getItem('nickname'))||null
             }
             return nickname
         },
         userpassword:state=>{
             let userpassword = state.userpassword
             if(!userpassword){
-                userpassword=JSON.parse(window.localStorage.getItem('password'))
+                userpassword=JSON.parse(window.localStorage.getItem('password'))||null
             }
             return userpassword
         },
         nickname:state=>{
             let email = state.email
             if(!email){
-                email=JSON.parse(window.localStorage.getItem('email'))
+                email=JSON.parse(window.localStorage.getItem('email'))||null
             }
             return email
         },
         uid:state=>{
             let uid = state.uid
             if(!uid){
-                uid=JSON.parse(window.localStorage.getItem('uid'))
+                uid=JSON.parse(window.localStorage.getItem('uid'))||null
             }
             return uid
         },
         islogin:state=>{
             let islogin = state.islogin
             if(!islogin){
-                islogin=JSON.parse(window.localStorage.getItem('islogin'))
+                islogin=JSON.parse(window.localStorage.getItem('islogin'))||null
             }
             return islogin
         },

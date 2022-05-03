@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="loginsuccess" v-if="issuccess">
-      <img src="../assets/imgs/头像.jpg" alt="" class="touxiang">
+      <div class="touxiang"></div>
       <div class="welcomediv">
         <span class="nickname">{{nickname}}</span>
         <br>

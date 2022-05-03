@@ -1,45 +1,50 @@
 /* 
 head */
-// @import './global';
 @import '../css/var';
-.head{
+
+.head {
     min-width: 800px;
     height: 60px;
     background-color: white;
-    // border-bottom: 10px $main-blue;
     border-bottom: 1px solid $main-grey;
 
 }
-@media screen and (min-width: 1151px) and (max-width: 1810px){
-    .head .headmain{
+
+@media screen and (min-width: 1151px) and (max-width: 1810px) {
+    .head .headmain {
         width: calc(100% - 200px) !important;
     }
-    .lv1guide{
+
+    .lv1guide {
         margin-left: 96.5px;
         margin-right: 96.5px;
     }
-    .lv1guideul{
+
+    .lv1guideul {
         width: auto !important;
-        margin: 0,96.5px;
+        margin: 0, 96.5px;
     }
 }
-@media screen and (min-width: 1050px) and (max-width: 1150px){
-    .head .headmain{
+
+@media screen and (min-width: 1050px) and (max-width: 1150px) {
+    .head .headmain {
         width: 1050px;
         margin: auto calc(50% - 525px) !important;
     }
 }
-.head .headmain{
+
+.head .headmain {
     width: 100%;
     background-color: #fff;
-    display:flex;
+    display: flex;
     max-width: 1190px;
     min-width: 1050px;
     justify-content: space-between;
-    margin:  0 auto;
+    margin: 0 auto;
     height: 60px;
 }
-.head .navbox{
+
+.head .navbox {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
@@ -48,7 +53,8 @@ head */
     width: 168px;
     height: 60px;
 }
-#lv1guide{
+
+#lv1guide {
     position: relative;
     width: 1190px;
     margin: 0 auto;
@@ -58,7 +64,8 @@ head */
     background-color: #fff;
     opacity: .85;
 }
-.lv1guideul{
+
+.lv1guideul {
     display: inline-block;
     width: auto;
     margin: 0px 96.5px;
@@ -67,10 +74,12 @@ head */
     list-style: none;
     background-color: #fff;
 }
-.lv1guideul li{
+
+.lv1guideul li {
     display: inline-block;
 }
-.lv1{
+
+.lv1 {
     text-align: center;
     line-height: 40px;
     height: 40px;
@@ -78,23 +87,22 @@ head */
     margin-right: 20px;
     float: left;
 }
-.lv1 a{
+
+.lv1 a {
     color: #333;
     padding: 0px 6px;
 }
-.lv1 a:hover{
-    color: rgb(15,155,241);
+
+.lv1 a:hover {
+    color: rgb(15, 155, 241);
 }
-/* .lv1 a:hover{
-    color: #fd4c5d;
-} */
-#lv2guide{
+
+#lv2guide {
     position: relative;
     width: 1190px;
     margin: 0 auto;
     visibility: hidden;
     z-index: 10;
-    // float: left;
     line-height: 40px;
     background-color: rgb(255, 255, 255);
     height: 40px;
@@ -102,54 +110,50 @@ head */
     opacity: .85;
 
 }
-.lv2guideul{
+
+.lv2guideul {
     display: none;
     line-height: 40px;
     height: 40px;
     width: auto;
     margin: 0px 74px;
-    /* visibility: hidden; */
     font-size: 14px;
     list-style: none;
-    /* left: 50px; */
     background-color: #fff;
 }
-.lv2guideul li{
+
+.lv2guideul li {
     z-index: 10;
     float: left;
-    /* position: absolute; */
     margin-left: 20px;
 }
-.lv2guideul li a{
+
+.lv2guideul li a {
     z-index: 10;
     color: #333;
     padding: 0px 6px;
 }
-.lv2guideul li a:hover{
-    color: rgb(15,155,241);
-}
-/* .lv2guideul1{ */
-    /* display: ; */
-/* } */
 
-.lv2guideul:nth-child(0){
-    /* display: block; */
-    position: absolute;
-    /* left: 50px; */
+.lv2guideul li a:hover {
+    color: rgb(15, 155, 241);
 }
-.head .searcharea{
+
+.lv2guideul:nth-child(0) {
+    position: absolute;
+}
+
+.head .searcharea {
     position: relative;
     height: 60px !important;
     width: 300px;
 }
-.navbox img{
+
+.navbox img {
     display: inline-block;
-    /* width: 94px; */
     height: 46px;
 }
 
-.daohangbox{
-    /* background-color: red; */
+.daohangbox {
     display: flex !important;
     justify-content: space-between;
     align-items: center;
@@ -157,21 +161,24 @@ head */
     height: 60px;
     text-align: center;
 }
-.daohangbox2{
+
+.daohangbox2 {
     width: 60px;
     height: 60px;
     line-height: 60px;
 }
-.icon-gongneng{
+
+.icon-gongneng {
     vertical-align: middle;
     transition: all 0.3s;
-    /* margin-top: 4px; */
 }
-.daohangbox a{
+
+.daohangbox a {
     font-size: 14px;
     color: #333;
 }
-.iconbox{
+
+.iconbox {
     font-size: 16px;
     position: absolute;
     float: right;
@@ -181,18 +188,20 @@ head */
     right: -41px;
     color: rgb(207, 207, 207);
 }
-.head .searchbox{   
+
+.head .searchbox {
     position: absolute;
     top: 22%;
     left: 51px;
     height: 30px;
     width: 300px;
     text-indent: 1rem;
-    border:solid rgb(223, 220, 220) 1px;
+    border: solid rgb(223, 220, 220) 1px;
     border-radius: 40px;
-    outline:  none;
+    outline: none;
 }
-.headguide{
+
+.headguide {
     display: flex;
     align-items: center;
     height: 60px;
@@ -200,45 +209,55 @@ head */
     list-style: none;
     float: right;
     justify-content: space-between;
-    .logintext{
-        // vertical-align: middle;
+
+    .logintext-avatar {
         position: relative;
-        width: 62px;
-        .logintextlink{
-            color:$unfocus !important;
-            &:hover{
-                color:$main-blue !important;
+        width: 40px;
+
+    }
+
+    .logintext-login {
+        position: relative;
+        width: 80px;
+
+        .logintextlink {
+            color: $unfocus !important;
+
+            &:hover {
+                color: $main-blue !important;
             }
-        }        
+        }
     }
 }
 
-.headguide li{
+.headguide li {
     padding: 0 10px;
     height: 60px;
     line-height: 60px;
     width: 20px;
     align-items: center;
-    text-align: center;  
+    text-align: center;
 }
-.headguide .guide-upload{
+
+.headguide .guide-upload {
     margin-top: 2px;
     vertical-align: middle;
     display: flex;
-    border: 1px solid rgb(15,155,241);
+    border: 1px solid rgb(15, 155, 241);
     justify-content: space-between;
     align-items: center;
     width: 52px;
     height: 26px;
     margin-left: 5px;
     border-radius: 5px;
-    background-color: rgb(15,155,241);
-    a{
+    background-color: rgb(15, 155, 241);
+
+    a {
         color: $main-white;
     }
 }
-.word{
-    /* transform: translateY(-16px); */
+
+.word {
     transition: all 0.3s;
     visibility: hidden;
     z-index: 3;
@@ -254,48 +273,125 @@ head */
     text-align: center;
     font-size: 12px;
 }
-.guideicon,icon-shouji{
+
+.guideicon,
+icon-shouji {
     transition: all 0.3s;
     align-items: center;
     vertical-align: middle;
 }
-.guide-upload .icon-shangchuan{
+
+.guide-upload .icon-shangchuan {
     color: rgb(255, 255, 255) !important;
 }
-.icon-shangchuana{
+
+.icon-shangchuana {
     line-height: 20px;
 }
-.icon-fangdajing{
-    color: rgb(15,155,241);
+
+.icon-fangdajing {
+    color: rgb(15, 155, 241);
 
 }
-.iconfont:hover{
-    color: rgb(15,155,241);
+
+.iconfont:hover {
+    color: rgb(15, 155, 241);
 }
-/* .icon-gongneng:hover{
-} */
-.headguide a{
-    // color: #fff;
+
+.headguide a {
     position: relative;
     font-size: 14px;
     height: 20px;
     width: 28px;
 }
+
 // 头像
-.avatar{
-    width: 35px;
-    height: 35px;
-    border-radius: 50px;
+.avatar {
+    background-color: red;
+    transition: all .1s;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 60px;
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-top: -17.5px;
-    margin-left: -17.5px;
-    // background-image: url(../assets/imgs/头像.jpg);
+    margin-top: -15px;
+    margin-left: -15px;
     background-image: url(../assets/imgs/头像.jpg);
-    background-size: auto 100%;
-    // background: url('../imgs/头像.jpg') no-repeat center;
-    // img{
-    //     background-size: 60px;
-    // }
+    background-position: 0px -2px;
+    background-size: auto 110%;
+}
+
+.userbox {
+    transition: all .1s;
+    box-shadow: 0px 2px 5px $unfocus;
+    left: 50%;
+    display: none;
+    margin-left: -125px;
+    top: 60px;
+    border-top: $main-grey 1px solid;
+    position: relative;
+    width: 250px;
+    height: 90px;
+    z-index: 1;
+    background-color: $white;
+
+    .logout {
+        height: 40px;
+        width: 250px;
+
+        .username {
+            text-decoration: none;
+            width: 70px;
+            margin-top: 20px;
+            height: 20px;
+            float: left;
+            margin-left: 10px;
+            line-height: 20px;
+            color: $unfocus;
+
+            &:hover {
+                color: $main-blue;
+            }
+        }
+
+        .logouta {
+            width: 70px;
+            text-decoration: none;
+            margin-top: 20px;
+            color: $unfocus;
+            height: 20px;
+            line-height: 20px;
+
+            &:hover {
+                color: $main-pink-red;
+            }
+
+            float: right;
+            align-items: unset;
+            margin-right: 10px;
+        }
+    }
+
+    .home {
+        height: 40px;
+        width: 250px;
+        margin-top: 10px;
+        line-height: 40px;
+        text-decoration: none;
+        cursor: pointer;
+
+        a {
+            color: $unfocus;
+        }
+
+        &:hover {
+            background-color: $rice;
+
+            a {
+                color: $main-blue;
+            }
+        }
+    }
 }

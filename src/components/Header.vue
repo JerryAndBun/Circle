@@ -22,10 +22,23 @@
             <i class="iconfont icon-shouji"></i>
           </a>
         </li>
-        <li class="logintext" >
-          <router-link href="" to="/login" class="logintextlink" v-if="islogintext">登录/注册</router-link>
-          <div class="avatar" ref="avatar" v-if="isavatat">
-          </div>
+        <li ref="logintext" :class="dongtaiclass" @mouseenter="avatarEnteranimation" @mouseleave="avatarOutanimation">
+          <router-link href="" to="/login" class="logintextlink" v-if="!islogin">登录/注册</router-link>
+          <transition name="jump">
+            <div class="avatar" ref="avatar" v-if="islogin" @click="touserpage">
+            </div>
+          </transition>
+          <transition name="fade">
+            <div class="userbox" ref="userbox" v-if="islogin">
+              <div class="logout">
+                <a href="javascript:;" class="username">{{nickname}}</a>
+                <a href="javascript:;" class="logouta" @click="logout">退出登录</a>
+              </div>
+              <div class="home" @click="touserpage">
+                <router-link to='/userpage' class="tohomelink">查看更多</router-link>
+              </div>
+            </div>
+          </transition>
         </li>
         <li ref="guide" class="guide guide-msg">
           <a href="javascript:;">
@@ -192,14 +205,46 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       islogintext: true,
-      isavatat:false
+      isavatat: false,
+      dongtaiclass: "logintext-login",
+      timein: ""
     };
   },
-  methods: {},
+  computed: {
+    ...mapGetters(["nickname", "uid", "islogin"])
+  },
+  methods: {
+    touserpage() {
+      // alert()
+      this.$router.push("/userpage");
+    },
+    logout() {
+      this.$store.commit("setNickname", null);
+      this.$store.commit("setUserPassword", null);
+      this.$store.commit("setEmail", null);
+      this.$store.commit("setUid", null);
+      this.$store.commit("setIsLogin", false);
+      this.dongtaiclass = "logintext-login";
+    },
+    avatarEnteranimation() {
+      this.timein = setTimeout(() => {
+        if (this.timein) {
+          this.$refs.userbox.style.display = "block";
+          this.$refs.avatar.style.transform = "scale(120%)";
+        }
+      }, 100);
+    },
+    avatarOutanimation() {
+      clearTimeout(this.timein);
+      this.$refs.userbox.style.display = "none";
+      this.$refs.avatar.style.transform = "scale(100%)";
+    }
+  },
   //Header 的交互逻辑js
   mounted() {
     var lilist = document.getElementsByClassName("guide"); //li列表
@@ -208,7 +253,6 @@ export default {
     var daohangbox = document.getElementsByClassName("daohangbox");
     var lv1guide = document.getElementById("lv1guide"); //获取一级列表
     var lv1li = lv1guide.getElementsByTagName("li"); //获取一级列表的li
-    // var lv1a = lv1guide.getElementsByTagName('a');          //获取一级列表的a
     var icongongneng = document.querySelector(".icon-gongneng"); //功能icon
     var daohangboxa = document.querySelector(".daohangboxa"); //功能box的a
     var lv2guide = document.getElementById("lv2guide"); //二级列表
@@ -218,10 +262,8 @@ export default {
       lv2li[j] = lv2guideul[j].getElementsByTagName("li"); //二级列表的ul数组的li数组
     }
     window.isqr = 1;
-    // alert('加载了')
-    // 右侧的icon动画
     for (let index = 0; index < 4; index++) {
-      lilist[index].onmouseover = function () {
+      lilist[index].onmouseenter = function () {
         iconlist[index].style.transform = "translateY(-6px) scale(80%)";
         wordlist[index].style.visibility = "visible";
         wordlist[index].style.transform = "translateY(-16px)";
@@ -229,7 +271,7 @@ export default {
         wordlist[index].style.color = "rgb(15,155,241)";
         iconlist[index].style.color = "rgb(15,155,241)";
       };
-      lilist[index].onmouseout = function () {
+      lilist[index].onmouseleave = function () {
         iconlist[index].style.transform = "translateY(0px)";
         iconlist[index].style.fontSize = "18px";
         wordlist[index].style.visibility = "hidden";
@@ -264,6 +306,7 @@ export default {
     }
     //鼠标悬浮显示一二级菜单
     //获取一级导航栏的范围
+
     let lv1x = lv1guide.offsetLeft; //一级导航栏距离左边的距离 0
     let lv1y = lv1guide.offsetTop; //距离顶部的距离 60
     let lv1X = lv1guide.offsetLeft + lv1guide.offsetWidth; //宽 2003
@@ -333,37 +376,56 @@ export default {
           outboxanimate();
           return;
         }
-        timeout = setTimeout(() => {
+        //100%浏览的解决办法，缩放时会出现bug，用userbox那种写法可以解决问题，不过实在懒得改了，太混乱了，能实现就行
+        if (mouseX < 177 || mouseX > 1218) {
+          lv1hidden();
           lv2hidden();
-          lv2guideul[index].style.display = "none"; //隐藏lv2ul
-        }, 250);
+        }
+        if (isin) {
+          timeout = setTimeout(() => {
+            lv2hidden();
+            lv2guideul[index].style.display = "none"; //隐藏lv2ul
+          }, 250);
+          return;
+        }
       };
     });
   },
-  // beforeRouteEnter(from,to,next) {
-  //   if(sessionStorage.getItem('islogin')){
-  //   }
-  //   next()
-  // }
   created() {
-    if (sessionStorage.getItem("islogin")) {
-      this.islogintext=false
-      this.isavatat=true
-    }
-    else{
-      this.islogintext=true
-      this.isavatat=false
+    // alert(this.islogin)
+    if (JSON.parse(localStorage.getItem("islogin"))) {
+      this.dongtaiclass = "logintext-avatar";
+    } else {
+      this.dongtaiclass = "logintext-login";
     }
   }
 };
-// test()
-// test()
 </script>
-
 <style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
 @import "../assets/css/header";
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.jump-enter-active,
+.jump-leave-active {
+  transition: translateY(2px) scale(130%) 0.3;
+}
+.jump-enter,
+.jump-leave-to {
+  translate: translateY(0px);
+  transform: scale(100%);
+}
+// @keyframes fading {
+//   from {
+//     opacity: 0;
+//   }
+//   to {
+//     opacity: 1;
+//   }
+// }
 </style>
