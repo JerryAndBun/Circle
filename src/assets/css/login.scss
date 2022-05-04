@@ -11,9 +11,10 @@
 }
 .mainbox{
     position: relative;
-    width: auto;
-    
+    max-width: 1980px;
     height: 618px;
+    margin: 0 auto;
+
     background:url(../assets/imgs/埃罗芒老师.png) no-repeat;
     // background-image:url(../assets/imgs/埃罗芒老师.png);
     background-position: center;

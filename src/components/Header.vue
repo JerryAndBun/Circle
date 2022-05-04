@@ -209,8 +209,6 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      islogintext: true,
-      isavatat: false,
       dongtaiclass: "logintext-login",
       timein: ""
     };

@@ -6,13 +6,9 @@ import video from '@/store/video.js'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    // modules: {
-    //     user,
-    //     video,
-    // }
     state:{
         uid:'',
-        islogin:false,
+        islogin:'',
         nickname:'',
         userpassword:'',
         email:'',
@@ -28,16 +24,16 @@ export default new Vuex.Store({
         userpassword:state=>{
             let userpassword = state.userpassword
             if(!userpassword){
-                userpassword=JSON.parse(window.localStorage.getItem('password'))||null
+                userpassword=JSON.parse(window.localStorage.getItem('userpassword'))||null
             }
             return userpassword
         },
         nickname:state=>{
-            let email = state.email
-            if(!email){
-                email=JSON.parse(window.localStorage.getItem('email'))||null
+            let nickname = state.nickname
+            if(!nickname){
+                nickname=JSON.parse(window.localStorage.getItem('nickname'))||null
             }
-            return email
+            return nickname
         },
         uid:state=>{
             let uid = state.uid
@@ -53,6 +49,13 @@ export default new Vuex.Store({
             }
             return islogin
         },
+        email:state=>{
+            let email = state.email
+            if(!email){
+                email=JSON.parse(window.localStorage.getItem('email'))||null
+            }
+            return email
+        }
     },
     mutations:{
         setNickname:(state,nickname)=>{
