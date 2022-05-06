@@ -12,10 +12,8 @@
       <!-- {{$store.state.userpassword}} -->
       <VideoPreview v-for=""></VideoPreview>
     </div>
-
   </div>
 </template>
-
 <script>
 import Header from "../components/Header.vue";
 import Banner from "@/components/Banner.vue";
@@ -33,11 +31,10 @@ export default {
       alert("?");
     }
   },
-  beforeRouteEnter(from,to,next) {
-    if(localStorage.getItem('islogin')){
-      
+  beforeRouteEnter(from, to, next) {
+    if (localStorage.getItem("islogin")) {
     }
-    next()
+    next();
   }
 };
 </script>

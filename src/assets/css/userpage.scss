@@ -27,94 +27,196 @@
     pointer-events: none;
     z-index: -1;
     position: fixed;
-    top: -1vh;
+    top: 0px;
     left: 50%;
-    width: 100%;
-    height: 56.25vw;
+    // width: 100%;
+    min-width: 2000px;
+    height: 100%;
     transform: translateX(-50%);
     background: url(../assets/imgs/主页背景图.jpg) no-repeat;
-    background-position: center;
+    // background-position: center;
     background-size: 100%;
 }
 
 .usermain {
-    margin-top: 20vh !important;
-    min-height: 1500vh;
-    width: 70vw;
-    background-color: $white;
+    margin-top: 150px !important;
+    min-height: 900px;
+    width: 1200px;
     opacity: .99;
     margin: 0 auto;
+    border-radius: 15px;
 
     .useravatar {
-        // margin-top: 10vh;
-        position: relative;
-        top: -12vh;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 14vh;
-        height: 14vh;
+        position: absolute;
+        z-index: 2;
+        left: 50px;
+        // transform: translateX(-50%);
+        width: 100px;
+        height: 100px;
+        margin-top: -90px;
         background: url(../assets/imgs/头像.jpg) no-repeat;
-        // background-attachment: fixed;
         border-radius: 100%;
         background-position: center;
         background-size: 110%;
-
-
     }
 
     .userinfo {
-        margin-top: -14vh;
-        width: 70vw;
-        height: 8vh;
-        // background-color: goldenrod;
+        display: flex;
+        justify-content: space-between;
+        width: 1200px;
+        background-color: $white;
+        height: 90px;
+        position: relative;
         text-align: center;
-        float: right;
-        border-bottom: 1px solid $main-grey;
+        border-radius: 15px;
+
         .nickname {
-            font-size: 3vh;
-            // text-align: center;
-            // align-items:center;
-            line-height: 8vh;
+            font-size: 20px;
+            line-height: 95px;
+            width: 200px;
+            height: 90px;
             color: $main-pink;
-            // display: inline-block;
-            // margin-top: 1vh;
-            width: 10vw;
-            height: 8vh;
             float: left;
+
+            p {
+                width: 200px;
+                height: 40px;
+                margin-top: 25px;
+                line-height: 40px;
+            }
+
+            .lv {
+                position: absolute;
+                left: 50px;
+                // transform: translateX(-50%);
+                border: 1px solid $main-blue;
+                color: $main-blue;
+                font-size: 12px;
+                border-radius: 10px;
+                width: 90px;
+                margin-top: 2px;
+                text-align: center;
+                line-height: 14px;
+                height: 14px;
+            }
         }
 
         .sign {
             float: left;
+            display: flex;
+            line-height: 20px;
             text-align: left;
+            vertical-align: middle;
             box-sizing: border-box;
-            font-size: 1vh; 
-            padding: 2vh;
-            width: 30vw;
-            height: 8vh;
-            // background-color: rgb(70, 10, 10);
+            font-size: 12px;
+            width: 600px;
+            height: 60px;
+            margin-top: 20px;
+            p {
+                text-overflow: -o-ellipsis-lastline;
+                overflow: hidden; //溢出内容隐藏
+                text-overflow: ellipsis; //文本溢出部分用省略号表示
+                display: -webkit-box; //特别显示模式
+                -webkit-line-clamp: 3; //行数
+                line-clamp: 3;
+                -webkit-box-orient: vertical; //盒子中内容竖直排列
+            }
         }
-        .listnum{
-            // margin-top: 5px;
-            font-size: 20px;
-            line-height:1.8vw;
-        }
-        .listlink{
+
+        .followedlink,
+        .fanslink,
+        .followdivlink,
+        .manuscriptlink {
             font-size: 14px;
             text-decoration: none;
             color: $unfocus;
-        }
-        .fans,
-        .follow,
-        .manuscript {
-            box-sizing: border-box;
-            text-align: center;
-            // line-height:8vh ;
-            padding:0 2vh;
-            float: left;
-            width: 10vw;
-            height: 8vh;
-            // background-color: red;
+            margin-top: -20px;
+            // line-height: 0px;
         }
 
+        .fansdiv,
+        .followdiv,
+        .manuscriptdiv,
+        .followmediv {
+            font-size: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            float: left;
+            width: 125px;
+            height: 90px;
+
+            p:first-child {
+                margin-top: 20px;
+                font-size: 18px;
+            }
+        }
+
+        .followmediv {
+            a {
+                margin-top: 20px;
+                font-size: 14px;
+                display: inline-block;
+                width: 100px;
+                color: $white;
+                background-color: $main-blue;
+                border-radius: 10px;
+                height: 40px;
+                line-height: 40px;
+            }
+        }
+
+    }
+    .home_area {
+        margin-top: 10px;
+        min-height: 900px;
+        width: 1200px;
+        border-radius: 15px;
+        display: flex;
+        .tab_area {
+            border-radius: 15px;
+            background-color: $white;
+            width: 200px;
+            height: 240px;
+            overflow: hidden;
+            @mixin  choseactive($color,$background){
+                width: 200px;
+                height: 60px;
+                display: flex;
+                text-align: center;
+                vertical-align: top;
+                color: $color;
+                cursor: pointer;
+                user-select: none;
+                background-color:$background;
+                line-height: 60px;
+                .iconfont {
+                    margin-left: 65px;
+                    font-size: 20px;
+                    width: 30px;
+                    line-height: 61px;
+                    color: $color;
+                }
+            }
+            .active{
+                @include choseactive($main-blue,$white)
+            }
+            .unactive{
+                @include choseactive($focus,$main-grey)
+            }
+        }
+
+        .content_area {
+            border-radius: 15px;
+            width: 800px;
+            height: 600px;
+            background-color: $white;
+            margin: 0 10px;
+        }
+        .topic_area {
+            border-radius: 15px;
+            background-color: $white;
+            width: 180px;
+            height: 600px;
+        }
     }
 }

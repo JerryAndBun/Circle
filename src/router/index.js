@@ -20,7 +20,12 @@ const routes = new vueRouter({
 
     },
     {
-        path: '/userpage', component: () => import('../pages/UserPage.vue')
+        path: '/userpage', component: () => import('../pages/UserPage.vue'),
+        children:[
+            {
+                path:'/', component:()=> import('../')
+            }
+        ]
     }
     ]
 })

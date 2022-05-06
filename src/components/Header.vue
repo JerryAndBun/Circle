@@ -31,7 +31,7 @@
           <transition name="fade">
             <div class="userbox" ref="userbox" v-if="islogin">
               <div class="logout">
-                <a href="javascript:;" class="username">{{nickname}}</a>
+                <router-link to="/userpage" class="username">{{nickname}}</router-link>
                 <a href="javascript:;" class="logouta" @click="logout">退出登录</a>
               </div>
               <div class="home" @click="touserpage">
