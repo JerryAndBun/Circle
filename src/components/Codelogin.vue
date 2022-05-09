@@ -63,6 +63,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import axios from "axios";
+import HttpManager from "../api/index";
 export default {
   data() {
     return {
@@ -141,44 +142,83 @@ export default {
         return;
       }
       var tti;
-      axios
-        .post("http://localhost:8080/lr/login", {
-          email: this.email,
-          userpassword: this.userpassword
-        })
-        .then(
-          (response) => {
-            let { data } = response.data;
-            console.log(data);
-            if (response.data.status === 200) {
-              this.isdisappear = false;
-              this.issuccess = true;
-              tti = setInterval(() => {
-                this.second--;
-              }, 1000);
-              setTimeout(() => {
-                this.$router.push("/");
-                clearInterval(tti);
-                this.isdisappear = true;
-                this.issuccess = false;
-              }, 3000);
-              this.$store.commit("setNickname",data.nickname);
-              this.$store.commit("setUserPassword",data.userpassword);
-              this.$store.commit("setEmail",data.email);
-              this.$store.commit("setUid",data.uid);
-              this.$store.commit("setIsLogin",true);
-              this.nickname = data.nickname;
-            } else {
-              this.$refs.alertdiv.style.visibility = "visible";
-              this.$refs.alertspan.innerHTML = "用户名或密码错误";
-            }
-          },
-          (error) => {
+      // 传递查询字符串参数
+      let params = new URLSearchParams()
+      params.append('email', this.email)
+      params.append('userpassword', this.userpassword)
+      // let params = { email: this.email, userpassword: this.userpassword };
+      // alert(params);
+      HttpManager.postUserinfo(params).then(
+        (response) => {
+          let  data  = response.data;
+          console.log(response.token);
+
+          if (response.status === 200) {
+            this.isdisappear = false;
+            this.issuccess = true;
+            tti = setInterval(() => {
+              this.second--;
+            }, 1000);
+            setTimeout(() => {
+              this.$router.push("/");
+              clearInterval(tti);
+              this.isdisappear = true;
+              this.issuccess = false;
+            }, 3000);
+            this.$store.commit("setNickname", data.nickname);
+            this.$store.commit("setUserPassword", data.userpassword);
+            this.$store.commit("setEmail", data.email);
+            this.$store.commit("setUid", data.uid);
+            this.$store.commit("setIsLogin", true);
+            this.nickname = data.nickname;
+          } else {
             this.$refs.alertdiv.style.visibility = "visible";
-            this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
-            // console.log("GG", error.message);
+            this.$refs.alertspan.innerHTML = "用户名或密码错误";
           }
-        );
+        },
+        (error) => {
+          this.$refs.alertdiv.style.visibility = "visible";
+          this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
+          console.log(error);
+        }
+      );
+      // axios.post("http://localhost:8080/lr/login", {
+      //     email: this.email,
+      //     userpassword: this.userpassword
+      //   })
+      //   .then(
+      //     (response) => {
+      //       let { data } = response.data;
+      //       console.log(data);
+      //       if (response.data.status === 200) {
+      //         this.isdisappear = false;
+      //         this.issuccess = true;
+      //         tti = setInterval(() => {
+      //           this.second--;
+      //         }, 1000);
+      //         setTimeout(() => {
+      //           this.$router.push("/");
+      //           clearInterval(tti);
+      //           this.isdisappear = true;
+      //           this.issuccess = false;
+      //         }, 3000);
+      //         this.$store.commit("setNickname",data.nickname);
+      //         this.$store.commit("setUserPassword",data.userpassword);
+      //         this.$store.commit("setEmail",data.email);
+      //         this.$store.commit("setUid",data.uid);
+      //         this.$store.commit("setIsLogin",true);
+      //         this.nickname = data.nickname;
+      //       } else {
+      //         this.$refs.alertdiv.style.visibility = "visible";
+      //         this.$refs.alertspan.innerHTML = "用户名或密码错误";
+      //       }
+      //     },
+      //     (error) => {
+      //       this.$refs.alertdiv.style.visibility = "visible";
+      //       this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
+      //       // console.log("GG", error.message);
+      //     }
+      //   );
     }
   },
   mounted() {

@@ -12,6 +12,8 @@ export default new Vuex.Store({
         nickname:'',
         userpassword:'',
         email:'',
+        
+
     },
     getters:{
         nickname:state=>{

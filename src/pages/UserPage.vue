@@ -7,12 +7,15 @@
       <div class="userinfo">
         <div class="nickname">
           <p>{{nickname}}</p>
-          <div class="lv">&nbsp&nbsplv17&nbsp正式会员&nbsp&nbsp</div>
+          <div class="lv">&nbsplv17&nbsp正式会员&nbsp
+          </div>
+          <div class="uid">uid:{{uid}}</div>
+
         </div>
         <div class="sign">
           <div class="useravatar">
           </div>
-          <p>{{这里是我的签名}}这里是我1231
+          <p>{{}}这里是我1231
           </p>
         </div>
         <div class="followdiv">
@@ -37,7 +40,7 @@
             <i :class="item.icon"></i>{{item.name}}
           </div>
         </aside>
-        <main class="content_area"> 
+        <main class="content_area">
           <router-view></router-view>
         </main>
         <aside class="topic_area">3</aside>
@@ -50,6 +53,10 @@
 <script>
 import Header from "../components/Header.vue";
 import { mapGetters } from "vuex";
+// import Space from "../components/Space";
+// import VideoList from "../components/VideoList";
+// import FansList from "../components/FansList.vue";
+// import Setting from "../components/Setting";
 export default {
   data() {
     return {
@@ -57,40 +64,44 @@ export default {
         {
           name: "动态",
           url: "/userpage/space",
-          icon:"iconfont icon-circle"
+          icon: "iconfont icon-circle"
         },
         {
           name: "视频",
-          url: "/userpage/video",
-          icon:"iconfont icon-video"
+          url: "/userpage/videolist",
+          icon: "iconfont icon-video"
         },
         {
           name: "同好",
-          url: "/userpage/fans",
-          icon:"iconfont icon-fans"
+          url: "/userpage/fanslist",
+          icon: "iconfont icon-fans"
         },
         {
           name: "设置",
           url: "/userpage/setting",
-          icon:"iconfont icon-setting"
+          icon: "iconfont icon-setting"
         }
       ],
-      current:'0',
+      current: "0"
     };
   },
-  methods:{
-    setNum(index){
-      this.current=index
+  methods: {
+    setNum(index) {
+      this.current = index;
     },
-    jump(url){
-      this.$router.push(url)
-    },
+    jump(url) {
+      this.$router.push(url);
+    }
   },
   components: {
     Header
+    // FansList,
+    // Space,
+    // VideoList,
+    // Setting,
   },
   computed: {
-    ...mapGetters(["nickname"])
+    ...mapGetters(["nickname", "uid"])
   }
 };
 </script>
