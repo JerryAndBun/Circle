@@ -214,7 +214,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["nickname", "uid", "islogin"])
+    ...mapGetters("user", ["nickname", "uid", "islogin"])
   },
   methods: {
     touserpage() {
@@ -222,25 +222,29 @@ export default {
       this.$router.push("/userpage");
     },
     logout() {
-      this.$store.commit("setNickname", null);
-      this.$store.commit("setUserPassword", null);
-      this.$store.commit("setEmail", null);
-      this.$store.commit("setUid", null);
-      this.$store.commit("setIsLogin", false);
+      this.$store.commit("user/setNickname", null);
+      this.$store.commit("user/setUserPassword", null);
+      this.$store.commit("user/setEmail", null);
+      this.$store.commit("user/setUid", null);
+      this.$store.commit("user/setIsLogin", false);
       this.dongtaiclass = "logintext-login";
     },
     avatarEnteranimation() {
-      this.timein = setTimeout(() => {
-        if (this.timein) {
-          this.$refs.userbox.style.display = "block";
-          this.$refs.avatar.style.transform = "scale(120%)";
-        }
-      }, 100);
+      if (this.islogin) {
+        this.timein = setTimeout(() => {
+          if (this.timein) {
+            this.$refs.userbox.style.display = "block";
+            this.$refs.avatar.style.transform = "scale(120%)";
+          }
+        }, 100);
+      }
     },
     avatarOutanimation() {
-      clearTimeout(this.timein);
-      this.$refs.userbox.style.display = "none";
-      this.$refs.avatar.style.transform = "scale(100%)";
+      if (this.islogin) {
+        clearTimeout(this.timein);
+        this.$refs.userbox.style.display = "none";
+        this.$refs.avatar.style.transform = "scale(100%)";
+      }
     }
   },
   //Header 的交互逻辑js

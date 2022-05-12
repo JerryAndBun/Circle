@@ -1,7 +1,26 @@
+@import '../css/var';
+@mixin scrollstyle {
+
+    &::-webkit-scrollbar {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: $unfocus;
+
+        &:hover {
+            background-color: $focus;
+        }
+    }
+}
 *{
     margin: 0;
     padding: 0;
     text-decoration: none;
+    @include scrollstyle;
+
 }
 body{
     width: 100%;

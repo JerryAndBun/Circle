@@ -1,23 +1,29 @@
 <template>
-  <div>
-    <div class="publish">
-      <div class="publish_input">
-        <div class="text_area">
-          <div ref="text_area_inner" contenteditable="plaintext-only" placeholder="有什么想和大家分享的？" class="text_area_inner">
-
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="spacediv">
+    <CommentInput v-model="article" @cleararticle='cleararticle'></CommentInput>
   </div>
 </template>
 
 <script>
+import CommentInput from "@/components/CommentInput.vue";
 export default {
-  
+  data() {
+    return {
+      article: ""
+    };
+  },
+  methods: {
+    cleararticle(){
+      
+      // 清空缓存的动态内容
+      this.article=''
+    }
+  },
+  components: {
+    CommentInput
+  }
 };
 </script>
 
-<style lang='scss' scoped>
-@import "../assets/css/space";
+<style>
 </style>

@@ -41,7 +41,11 @@
           </div>
         </aside>
         <main class="content_area">
-          <router-view></router-view>
+          <keep-alive>
+
+            <router-view></router-view>
+            asdasdad
+          </keep-alive>
         </main>
         <aside class="topic_area">3</aside>
       </div>
@@ -101,7 +105,7 @@ export default {
     // Setting,
   },
   computed: {
-    ...mapGetters(["nickname", "uid"])
+    ...mapGetters("user", ["nickname", "uid"])
   }
 };
 </script>

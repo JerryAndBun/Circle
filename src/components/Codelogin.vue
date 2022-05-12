@@ -165,11 +165,11 @@ export default {
               this.isdisappear = true;
               this.issuccess = false;
             }, 3000);
-            this.$store.commit("setNickname", data.nickname);
-            this.$store.commit("setUserPassword", data.userpassword);
-            this.$store.commit("setEmail", data.email);
-            this.$store.commit("setUid", data.uid);
-            this.$store.commit("setIsLogin", true);
+            this.$store.commit("user/setNickname", data.nickname);
+            this.$store.commit("user/setUserPassword", data.userpassword);
+            this.$store.commit("user/setEmail", data.email);
+            this.$store.commit("user/setUid", data.uid);
+            this.$store.commit("user/setIsLogin", true);
             this.nickname = data.nickname;
           } else {
             this.$refs.alertdiv.style.visibility = "visible";
