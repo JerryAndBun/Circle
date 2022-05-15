@@ -182,8 +182,12 @@
     margin-right: 30px;
     margin-left: 30px;
 
-    .checkcode {
-        margin-left: 105px;
+    .verifycode {
+        // cursor: not-allowed;
+        // margin-left: 105px;
+        // margin-right: 100px;
+        // float:right;
+        right: 70px;
         margin-top: 5px;
         border: none;
         color: $main-blue;
@@ -195,7 +199,7 @@
     }
 
     .checkinput {
-        width: 100px;
+        width: 200px;
         display: inline-block;
     }
 }

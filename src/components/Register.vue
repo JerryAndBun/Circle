@@ -21,8 +21,8 @@
         </div>
         <div class="alertdiv" ref="alertdiv3"> <i class="iconfont icon-gantanhao"></i>密码长度应为3-15个字符</div>
         <div class="infobox"><i class="iconfont icon-yanzhengma"></i>
-          <input class="checkinput account" type="text" placeholder="请输入验证码">
-          <a href="" class="checkcode">获取验证码</a>
+          <input class="checkinput account" type="text" v-model="verifycode" placeholder="请输入验证码">
+          <a href="" ref="verifycode" id="verifycode" class="verifycode" @click.prevent="sendverifycode">获取验证码</a>
         </div>
         <div class="submitbox"></div>
         <div class="register_button" ref="register_button" @click="requestRegister"><a href="javascript:;">注册并登录</a></div>
@@ -52,22 +52,70 @@
 
 <script>
 import axios from "axios";
+import HttpManager from "../api/index";
 export default {
   data() {
     return {
       email: "",
       userpassword: "",
       nickname: "",
+      verifycode: "",
       isagreement: false,
+      issendverifycode: false,
       isdisappear: true,
       issuccess: false,
       islegalemail: false,
       islegalnickname: false,
       islegalpassword: false,
+      timeout: 0,
       second: 3
     };
   },
   methods: {
+    // 发送验证码请求
+    sendverifycode() {
+      this.issendverifycode = true;
+      if (this.issendverifycode && !this.timeout) {
+        // this.$refs.verifycode.innerHTML = `${this.timeout}秒后重新获取验证码`;
+        // console.log("开始倒计时");
+        // 设置倒计时
+        this.timeout = 3;
+        this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`;
+        this.$refs.verifycode.style.color=`#999`
+        let i = setInterval(() => {
+          // console.log(this.timeout);
+          this.timeout--;
+          this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`;
+          if (!this.timeout) {
+            clearInterval(i);
+            this.$refs.verifycode.innerHTML = `获取验证码`;
+            this.$refs.verifycode.style.color=`rgb(15,155,241)`
+            this.issendverifycode = false;
+            this.$refs.verifycode.style.cursor = "pointer";
+          }
+        }, 1000);
+        // setTimeout(() => {}, 3000);
+      } else {
+        return;
+      }
+      this.$refs.verifycode.style.cursor = "not-allowed";
+      let params = {
+        email: this.email,
+        type: "REGISTER"
+      };
+      HttpManager.sendverifycode(params).then(
+        (response) => {
+          if (response.status == 200) {
+            console.log(response.data);
+          }
+        },
+        (error) => {
+          if (error.response.data.status == 400) {
+            alert(error.response.data.message);
+          }
+        }
+      );
+    },
     requestRegister() {
       // 发送请求前验证数据合法性
       // this.colorchange();
@@ -79,37 +127,46 @@ export default {
         return;
       }
       var tti;
-      axios
-        .post("http://localhost:8080/lr/register", {
-          email: this.email,
-          nickname: this.nickname,
-          userpassword: this.userpassword
-        })
-        .then(
-          (response) => {
-            let { data } = response.data;
-            this.isdisappear = false;
-            this.issuccess = true;
-            tti = setInterval(() => {
-              this.second--;
-            }, 1000);
-            setTimeout(() => {
-              this.$router.push("/");
-              clearInterval(tti);
-              this.isdisappear = true;
-              this.issuccess = false;
-            }, 3000);
-            // console.log(data);
-            this.$store.commit("setNickname", data.nickname);
-            this.$store.commit("setUserPassword", data.userpassword);
-            this.$store.commit("setEmail", data.email);
-            this.$store.commit("setUid", data.uid);
-            this.$store.commit("setIsLogin", true);
-          },
-          (error) => {
-            console.log("GG", error.message);
-          }
-        );
+      HttpManager.userRegister({
+        email: this.email,
+        nickname: this.nickname,
+        password: this.userpassword,
+        verifyCode: this.verifycode
+      }).then(
+        (response) => {
+          console.log(response);
+          console.log(response.data);
+          console.log(response.data.userInfo);
+          let data = response.data.userInfo
+          // let userinfo = data.userinfo
+          // console.log(userinfo);
+          this.isdisappear = false;
+          this.issuccess = true;
+          tti = setInterval(() => {
+            this.second--;
+          }, 1000);
+          setTimeout(() => {
+            this.$router.push("/");
+            clearInterval(tti);
+            this.isdisappear = true;
+            this.issuccess = false;
+          }, 3000);
+          this.$store.commit("user/setAvatar", data.avatar);
+          this.$store.commit("user/setcreatedAt", data.createdAt);
+          this.$store.commit("user/setEmail", data.email);
+          this.$store.commit("user/setFans", data.fans);
+          this.$store.commit("user/setFocusOn", data.focusOn);
+          this.$store.commit("user/setVideos", data.videos);
+          this.$store.commit("user/setNickname", data.nickname);
+          this.$store.commit("user/setSignature", data.signature);
+          this.$store.commit("user/setUid", data.uid);
+          this.$store.commit("user/setToken", response.data.token);
+          this.$store.commit("user/setIsLogin", true);
+        },
+        (error) => {
+          console.log(error.response);
+        }
+      );
     },
     colorchange() {
       this.isagreement = !this.isagreement;
@@ -153,4 +210,5 @@ export default {
 
 <style lang='scss' scoped>
 @import "../assets/css/register.scss";
+// @import '../assets/css/var';
 </style>

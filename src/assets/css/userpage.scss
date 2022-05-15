@@ -46,7 +46,7 @@
 
 .usermain {
     margin-top: 150px !important;
-    min-height: 900px;
+    // min-height: 900px;
     width: 1200px;
     opacity: .99;
     margin: 0 auto;
@@ -103,7 +103,7 @@
 
             .lv {
                 position: absolute;
-                left: 35px;
+                left: 50px;
                 // transform: translateX(-50%);
                 border: 1px solid $main-blue;
                 color: $main-blue;
@@ -189,7 +189,7 @@
 
     .home_area {
         margin-top: 10px;
-        min-height: 900px;
+        // min-height: 900px;
         width: 1200px;
         border-radius: 15px;
         display: flex;
@@ -234,8 +234,8 @@
         .content_area {
             border-radius: 15px;
             width: 800px;
-            height: 900px;
-            background-color: $white;
+            // height: 900px;
+            // background-color: $white;
             margin: 0 10px;
         }
 
@@ -243,7 +243,7 @@
             border-radius: 15px;
             background-color: $white;
             width: 180px;
-            height: 600px;
+            // height: 600px;
         }
     }
 

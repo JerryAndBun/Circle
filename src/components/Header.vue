@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="searcharea">
-        <input class="searchbox" placeholder="Circle What You Want" type=" text">
+        <input class="searchbox" v-model="searchtext" placeholder="Circle What You Want" type=" text" @keyup.enter="search">
         <div class="iconbox">
           <i class="iconfont icon-fangdajing"></i>
         </div>
@@ -210,22 +210,40 @@ export default {
   data() {
     return {
       dongtaiclass: "logintext-login",
-      timein: ""
+      timein: "",
+      searchtext: ""
     };
   },
   computed: {
     ...mapGetters("user", ["nickname", "uid", "islogin"])
   },
   methods: {
+    search() {
+      this.$store.commit("info/setSearchText", this.searchtext);
+      if (this.searchtext === "") return;
+      this.$emit("searchEvent", this.searchtext);
+      // this.searchtext=''
+      this.$router.push("/searchresult").catch((err) => {
+        // console.log("输出报错", err);
+      });
+    },
     touserpage() {
       // alert()
-      this.$router.push("/userpage");
+      this.$router.push(`/userpage`).catch((err) => {
+        // console.log("输出报错", err);
+      });
     },
     logout() {
-      this.$store.commit("user/setNickname", null);
-      this.$store.commit("user/setUserPassword", null);
+      this.$store.commit("user/setAvatar", null);
+      this.$store.commit("user/setcreatedAt", null);
       this.$store.commit("user/setEmail", null);
+      this.$store.commit("user/setFans", null);
+      this.$store.commit("user/setFocusOn", null);
+      this.$store.commit("user/setVideos", null);
+      this.$store.commit("user/setNickname", null);
+      this.$store.commit("user/setSignature", null);
       this.$store.commit("user/setUid", null);
+      this.$store.commit("user/setToken", null);
       this.$store.commit("user/setIsLogin", false);
       this.dongtaiclass = "logintext-login";
     },
@@ -394,7 +412,6 @@ export default {
     });
   },
   created() {
-    // alert(this.islogin)
     if (JSON.parse(localStorage.getItem("islogin"))) {
       this.dongtaiclass = "logintext-avatar";
     } else {
