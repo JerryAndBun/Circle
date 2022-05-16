@@ -1,1 +1,10 @@
 @import '../css/var';
+.contentdiv{
+    margin-top: 30px;
+    width: 1200px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(5,240px);
+    grid-template-rows: repeat(8,220px);
+    // background-color: red;
+}

@@ -1,0 +1,36 @@
+@import '../css/var.scss';
+
+.contentdiv {
+    width: 800px;
+    height: 800px;
+    background-color: white;
+
+    .updateinfo {
+        width: 800px;
+        height: 400px;
+        background-color: green;
+    }
+
+    .updateavatar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        width: 240px;
+        height: 240px;
+        border: 1px dashed red;
+
+        .uploadinput {
+            cursor: pointer;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            border: 1px dashed $unfocus;
+            // background-color: red;
+        }
+
+        .submit {
+            cursor: pointer;
+        }
+    }
+}

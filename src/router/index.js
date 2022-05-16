@@ -44,13 +44,13 @@ const routes = new vueRouter({
             path: '/searchresult', component: () => import('../pages/SearchResult.vue'),
             children: [
                 {
-                    path: '/', components: () => import('../components/VideoResult.vue')
+                    path: '/', component: () => import('../components/VideoResult.vue')
                 },
                 {
-                    path: 'video', components: () => import('../components/VideoResult.vue')
+                    path: 'video', component: () => import('../components/VideoResult.vue')
                 },
                 {
-                    path: 'user', components: () => import('../components/UserResult.vue')
+                    path: 'user', component: () => import('../components/UserResult.vue')
                 }
             ]
         }

@@ -1,0 +1,62 @@
+@import '../css/var.scss';
+
+.contentdiv {
+
+    display: inline-block;
+    width: 350px;
+    height: 120px;
+    background-color: $main-white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .img_link {
+        display: inline-block;
+        width: 86px;
+        height: 86px;
+        border-radius: 100%;
+        background-color: $main-blue;
+    }
+
+    .userinfo {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin-left: 12px;
+        width: 150px;
+        height: 100px;
+
+        .nickname {
+            width: 150px;
+            height: 24px;
+
+            .nickname_link {
+                font-size: 20px;
+                color: $main-pink;
+
+            }
+        }
+
+        .fans,
+        .videos,
+        .signature {
+            width: 150px;
+            height: 18px;
+
+            font-size: 14px;
+            color: $unfocus;
+        }
+    }
+
+    .btn {
+        user-select: none;
+        cursor: pointer;
+        width: 70px;
+        height: 34px;
+        background-color: $main-blue;
+        color: $main-white;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 34px;
+    }
+}

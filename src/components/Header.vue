@@ -31,11 +31,21 @@
           <transition name="fade">
             <div class="userbox" ref="userbox" v-if="islogin">
               <div class="logout">
-                <router-link to="/userpage" class="username">{{nickname}}</router-link>
+                <router-link :to="{
+                  path:'/userpage',
+                  query:{
+                    uid:this.uid
+                    }
+                  }" class="username">{{nickname}}</router-link>
                 <a href="javascript:;" class="logouta" @click="logout">退出登录</a>
               </div>
               <div class="home" @click="touserpage">
-                <router-link to='/userpage' class="tohomelink">查看更多</router-link>
+                <router-link :to="{
+                  path:'/userpage',
+                  query:{
+                    uid:this.uid
+                  }
+                  }" class="tohomelink">查看更多</router-link>
               </div>
             </div>
           </transition>
@@ -228,10 +238,16 @@ export default {
       });
     },
     touserpage() {
-      // alert()
-      this.$router.push(`/userpage`).catch((err) => {
-        // console.log("输出报错", err);
-      });
+      this.$router
+        .push({
+          path: "/userpage",
+          query: {
+            uid:this.uid
+          }
+        })
+        .catch((err) => {
+          // console.log("输出报错", err);
+        });
     },
     logout() {
       this.$store.commit("user/setAvatar", null);

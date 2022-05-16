@@ -5,17 +5,28 @@ import { BASE_URL } from './config'
 axios.defaults.timeout = 5000 // 超时时间设置
 axios.defaults.withCredentials = true // true允许跨域时带上token
 
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+// axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
+// axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+// axios.defaults.headers["Content-Type"] = 'image/png'
+// axios.defaults.headers["Content-Type"] = 'image/png'
 axios.defaults.baseURL = BASE_URL;
-let token = window.localStorage.getItem('token')
-axios.defaults.headers.common["token"]=token;
-
+// 请求头带上token
+// let token = window.localStorage.getItem('token')
+// let uid = window.localStorage.getItem('uid')
+// axios.defaults.headers.common["uid"]=uid;
+// axios.defaults.headers.common["token"] = token;
+// 请求头带上uid和token
+// console.log(window.localStorage.getItem('uid'));
+// let uid=JSON.parse(window.localStorage.getItem('uid'))
+axios.defaults.headers.UID = JSON.parse(window.localStorage.getItem('uid'))
+// axios.defaults.headers.UID = "1732812769406738433"
+axios.defaults.headers.Authorization = window.localStorage.getItem('token')
 // 响应拦截器
 axios.interceptors.response.use(
   response => {
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
-    if (response.status === 200||response.status==201) {
+    if (response.status === 200 || response.status == 201) {
       return Promise.resolve(response)
     } else {
       return Promise.reject(response)
@@ -49,7 +60,7 @@ axios.interceptors.response.use(
 
         // 404请求不存在
         case 404:
-        // console.log('请求页面飞到火星去了')
+          // console.log('请求页面飞到火星去了')
           break
       }
       return Promise.reject(error.response)
@@ -83,7 +94,14 @@ axios.interceptors.response.use(
 //       })
 //   })
 // }
-export function post(url,params) {
+export function post(url, params) {
+  // console.log(uid);
+  // console.log(window.localStorage.getItem('uid'));
+  // console.log("1732812769406738433");
+  // console.log(typeof(window.localStorage.getItem('uid')));
+  // console.log(typeof("1732812769406738433"));
+  // console.log(window.localStorage.getItem('uid')=="1732812769406738433");
+  // console.log(window.localStorage.getItem('uid')==="1732812769406738433");
   return new Promise((resolve, reject) => {
     axios.post(url, params).then(
       response => { resolve(response) },
@@ -92,7 +110,7 @@ export function post(url,params) {
   })
 }
 
-export function get(url,params) {
+export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios.get(url, params).then(
       response => { resolve(response.data) }

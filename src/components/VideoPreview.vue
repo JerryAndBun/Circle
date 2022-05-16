@@ -1,13 +1,17 @@
 <template>
-  <div class="vp_box">
-    <router-link to="/video/:av">
-      <img :src="src" class="vp_pic" alt="">
-    </router-link>
-    <router-link to="">{{title}}</router-link>
-    <span class="vp_info">
-      <router-link id="nickname" to='/homepage/${uid}'>{{nickname}}</router-link>
-      <label for="nickname">{{date}}</label>
-    </span>
+  <div>
+    <div class="vp_box">
+      <router-link to="/video/:av">
+        <img :src="src" class="vp_pic" alt="">
+      </router-link>
+    </div>
+    <div class="vp_info_div">
+      <a href="javascript:;">{{title}}标题</a>
+      <div class="vp_info">
+        <a href="javascript:;">{{nickname}}昵称</a>
+        <a href="javascript:;" for="nickname">{{date}}日期</a>
+      </div>
+    </div>
   </div>
 </template>
 

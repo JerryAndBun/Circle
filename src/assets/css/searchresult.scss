@@ -20,7 +20,7 @@
         // border: solid rgb(223, 220, 220) 1px;
         border-radius: 10px;
         outline: none;
-        background-color: $main-white;
+        // background-color: $main-white;
 
         &:focus {
             border: 1px solid $main-blue;
@@ -32,13 +32,18 @@
             // vertical-align: middle;
             width: 380px;
             text-indent: 1rem;
-            background-color: $main-white;
+            background-color: rgb(241, 241, 241);
+            &::-webkit-input-placeholder{
+                // color: red;
+                color: $unfocus;
+                font-size: 16px;
 
+            }
             &:focus {
                 border: 1px solid $main-blue;
             }
 
-            font-size: 18px;
+            font-size: 16px;
             border: none;
             border-radius: 10px;
             outline: none;
@@ -59,17 +64,13 @@
     }
 
     .distinguish {
-        position: relative;
-        display: flex;
-        justify-content: space-around;
-        align-items: baseline;
-        float: left;
+        position: absolute;
+        transform: translateX(-50%);
+        left: 50%;
         margin-top: 84px;
-        padding-left: 64px;
-        width: 192px;
+        // padding-left: 64px;
+        width: 1190px;
         height: 36px;
-
-        // background-color: red;
         .video,
         .user {
             user-select: none;
@@ -79,7 +80,6 @@
             display: inline-block;
             width: 80px;
             height: 36px;
-
             a {
                 display: inline-block;
                 width: 80px;
@@ -88,12 +88,15 @@
                 text-decoration: none;
                 color: $focus;
             }
-
-            // background-color: green;
         }
-
         .video {
             border-bottom: 2px solid $main-blue;
         }
     }
+}
+
+.switchdiv {
+    max-width: 1190px;
+    height: 800px;
+    margin: 0 auto;
 }

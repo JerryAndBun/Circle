@@ -14,8 +14,15 @@ const HttpManager = {
     sendverifycode: (params) => post(`/verifyCode`, params),
     // 请求该用户的动态,路径之后直接接用户的UID
     getUserMoment: (url) => get(url),
-    // sendMoment:(params)=>post(`/verifyCode`,params),
     // 搜索用户
-    getUserList:(params)=>get(`/search`,params)
+    getUserList:(url,params)=>get(url,params),
+    // 获取用户信息
+    getUserInfo:(url) => get(url),
+    // 关注用户
+    postFollowUser:(params)=>post(`/focusOn`,params),
+    // 取关用户
+    postUnFocusUser :(params)=>post(`/unfocusOn`,params),
+    // 上传头像
+    postUserAvatar:(params)=>post(`/avatarImg`,params),
 }
 export default HttpManager

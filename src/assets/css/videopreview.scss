@@ -1,8 +1,31 @@
 @import './var';
-.vp_box{
-    display:inline-block;
-    width: 186px;
-    height: 130px;
-    background-color: red;
-    margin-left: 20px;
+
+.vp_box {
+
+    display: inline-block;
+    width: 220px;
+    border-radius: 10px;
+    height: 150px;
+    background-color: $main-blue;
+    // margin-left: 20px;
+}
+
+.vp_info_div {
+    margin-top: 10px;
+    a {
+        font-size: 16px;
+        text-decoration: none;
+        color: $focus;
+    }
+
+    .vp_info {
+        // margin-top: 10px;
+
+        a {
+            font-size: 14px;
+            text-decoration: none;
+            color: $unfocus;
+        }
+
+    }
 }

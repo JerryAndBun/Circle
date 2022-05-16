@@ -1,1 +1,13 @@
 @import '../css/var';
+
+.user_content_div {
+    margin-top: 30px;
+    width: 1200px;
+    min-height: 800px;
+    display: grid;
+    grid-template-columns: repeat(3,400px);
+    grid-template-rows: repeat(10,150px);
+    justify-content: center;
+    align-items: center;
+    // background-color: red;
+}

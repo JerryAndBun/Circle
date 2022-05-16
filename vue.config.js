@@ -4,10 +4,9 @@ const {
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
-  devServer: {
+  // devServer: {
     // proxy: 'http://luoying.free.idcfengye.com',
     // proxy:'http://localhost:3000',
-    proxy:'http://192.168.0.107:8080',
-
-  }
+    // proxy:'http://192.168.0.107:8081',
+  // }
 })

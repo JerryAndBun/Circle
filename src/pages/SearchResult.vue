@@ -3,25 +3,25 @@
     <Header @searchEvent="search"></Header>
     <div class="searchdiv">
       <div class="searchbox">
-        <input class="searchInput" v-model="mysearchtext" placeholder="Circle What You Want" type=" text" @keyup.enter="search">
+        <input class="searchInput" ref="searchInput" placeholder="Circle What You Want" type=" text" @keyup.enter="search" @input="changekeword">
         <a href="" class="sou" @click.prevent="authsearch=true,search()">搜索</a>
       </div>
       <div class="distinguish">
-        <div class="video" ref="video" @click="isvideo=true,isuser=false,search()">
-          <router-link to="video">
+        <div class="video" ref="video" @click="isvideo=true,myisuser=false,search()">
+          <router-link to="/searchresult/video">
             视频
           </router-link>
         </div>
-        <div class="user" ref="user" @click="isuser=true,isvideo=false,search()">
-          <router-link to="user">
+        <div class="user" ref="user" @click="myisuser=true,isvideo=false,search()">
+          <router-link to="/searchresult/user">
             用户
           </router-link>
         </div>
       </div>
     </div>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
+    <div class="switchdiv">
+      <router-view :userList="userList" :videList="videList"></router-view>
+    </div>
   </div>
 </template>
 
@@ -33,46 +33,58 @@ export default {
   name: "searchpage",
   data() {
     return {
-      isuser: false,
+      myisuser: false,
       firstuser: true,
       isvideo: true,
       firstvideo: true,
       authsearch: false,
-      freashsearch: false,
-      mysearchtext: ""
+      videList: "",
+      userList: ""
     };
   },
   components: {
     Header
   },
+  computed: {
+    ...mapGetters("info", ["searchtext", "isuser"]),
+    ...mapGetters("user", ["uid"])
+  },
   methods: {
+    changekeword() {
+      this.$store.commit("info/setSearchText", this.$refs.searchInput.value);
+      console.log(this.$refs.searchInput.value);
+    },
     search(a) {
       console.log(this.authsearch);
-      console.log(this.isuser);
+      console.log(this.myisuser);
       console.log(this.firstuser);
       console.log(this.isvideo);
       console.log(this.firstvideo);
-      if (!this.freashsearch) {
-        this.$store.commit("info/setSearchText", this.mysearchtext);
-      }
+      // console.log(this.searchtext.length);
       if ((this.isvideo && this.firstvideo) || this.authsearch) {
+        // 视频组件
         this.firstvideo = false;
         this.firstuser = true;
         this.$refs.video.style.borderBottom = "2px solid rgb(15,155,241)";
         this.$refs.user.style.borderBottom = "none";
         this.authsearch = false;
+        this.$store.commit("info/setIsUser", this.myisuser);
         console.log("这里是视频搜索");
+        console.log(`关键字是${this.searchtext}`);
       }
-      if ((this.isuser && this.firstuser) || this.authsearch) {
+      if ((this.myisuser && this.firstuser) || this.authsearch) {
+        // 用户组件
         this.firstuser = false;
         this.firstvideo = true;
         this.$refs.user.style.borderBottom = "2px solid rgb(15,155,241)";
         this.$refs.video.style.borderBottom = "none";
         this.authsearch = false;
+        this.$store.commit("info/setIsUser", this.myisuser);
         console.log("这里是用户搜索");
-        HttpManager.getUserList({ params: { keyword: this.searchtext } }).then(
+        console.log(`关键字是${this.searchtext}`);
+        HttpManager.getUserList(`/search/${this.uid}`, { params: { keyword: this.searchtext } }).then(
           (response) => {
-            console.log("打印结果");
+            this.userList=response
             console.log(response);
           },
           (error) => {
@@ -80,23 +92,22 @@ export default {
           }
         );
       }
-      /* console.log("检测到搜索事件");
-      console.log("关键字为" + this.searchtext); */
     }
   },
-  computed: {
-    ...mapGetters("info", ["searchtext"])
-  },
   mounted() {
-    console.log(this.searchtext);
+    this.myisuser = this.isuser;
+    this.isvideo = !this.isuser;
     if (this.searchtext.length != 0) {
-      this.freashsearch = true;
       this.search();
       console.log("刷新执行");
     }
-    this.mysearchtext = this.searchtext;
-    // console.log(this.mysearchtext);
-    // console.log(this.searchtext);
+    this.$refs.searchInput.value = this.searchtext;
+    // console.log(this.$refs.searchInput.value);
+    // console.log("------------------------------");
+  },
+  beforeRouteLeave(to,from,next){
+    this.$store.commit('info/setIsUser',false)
+    next()
   }
 };
 </script>
