@@ -95,13 +95,6 @@ axios.interceptors.response.use(
 //   })
 // }
 export function post(url, params) {
-  // console.log(uid);
-  // console.log(window.localStorage.getItem('uid'));
-  // console.log("1732812769406738433");
-  // console.log(typeof(window.localStorage.getItem('uid')));
-  // console.log(typeof("1732812769406738433"));
-  // console.log(window.localStorage.getItem('uid')=="1732812769406738433");
-  // console.log(window.localStorage.getItem('uid')==="1732812769406738433");
   return new Promise((resolve, reject) => {
     axios.post(url, params).then(
       response => { resolve(response) },
@@ -113,6 +106,13 @@ export function post(url, params) {
 export function get(url, params) {
   return new Promise((resolve, reject) => {
     axios.get(url, params).then(
+      response => { resolve(response.data) }
+    ).catch(error => { reject(error) })
+  })
+}
+export function put(url, params) {
+  return new Promise((resolve, reject) => {
+    axios.put(url, params).then(
       response => { resolve(response.data) }
     ).catch(error => { reject(error) })
   })

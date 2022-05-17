@@ -6,27 +6,27 @@
     <div class="usermain">
       <div class="userinfo">
         <div class="nickname">
-          <p>{{mynickname}}</p>
+          <p>{{itemList.nickname}}</p>
           <div class="lv">&nbsplv17&nbsp正式会员&nbsp
           </div>
 
         </div>
         <div class="sign">
-          <img class="useravatar" :src='`${baseurl}${myavatar}`'>
+          <img class="useravatar" :src='`${baseurl}${itemList.avatar}`'>
           </img>
-          <p>{{mysignature}}
+          <p>{{itemList.signature}}
           </p>
         </div>
         <div class="followdiv" @click="follow">
-          <p class="follow">{{myfocusOn}}</p><br>
+          <p class="follow">{{itemList.focusOn}}</p><br>
           <p href="" class="followedlink">关注</p>
         </div>
         <div class="fansdiv">
-          <p class="fans">{{myfans}}</p><br>
+          <p class="fans">{{itemList.fans}}</p><br>
           <p href="" class="fanslink">粉丝</p>
         </div>
         <div class="manuscriptdiv">
-          <p class="manuscript">{{myvideos}}</p><br>
+          <p class="manuscript">{{itemList.videos}}</p><br>
           <p href="" class="manuscriptlink">投稿</p>
         </div>
         <div class="followmediv">
@@ -34,14 +34,14 @@
         </div>
       </div>
       <div class="home_area">
-        <aside class="tab_area">
+        <aside class="tab_area" ref="tab_area">
           <div v-for="(item,index) in routerList" :key="index" :class="index==current?'active':'unactive'" @click="setNum(index);jump(item.url)">
             <i :class="item.icon"></i>{{item.name}}
           </div>
         </aside>
         <main class="content_area">
           <keep-alive>
-            <router-view></router-view>
+            <router-view :itemList="itemList"></router-view>
           </keep-alive>
         </main>
         <aside class="topic_area">3</aside>
@@ -55,11 +55,11 @@
 import Header from "../components/Header.vue";
 import { mapGetters } from "vuex";
 import HttpManager from "../api/index";
-import { BASE_URL } from '../api/config'
+import { BASE_URL } from "../api/config";
 export default {
   data() {
     return {
-      d: this.uid,
+      // d: this.uid,
       routerList: [
         {
           name: "动态",
@@ -82,17 +82,11 @@ export default {
           icon: "iconfont icon-setting"
         }
       ],
-      myavatar: "",
-      mycreatedAt: "",
-      myemail: "",
-      myfans: "",
-      myfocusOn: "",
-      myvideos: "",
-      mynickname: "",
-      mysignature: "",
       myuid: "",
+      isown:true,
       current: "0",
-      baseurl:BASE_URL,
+      baseurl: BASE_URL,
+      itemList: ""
     };
   },
   computed: {
@@ -104,9 +98,7 @@ export default {
       this.current = index;
     },
     jump(url) {
-      this.$router.push(url).catch((err) => {
-        // console.log("输出报错", err);
-      });
+      this.$router.push(url).catch((err) => {});
     }
   },
   components: {
@@ -115,31 +107,44 @@ export default {
 
   mounted() {
     console.log(BASE_URL);
-    console.log(`${this.baseurl}/${this.myavatar}`);
     // 获取路由传过来的参数，并设置为当前用户中心的myuid
-    this.myuid = this.$route.query.uid||this.uid;
+
+    this.myuid = this.$route.query.uid
+    if(this.myuid==undefined){
+      this.myuid=this.uid;
+      this.isown=false
+    }
+    if(!this.isown){
+      this.routerList=this.routerList.slice(0,3)
+      this.$refs.tab_area.style.height="180px"
+    }
+    console.log(this.routerList);
+    // console.log(this.myuid);
+    // console.log(this.myuid);
+    // 用户页面刷新请求新的数据并提交到vuex中
     HttpManager.getUserInfo(`/userInfo/${this.myuid}`).then(
       (response) => {
         console.log(response);
-        this.myavatar = response.avatar;
-        this.mycreatedAt = response.createdAt;
-        this.myemail = response.email;
-        this.myfans = response.fans;
-        this.myfocusOn = response.focusOn;
-        this.myvideos = response.videos;
-        this.mynickname = response.nickname;
-        this.mysignature = response.signature;
-        this.myuid = response.uid;
-        // then",response.token);
+        if (!response.signature) {
+          this.$store.commit("user/setSignature", "这个人很懒，还没有签名~");
+          response.signature = "这个人很懒，还没有签名~";
+        }
+        this.$store.commit("user/setAvatar", response.avatar);
+        this.$store.commit("user/setCreatedAt", response.createdAt);
+        this.$store.commit("user/setEmail", response.email);
+        this.$store.commit("user/setFans", response.fans);
+        this.$store.commit("user/setFocusOn", response.focusOn);
+        this.$store.commit("user/setVideos", response.videos);
+        this.$store.commit("user/setNickname", response.nickname);
+        this.$store.commit("user/setUid", response.uid);
+
+        this.itemList = response;
       },
       (error) => {}
     );
-    // 若没有签名则初始签名
-    if (!this.signature) {
-      this.$store.commit("user/setSignature", "这个人很懒，还没有签名~");
-    }
-
-    // 第一次进入请求拉取该用户的动态
+    this.$router.push(`/userpage/space`).catch((err) => {
+      // console.log("输出报错", err);
+    });
   }
 };
 </script>

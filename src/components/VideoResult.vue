@@ -1,19 +1,18 @@
 <template>
   <div class="contentdiv">
-      <VideoPreview v-for="(item,index) in 30"></VideoPreview>
+    <VideoPreview v-for="(item,index) in 30" :key="index"></VideoPreview>
   </div>
 </template>
 
 <script>
-import VideoPreview from '../components/VideoPreview.vue'
+import VideoPreview from "../components/VideoPreview.vue";
 export default {
-    components:{
-        VideoPreview
-    }
-}
+  components: {
+    VideoPreview
+  }
+};
 </script>
 
 <style lang='scss' scoped>
-@import '../assets/css/videoresult'
-
+@import "../assets/css/videoresult";
 </style>

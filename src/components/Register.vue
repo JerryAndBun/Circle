@@ -11,7 +11,7 @@
         <div class="infobox"><i class="iconfont icon-shouji"></i>
           <input class="account" type="text" v-model="email" placeholder="请输入邮箱" ref="email" @blur="loseemail">
         </div>
-        <div class="alertdiv" ref="alertdiv1"> <i class="iconfont icon-gantanhao"></i>邮箱格式错误</div>
+        <div class="alertdiv" ref="alertdiv1"> <i class="iconfont icon-gantanhao"></i>邮箱错误</div>
         <div class="infobox"><i class="iconfont icon-yonghu"></i>
           <input class="account" type="text" v-model="nickname" placeholder="请输入昵称" ref="nickname" @blur="losenickname">
         </div>
@@ -64,7 +64,6 @@ export default {
       issendverifycode: false,
       isdisappear: true,
       issuccess: false,
-      islegalemail: false,
       islegalnickname: false,
       islegalpassword: false,
       timeout: 0,
@@ -79,9 +78,9 @@ export default {
         // this.$refs.verifycode.innerHTML = `${this.timeout}秒后重新获取验证码`;
         // console.log("开始倒计时");
         // 设置倒计时
-        this.timeout = 3;
+        this.timeout = 60;
         this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`;
-        this.$refs.verifycode.style.color=`#999`
+        this.$refs.verifycode.style.color = `#999`;
         let i = setInterval(() => {
           // console.log(this.timeout);
           this.timeout--;
@@ -89,7 +88,7 @@ export default {
           if (!this.timeout) {
             clearInterval(i);
             this.$refs.verifycode.innerHTML = `获取验证码`;
-            this.$refs.verifycode.style.color=`rgb(15,155,241)`
+            this.$refs.verifycode.style.color = `rgb(15,155,241)`;
             this.issendverifycode = false;
             this.$refs.verifycode.style.cursor = "pointer";
           }
@@ -137,7 +136,7 @@ export default {
           console.log(response);
           console.log(response.data);
           console.log(response.data.userInfo);
-          let data = response.data.userInfo
+          let data = response.data.userInfo;
           // let userinfo = data.userinfo
           // console.log(userinfo);
           this.isdisappear = false;
@@ -152,7 +151,7 @@ export default {
             this.issuccess = false;
           }, 3000);
           this.$store.commit("user/setAvatar", data.avatar);
-          this.$store.commit("user/setcreatedAt", data.createdAt);
+          this.$store.commit("user/setCreatedAt", data.createdAt);
           this.$store.commit("user/setEmail", data.email);
           this.$store.commit("user/setFans", data.fans);
           this.$store.commit("user/setFocusOn", data.focusOn);
@@ -176,15 +175,40 @@ export default {
         this.$refs.register_button.style.backgroundColor = "#999";
       }
     },
+    showerror() {
+      this.$refs.alertdiv1.style.visibility = "visible";
+    },
+    hiddenerror() {
+      this.$refs.alertdiv1.style.visibility = "hidden";
+    },
     loseemail() {
-      const accountreg = /^\w{5,10}@\w{2,3}\.com$/g;
-      if (!accountreg.test(this.email)) {
-        this.$refs.alertdiv1.style.visibility = "visible";
-        this.islegalemail = false;
-      } else {
-        this.$refs.alertdiv1.style.visibility = "hidden";
-        this.islegalemail = true;
-      }
+      // const accountreg = /^\w{5,15}@\w{2,3}\.com$/g;
+      // console.log("163的是" + accountreg.test("JerryAnDBun@163.com"));
+      // console.log(this.email);
+      let avilibleemail = false;
+      HttpManager.postCheckEmail({
+        email: this.email
+      }).then(
+        (response) => {
+          console.log("发送成功");
+          console.log(response.data.pass);
+          if (response.data.pass) {
+            avilibleemail = true;
+          }
+          if (avilibleemail) {
+            // console.log("1");
+            this.hiddenerror()
+          } else {
+            this.showerror()
+            this.$refs.alertdiv1.innerHTML='邮箱已注册或不可用'
+          }
+        },
+        (error) => {
+          this.showerror()
+            this.$refs.alertdiv1.innerHTML='邮箱格式错误'
+        }
+      );
+      // let avilibleemail =
     },
     losenickname() {
       if (this.nickname.length < 3 || this.nickname.length > 15) {

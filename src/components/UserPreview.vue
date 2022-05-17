@@ -4,7 +4,7 @@
       path:'/userpage',
       query:{uid:item.uid}
     }" class="img_link">
-      <img :src="itemList.myurl" alt="">
+      <img class="imgg" :src='`${baseurl}${itemList.avatar}`' alt="">
     </router-link>
     <div class="userinfo">
       <div class="nickname">
@@ -26,12 +26,14 @@
 <script>
 import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
+import {BASE_URL} from '../api/config'
 export default {
   props: ["item"],
   watch: {},
   data() {
     return {
-      itemList: this.item
+      itemList: this.item,
+      baseurl:BASE_URL
       // isfocuson:this.itemList.isfocuson
     };
   },

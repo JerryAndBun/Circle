@@ -101,7 +101,7 @@ const user = {
             state.avatar = avatar;
             window.localStorage.setItem('avatar', JSON.stringify(avatar))
         },
-        setcreatedAt: (state, createdAt) => {
+        setCreatedAt: (state, createdAt) => {
             state.createdAt = createdAt;
             window.localStorage.setItem('createdAt', JSON.stringify(createdAt))
         },

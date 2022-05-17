@@ -18,7 +18,7 @@
             </div>
 
             <div class="passwordbox" ref="passdiv"><i class="passwordboxi"></i>
-              <input class="password" ref="pass" v-model.trim="userpassword" type="password" placeholder="请输入密码" @blur="lose_pass">
+              <input class="password" ref="pass" v-model.trim="password" type="password" placeholder="请输入密码" @blur="lose_pass">
             </div>
             <div class="loginbutton" @click="loginrequest">登&nbsp&nbsp录</div>
           </div>
@@ -68,13 +68,14 @@ export default {
   data() {
     return {
       email: "",
-      userpassword: "",
+      password: "",
       nickname: "",
       isdisappear: true,
       issuccess: false,
       isqrbox: true,
       isloginbox: false,
       ismengban: false,
+      avilibleemail: false,
       timer: "",
       second: 3
     };
@@ -99,52 +100,74 @@ export default {
         this.$refs.togle.innerHTML = "扫码登录";
       }
     },
-    // 检查账户与密码
-    lose_account() {
-      if (!this.email) {
+    redaccount(bool) {
+      if (bool) {
         this.$refs.accountdiv.style.border = "rgb(255, 100, 100) 1px solid";
-        this.$refs.alertdiv.style.visibility = "visible";
-        this.$refs.alertspan.innerHTML = "请输入账号/邮箱";
       } else {
         this.$refs.accountdiv.style.border = "rgb(221, 221, 221) 1px solid";
-        this.$refs.alertspan.innerHTML = "请输入密码";
-        if (this.userpassword) {
-          this.$refs.alertdiv.style.visibility = "hidden";
-        }
       }
     },
-    lose_pass() {
-      if (!this.userpassword) {
+    redpassword(bool) {
+      if (bool) {
         this.$refs.passdiv.style.border = "rgb(255, 100, 100) 1px solid";
-        this.$refs.alertdiv.style.visibility = "visible";
-        this.$refs.alertspan.innerHTML = "请输入密码";
       } else {
         this.$refs.passdiv.style.border = "rgb(221, 221, 221) 1px solid";
-        this.$refs.alertspan.innerHTML = "请输入账号/邮箱";
-        if (this.email) {
-          this.$refs.alertdiv.style.visibility = "hidden";
+      }
+    },
+    showerror() {
+      this.$refs.alertdiv.style.visibility = "visible";
+    },
+    hiddenerror() {
+      this.$refs.alertdiv.style.visibility = "hidden";
+      this.$refs.accountdiv.style.border = "rgb(221, 221, 221) 1px solid";
+    },
+    checkdatainfo() {
+      if (this.email) {
+        this.redaccount(false);
+        if (this.password) {
+          this.hiddenerror();
+          this.redaccount(false);
+          this.redpassword(false);
+        } else {
+          this.showerror();
+          this.redpassword(true);
+          this.$refs.alertspan.innerHTML = "请输入密码";
+        }
+      } else {
+        this.showerror();
+        this.redaccount(true);
+        this.$refs.alertspan.innerHTML = "请输入邮箱";
+        if (this.password) {
+          this.redpassword(false);
+        } else {
+          console.log("1111");
+          this.showerror();
+          this.redpassword(true);
+          this.$refs.alertspan.innerHTML = "请输入邮箱/密码";
         }
       }
     },
+    // 检查账户与密码
+    lose_account() {
+      this.checkdatainfo();
+    },
+    lose_pass() {
+      this.checkdatainfo();
+    },
     loginrequest() {
-      console.log(this.email, this.userpassword);
-      this.$refs.pass.blur();
-      this.$refs.account.blur();
-      const accountreg = /^\w{5,10}@\w{2,3}\.com$/g;
-      if (!accountreg.test(this.email)) {
-        this.$refs.alertdiv.style.visibility = "visible";
-        this.$refs.alertspan.innerHTML = "邮箱格式错误";
-        return;
-      }
-      if (this.userpassword.length < 8) {
-        this.$refs.alertdiv.style.visibility = "visible";
-        this.$refs.alertspan.innerHTML = "密码长度不应小于8个字符";
-        return;
+      this.lose_account();
+      this.lose_pass();
+      if(!this.email||!this.password){
+        this.showerror();
+          this.redpassword(true);
+          this.redaccount(true);
+          this.$refs.alertspan.innerHTML = "请输入邮箱/密码";
+          return
       }
       var tti;
       HttpManager.userLogin({
         email: this.email,
-        password: this.userpassword
+        password: this.password
       }).then(
         (response) => {
           /* aixos返回的是一个封装过的Promise对象，
@@ -165,7 +188,7 @@ export default {
               this.issuccess = false;
             }, 3000);
             this.$store.commit("user/setAvatar", data.avatar);
-            this.$store.commit("user/setCreatedAt", data.createAt);
+            this.$store.commit("user/setCreatedAt", data.createdAt);
             this.$store.commit("user/setEmail", data.email);
             this.$store.commit("user/setFans", data.fans);
             this.$store.commit("user/setFocusOn", data.focusOn);
@@ -182,10 +205,23 @@ export default {
           }
         },
         (error) => {
-          this.$refs.alertdiv.style.visibility = "visible";
-          this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
-          console.log(error.response);
           console.log(error);
+          console.log(error.response);
+          console.log(error.response.data.message);
+          
+          if (error.response.data.message == "邮箱未注册") {
+            this.$refs.alertdiv.style.visibility = "visible";
+            this.$refs.alertspan.innerHTML = "邮箱未注册";
+            return
+          }else{
+            this.$refs.alertdiv.style.visibility = "visible";
+            this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
+            return
+          }
+          // if(){
+
+          // }
+          
         }
       );
     }

@@ -1,5 +1,5 @@
 // import get from '../api/index'
-import { get, post } from "../api/request"
+import { get, post,put } from "../api/request"
 
 const HttpManager = {
     // 登录提交用户登录信息
@@ -24,5 +24,11 @@ const HttpManager = {
     postUnFocusUser :(params)=>post(`/unfocusOn`,params),
     // 上传头像
     postUserAvatar:(params)=>post(`/avatarImg`,params),
+    // 修改签名
+    postUserSignature:(params)=>post(`/signature`,params),
+    // 修改用户昵称
+    putUserNickname:(params)=>put(`/userInfo`,params),
+    // 
+    postCheckEmail:(params)=>post(`/check`,params),
 }
 export default HttpManager

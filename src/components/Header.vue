@@ -251,7 +251,7 @@ export default {
     },
     logout() {
       this.$store.commit("user/setAvatar", null);
-      this.$store.commit("user/setcreatedAt", null);
+      this.$store.commit("user/setCreatedAt", null);
       this.$store.commit("user/setEmail", null);
       this.$store.commit("user/setFans", null);
       this.$store.commit("user/setFocusOn", null);

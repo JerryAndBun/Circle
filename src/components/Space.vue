@@ -1,16 +1,11 @@
 <template>
   <div class="spacediv">
-    <div class="momentdiv">
+    <!-- <div class="momentdiv">
       <CommentInput v-model="article" ref="test" @cleararticle='cleararticle' @send='send'></CommentInput>
-    </div>
+    </div> -->
     <div class="momentList">
       <div class="test" ref="test"></div>
-      <Moment v-for="(item,index) in mommentList" 
-      :key="index" 
-      :nickname="item.userInfo.nickname"
-      :avatar="item.userInfo.avatar" 
-      :content="item.content"
-      :comment="item.comment"></Moment>
+      <Moment v-for="(item,index) in mommentList" :key="index" :nickname="item.userInfo.nickname" :avatar="item.userInfo.avatar" :content="item.content" :comment="item.comment" :createdAt='item.createdAt'></Moment>
     </div>
   </div>
 </template>
@@ -25,11 +20,9 @@ export default {
   data() {
     return {
       article: "",
-      momentContent:'',
-      mommentList:'',
-      momentContent:'',
-      momentContent:'',
-      momentContent:'',
+      // momentContent:'',
+      mommentList: ""
+      // momentContent:'',
     };
   },
   methods: {
@@ -54,9 +47,9 @@ export default {
         (response) => {
           console.log(response);
           console.log("获取成功");
-          this.mommentList= response
+          this.mommentList = response;
           // this.momentContent = response[26].content
-          this.$refs.test.innerHTML=this.momentContent
+          // this.$refs.test.innerHTML=this.momentContent
           // console.log(testHTML);
         },
         (error) => {
@@ -73,7 +66,23 @@ export default {
   computed: {
     ...mapGetters("user", ["uid"])
   },
-  mounted() {}
+  mounted() {
+    HttpManager.getUserMoment(`/dynamicContentList/${this.uid}`).then(
+      (response) => {
+        console.log(response);
+        console.log("获取成功");
+        this.mommentList = response;
+        console.log(this.mommentList);
+        // this.momentContent = response[26].content
+        // this.$refs.test.innerHTML=this.momentContent
+        // console.log(testHTML);
+      },
+      (error) => {
+        // 请求错误
+        console.log(error.response);
+      }
+    );
+  }
 };
 </script>
 

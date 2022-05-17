@@ -1,8 +1,11 @@
 <template>
   <div class="momentdiv">
+
     <div class="user">
+      <img class="avatar" :src='`${baseurl}${avatar}`'></img>
       <div class="nickname">{{nickname}}</div>
-      <img class="avatar" :src="this.myavatar"></img>
+      <!-- <div class="nickname">{{nickname}}</div> -->
+      <div class="time">{{createdAt}}</div>
     </div>
     <div class="content" ref="content"></div>
     <div class="bottom">
@@ -14,11 +17,13 @@
 </template>
 
 <script>
+import {BASE_URL} from '../api/config'
 export default {
-  props: ["avatar", "nickname", "content","","comment","likes"],
+  props: ["avatar", "nickname", "content","","comment","likes",'createdAt'],
   data() {
     return {
-      myavatar:this.avatar
+      myavatar:this.avatar,
+      baseurl:BASE_URL
     }
   },
   mounted() {

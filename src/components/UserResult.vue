@@ -2,7 +2,7 @@
   <div>
     <div class="user_content_div">
       <UserPreview v-for="(item,index) in userList" 
-      :item="item"
+      :item="item" :key="index"
       ></UserPreview>
     </div>
   </div>
