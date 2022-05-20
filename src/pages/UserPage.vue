@@ -9,7 +9,6 @@
           <p>{{itemList.nickname}}</p>
           <div class="lv">&nbsplv17&nbsp正式会员&nbsp
           </div>
-
         </div>
         <div class="sign">
           <img class="useravatar" :src='`${baseurl}${itemList.avatar}`'>
@@ -17,7 +16,7 @@
           <p>{{itemList.signature}}
           </p>
         </div>
-        <div class="followdiv" @click="follow">
+        <div class="followdiv">
           <p class="follow">{{itemList.focusOn}}</p><br>
           <p href="" class="followedlink">关注</p>
         </div>
@@ -29,8 +28,8 @@
           <p class="manuscript">{{itemList.videos}}</p><br>
           <p href="" class="manuscriptlink">投稿</p>
         </div>
-        <div class="followmediv">
-          <a href="">关注</a>
+        <div v-if="!isown" class="followmediv">
+          <a ref="followa" href="" @click.prevent="follow">关注</a>
         </div>
       </div>
       <div class="home_area">
@@ -41,7 +40,7 @@
         </aside>
         <main class="content_area">
           <keep-alive>
-            <router-view :itemList="itemList"></router-view>
+            <router-view :isown="isown" :itemList="itemList"></router-view>
           </keep-alive>
         </main>
         <aside class="topic_area">3</aside>
@@ -53,98 +52,176 @@
 
 <script>
 import Header from "../components/Header.vue";
-import { mapGetters } from "vuex";
 import HttpManager from "../api/index";
+import { mapGetters } from "vuex";
 import { BASE_URL } from "../api/config";
 export default {
   data() {
     return {
-      // d: this.uid,
       routerList: [
         {
           name: "动态",
-          url: `/userpage/space`,
+          url: `/userpage/${this.$route.params.myuid}/space`,
           icon: "iconfont icon-circle"
         },
         {
           name: "视频",
-          url: `/userpage/videolist`,
+          url: `/userpage/${this.$route.params.myuid}/videolist`,
           icon: "iconfont icon-video"
         },
         {
           name: "同好",
-          url: `/userpage/fanslist`,
+          url: `/userpage/${this.$route.params.myuid}/fanslist`,
           icon: "iconfont icon-fans"
         },
         {
           name: "设置",
-          url: `/userpage/setting`,
+          url: `/userpage/${this.$route.params.myuid}/setting`,
           icon: "iconfont icon-setting"
         }
       ],
-      myuid: "",
-      isown:true,
+      isown: true,
       current: "0",
       baseurl: BASE_URL,
       itemList: ""
     };
   },
   computed: {
-    ...mapGetters("user", ["avatar", "createdAt", "email", "fans", "focusOn", "videos", "nickname", "signature", "uid"])
+    ...mapGetters("user", ["uid"])
   },
   methods: {
-    follow() {},
+    follow() {
+      if (this.$refs.followa.innerHTML == "已关注") {
+        // 已关注，取关操作
+        HttpManager.postUnFocusUser({
+          focusid: this.$route.params.myuid,
+          uid: this.uid
+        }).then(
+          (response) => {
+            console.log(response.data);
+            console.log("取关成功");
+          },
+          (error) => {}
+        );
+        this.unfocusstyle();
+      } else {
+        // 未关注，执行关注操作
+        HttpManager.postFollowUser({
+          focusid: this.$route.params.myuid,
+          uid: this.uid
+        }).then(
+          (response) => {
+            console.log(response.data);
+            // this.itemList=response.data
+            console.log("关注成功");
+          },
+          (error) => {}
+        );
+        this.focusstyle();
+      }
+    },
+    unfocusstyle() {
+      this.$refs.followa.style.color = "rgb(248,248,248)";
+      this.$refs.followa.style.backgroundColor = "rgb(15,155,241)";
+      this.$refs.followa.innerHTML = "关注";
+    },
+    focusstyle() {
+      this.$refs.followa.style.color = "rgb(248,248,248)";
+      this.$refs.followa.style.backgroundColor = "#999";
+      this.$refs.followa.innerHTML = "已关注";
+    },
     setNum(index) {
       this.current = index;
     },
     jump(url) {
       this.$router.push(url).catch((err) => {});
+    },
+    requestinfo() {
+      HttpManager.getUserInfo(`/userInfo/${this.$route.params.myuid}`).then(
+        (response) => {
+          if (response.uid == this.uid) {
+            this.$store.commit("user/setAvatar", response.avatar);
+            this.$store.commit("user/setCreatedAt", response.createdAt);
+            this.$store.commit("user/setEmail", response.email);
+            this.$store.commit("user/setFans", response.fans);
+            this.$store.commit("user/setFocusOn", response.focusOn);
+            this.$store.commit("user/setVideos", response.videos);
+            this.$store.commit("user/setNickname", response.nickname);
+            this.$store.commit("user/setUid", response.uid);
+          }
+          this.itemList = response;
+          if (this.itemList.isFocusOn) {
+            this.focusstyle();
+          } else {
+            this.unfocusstyle();
+          }
+          console.log(this.itemList);
+        },
+        (error) => {}
+      );
+    },
+    changeisown() {
+      this.isown = true;
+      this.routerList = [
+        {
+          name: "动态",
+          url: `/userpage/${this.$route.params.myuid}/space`,
+          icon: "iconfont icon-circle"
+        },
+        {
+          name: "视频",
+          url: `/userpage/${this.$route.params.myuid}/videolist`,
+          icon: "iconfont icon-video"
+        },
+        {
+          name: "同好",
+          url: `/userpage/${this.$route.params.myuid}/fanslist`,
+          icon: "iconfont icon-fans"
+        },
+        {
+          name: "设置",
+          url: `/userpage/${this.$route.params.myuid}/setting`,
+          icon: "iconfont icon-setting"
+        }
+      ];
+      this.$refs.tab_area.style.height = "240px";
     }
   },
   components: {
     Header
   },
 
-  mounted() {
-    console.log(BASE_URL);
+  created() {
     // 获取路由传过来的参数，并设置为当前用户中心的myuid
-
-    this.myuid = this.$route.query.uid
-    if(this.myuid==undefined){
-      this.myuid=this.uid;
-      this.isown=false
-    }
-    if(!this.isown){
-      this.routerList=this.routerList.slice(0,3)
-      this.$refs.tab_area.style.height="180px"
-    }
-    console.log(this.routerList);
-    // console.log(this.myuid);
-    // console.log(this.myuid);
+    //判断是否为登录用户
+    if (this.$route.params.myuid != this.uid) this.isown = false;
     // 用户页面刷新请求新的数据并提交到vuex中
-    HttpManager.getUserInfo(`/userInfo/${this.myuid}`).then(
-      (response) => {
-        console.log(response);
-        if (!response.signature) {
-          this.$store.commit("user/setSignature", "这个人很懒，还没有签名~");
-          response.signature = "这个人很懒，还没有签名~";
+    this.$watch(
+      () => this.$route.params.myuid,
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...
+        this.requestinfo();
+        // 是已登录用户的
+        if (toParams == this.uid) {
+          this.changeisown();
+          console.log(this.isown);
         }
-        this.$store.commit("user/setAvatar", response.avatar);
-        this.$store.commit("user/setCreatedAt", response.createdAt);
-        this.$store.commit("user/setEmail", response.email);
-        this.$store.commit("user/setFans", response.fans);
-        this.$store.commit("user/setFocusOn", response.focusOn);
-        this.$store.commit("user/setVideos", response.videos);
-        this.$store.commit("user/setNickname", response.nickname);
-        this.$store.commit("user/setUid", response.uid);
-
-        this.itemList = response;
-      },
-      (error) => {}
+        else{
+          
+        }
+      }
     );
-    this.$router.push(`/userpage/space`).catch((err) => {
-      // console.log("输出报错", err);
-    });
+    this.requestinfo();
+    // if()
+    console.log(this.itemList);
+    this.$router.push(`/userpage/${this.$route.params.myuid}/space`).catch((err) => {});
+  },
+  mounted() {
+    if (!this.isown) {
+      this.routerList = this.routerList.slice(0, 3);
+      this.$refs.tab_area.style.height = "180px";
+    }
+    // console.log(this.itemList);
   }
 };
 </script>

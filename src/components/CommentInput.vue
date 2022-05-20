@@ -1,5 +1,6 @@
  <template>
   <div contenteditable="false">
+    {{sendway}}
     <div class="publish">
       <div class="publish_input">
         <div class="text_area">
@@ -9,7 +10,7 @@
         </div>
         <div class="emoji-btn" id="emoji-btn" @click="isshowemoji=!isshowemoji,ffocus()" @mousedown.prevent="">表情</div>
         <div class="send" @click.prevent="sendMessage">发送</div>
-        <div class="emoji-box" v-if="isshowemoji">
+        <div class="emoji-box" id="emoji-box" v-if="isshowemoji">
           <div class="emoji-history">历史表情</div>
           <div class="emoji-history-container">
             <img class="emoji-img" v-for="i in historyArray" :src="require(`../assets/emoji/${i}.png`)" :key=" i" @click="addemoji(i,$event),ffocus()" @mousedown.prevent="">
@@ -29,11 +30,11 @@
 // import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 export default {
+  props: ["sendway"],
   components: {},
   computed: {
     ...mapGetters("user", ["uid"])
   },
-  props: ["sendway"],
   data() {
     return {
       content: "",
@@ -59,18 +60,13 @@ export default {
     sendMessage(e) {
       let text_area_inner = document.getElementById("text_area_inner");
       this.content = text_area_inner.innerHTML;
-      // console.log("你发送的内容是" + this.content);
-      // this.content.replaceAll('"', "&quot;");
-      // console.log(this.content);
       this.$emit("input", this.content);
-      this.$emit("send",{ uid:this.uid,content:this.content});
-
+      this.$emit("send", { uid: this.uid, content: this.content });
       // 清空动态内容
       this.$refs.text_area_inner.innerHTML = "";
       // 关闭表情面板
       this.isshowemoji = false;
       // 根据父组件传过来的props决定调用的是评论还是动态接口
-      
     },
     addemoji(i, e) {
       // 第一种插入方式，不会记录焦点位置
@@ -113,6 +109,14 @@ export default {
       let text_area_inner = document.getElementById("text_area_inner");
       return text_area_inner.innerHTML;
     }
+  },
+  created() {
+    // document.addEventListener("click", (e) => {
+    //   let box = document.getElementById("emoji-box");
+    //   if (!box.contains(e.target)) {
+    //     this.isshowemoji = false;
+    //   }
+    // });
   }
 };
 </script>

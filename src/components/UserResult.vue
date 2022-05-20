@@ -19,9 +19,6 @@ export default {
   },
   watch: {
     userList: (val) => {
-      // console.log(val);
-      // console.log(val[0].nickname);
-      // console.log(val[0].uid);
       immediate: true;
     }
   },
@@ -29,7 +26,6 @@ export default {
     UserPreview
   },
   mounted() {
-    //   console.log(this.userList)
   },
 };
 </script>

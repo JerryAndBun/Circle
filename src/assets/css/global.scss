@@ -2,8 +2,8 @@
 @mixin scrollstyle {
 
     &::-webkit-scrollbar {
-        width: 5px !important;
-        height: 5px !important;
+        width: 4px !important;
+        height: 4px !important;
     }
 
     &::-webkit-scrollbar-thumb {

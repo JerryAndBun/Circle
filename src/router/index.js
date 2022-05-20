@@ -21,10 +21,10 @@ const routes = new vueRouter({
 
         },
         {
-            path: '/userpage', component: () => import('../pages/UserPage.vue'),
+            path: '/userpage/:myuid', component: () => import('../pages/UserPage.vue'),
             children: [
                 {
-                    path: '/', component: () => import('../components/Space')
+                    path: '/', redirect: 'space'
                 },
                 {
                     path: 'space', component: () => import('../components/Space')
@@ -44,7 +44,7 @@ const routes = new vueRouter({
             path: '/searchresult', component: () => import('../pages/SearchResult.vue'),
             children: [
                 {
-                    path: '/', component: () => import('../components/VideoResult.vue')
+                    path: '/', redirect: 'video'
                 },
                 {
                     path: 'video', component: () => import('../components/VideoResult.vue')
@@ -53,6 +53,14 @@ const routes = new vueRouter({
                     path: 'user', component: () => import('../components/UserResult.vue')
                 }
             ]
+        },
+        {
+            path: '/messagepage', component: () => import('../pages/MessagePage.vue'),
+            // children:[
+            //     {
+            //         path:''
+            //     }
+            // ]
         }
     ]
 })

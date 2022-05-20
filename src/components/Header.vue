@@ -32,25 +32,19 @@
             <div class="userbox" ref="userbox" v-if="islogin">
               <div class="logout">
                 <router-link :to="{
-                  path:'/userpage',
-                  query:{
-                    uid:this.uid
-                    }
+                  path:`/userpage/${this.uid}`
                   }" class="username">{{nickname}}</router-link>
                 <a href="javascript:;" class="logouta" @click="logout">退出登录</a>
               </div>
               <div class="home" @click="touserpage">
                 <router-link :to="{
-                  path:'/userpage',
-                  query:{
-                    uid:this.uid
-                  }
+                  path:`/userpage/${this.uid}`
                   }" class="tohomelink">查看更多</router-link>
               </div>
             </div>
           </transition>
         </li>
-        <li ref="guide" class="guide guide-msg">
+        <li ref="guide" class="guide guide-msg" @click="tomessage">
           <a href="javascript:;">
             <i class="iconfont icon-xiaoxi guideicon"></i>
             <span class="word xiaoxiword">消息</span>
@@ -232,22 +226,14 @@ export default {
       this.$store.commit("info/setSearchText", this.searchtext);
       if (this.searchtext === "") return;
       this.$emit("searchEvent", this.searchtext);
-      // this.searchtext=''
-      this.$router.push("/searchresult").catch((err) => {
-        // console.log("输出报错", err);
-      });
+      this.$router.push("/searchresult").catch((err) => {});
     },
     touserpage() {
       this.$router
         .push({
-          path: "/userpage",
-          query: {
-            uid:this.uid
-          }
+          path: `/userpage/${this.uid}`
         })
-        .catch((err) => {
-          // console.log("输出报错", err);
-        });
+        .catch((err) => {});
     },
     logout() {
       this.$store.commit("user/setAvatar", null);
@@ -262,6 +248,13 @@ export default {
       this.$store.commit("user/setToken", null);
       this.$store.commit("user/setIsLogin", false);
       this.dongtaiclass = "logintext-login";
+      this.$route.params.myuid = "";
+      this.$router
+        .push({
+          path: `/`
+        })
+        .catch((err) => {});
+      console.log(this.$route);
     },
     avatarEnteranimation() {
       if (this.islogin) {
@@ -279,6 +272,13 @@ export default {
         this.$refs.userbox.style.display = "none";
         this.$refs.avatar.style.transform = "scale(100%)";
       }
+    },
+    tomessage(){
+      this.$router
+        .push({
+          path: `/messagepage`
+        })
+        .catch((err) => {});
     }
   },
   //Header 的交互逻辑js

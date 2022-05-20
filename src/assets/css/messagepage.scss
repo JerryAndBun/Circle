@@ -1,0 +1,169 @@
+/* 
+////////////
+一下是中间部分
+////////////
+*/
+@import '../css/var';
+
+@mixin scrollstyle {
+    &::-webkit-scrollbar {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: $unfocus;
+
+        &:hover {
+            background-color: $focus;
+        }
+    }
+}
+
+@mixin listyle {
+    height: 60px;
+    width: 200px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    color: $focus;
+    user-select: none;
+    font-style: 20px;
+}
+
+.box {
+    // height: 800px;
+    height: 100%;
+    // width: 1200px;
+}
+
+.bg {
+    pointer-events: none;
+    z-index: -1;
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    // width: 100%;
+    min-width: 2000px;
+    height: 100%;
+    transform: translateX(-50%);
+    background: url(../assets/imgs/主页背景图.jpg) no-repeat;
+    // background-position: center;
+    background-size: 100%;
+}
+
+.contentdiv {
+    position: absolute;
+    width: 1200px;
+    height: 650px;
+    background-color: $main-white;
+    left: 50%;
+    // margin: 20px auto;
+    transform: translateX(-50%);
+    margin-top: 50px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .message_user {
+        display: inline-block;
+        box-sizing: border-box;
+        height: 650px;
+        width: 200px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        overflow: hidden;
+        border-right: 1px solid $main-grey;
+        .top {
+            @include listyle;
+            // text-align: center;
+            justify-content: space-around;
+            font-weight: 600;
+        }
+
+        .user {
+            @include listyle;
+            cursor: pointer;
+
+            &:hover {
+                color: $main-white ;
+                background-color: $main-blue;
+            }
+
+            .useravatar {
+                margin-left: 15px;
+                z-index: 2;
+                width: 48px;
+                height: 48px;
+                border-radius: 100%;
+                background-position: center;
+                background-size: 110%;
+                box-shadow: 0px 2px 10px $unfocus;
+            }
+
+            span {
+                margin-left: 10px;
+                margin-right: 4px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+
+    .message_window {
+        display: inline-block;
+        height: 650px;
+        width: 1000px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        overflow: hidden;
+        background-color: $main-white;
+
+        .window {
+            width: 1000px;
+            height: 450px;
+            // padding: 10px;
+            background-color: $main-grey;
+
+            
+            // background-color: blue;
+        }
+// 对私信页面的输入框做一些
+        .publish {
+            // position: absolute;
+            bottom: 0px;
+            height: 110px;
+            max-width: 950px;
+            border-radius: 0px;
+            border: 1px solid $main-grey;
+
+            .emoji-box {
+                // background-color: red;
+                position: absolute;
+                bottom: 56px;
+                left: 200px;
+            }
+
+            .send {
+                margin-top: 25px;
+            }
+
+            .emoji-btn {
+                margin-top: 35px;
+            }
+
+            // background-color: rgb(219, 32, 32) !important;
+            .text_area {
+                height: 110px;
+                width: 960px;
+
+                .text_area_inner {
+                    background-color: $main-grey;
+                    padding: 10px;
+                    width: 930px;
+                    min-height: 90px;
+                }
+            }
+        }
+    }
+}

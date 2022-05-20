@@ -1,11 +1,11 @@
 <template>
   <div class="spacediv">
-    <!-- <div class="momentdiv">
-      <CommentInput v-model="article" ref="test" @cleararticle='cleararticle' @send='send'></CommentInput>
-    </div> -->
+    <div ref="commentInputdiv" class="momentdiv">
+      <CommentInput v-if="isown" v-model="article" ref="test" @cleararticle='cleararticle' @send='send'></CommentInput>
+    </div>
     <div class="momentList">
       <div class="test" ref="test"></div>
-      <Moment v-for="(item,index) in mommentList" :key="index" :nickname="item.userInfo.nickname" :avatar="item.userInfo.avatar" :content="item.content" :comment="item.comment" :createdAt='item.createdAt'></Moment>
+      <Moment v-for="(item,index) in mommentList" :key="item.contentId" :nickname="item.userInfo.nickname" :avatar="item.userInfo.avatar" :content="item.content" :comment="item.comment" :createdAt='item.createdAt'></Moment>
     </div>
   </div>
 </template>
@@ -17,12 +17,12 @@ import HttpManager from "@/api/index";
 import { mapGetters } from "vuex";
 
 export default {
+  props: ["isown"],
   data() {
     return {
       article: "",
-      // momentContent:'',
-      mommentList: ""
-      // momentContent:'',
+      mommentList: "",
+      tool: 1
     };
   },
   methods: {
@@ -31,11 +31,26 @@ export default {
       this.article = "";
     },
     send(params) {
-      console.log("父组件检测到发送事件，值是");
-      console.log(params);
-      HttpManager.sendMomment(params).then(
+      // console.log(this.mommentList);
+      // alert("动态");
+      // let sendway = params[0];
+      // let param = params[1];
+      // console.log(sendway, param);
+      let param = params;
+      HttpManager.sendMomment(param).then(
         (response) => {
           console.log("发送成功");
+          HttpManager.getUserMoment(`/dynamicContentList`).then(
+            (response) => {
+              console.log(response);
+              console.log("获取成功");
+              this.mommentList = response;
+            },
+            (error) => {
+              // 请求错误
+              console.log(error.response);
+            }
+          );
         },
         (error) => {
           // 请求错误
@@ -43,20 +58,37 @@ export default {
         }
       );
       //    //发送请求完成之后请求刷新动态列表
-      HttpManager.getUserMoment(`/dynamicContentList/${this.uid}`).then(
-        (response) => {
-          console.log(response);
-          console.log("获取成功");
-          this.mommentList = response;
-          // this.momentContent = response[26].content
-          // this.$refs.test.innerHTML=this.momentContent
-          // console.log(testHTML);
-        },
-        (error) => {
-          // 请求错误
-          console.log(error.response);
-        }
-      );
+    },
+    requestmoment() {
+      if (this.isown) {
+        // 是已登录用户的动态
+        HttpManager.getUserMoment(`/dynamicContentList`).then(
+          (response) => {
+            console.log(response);
+            console.log("获取已登录用户的动态成功");
+            this.mommentList = response;
+            // console.log(this.mommentList);
+          },
+          (error) => {
+            // 请求错误
+            console.log(error.response);
+          }
+        );
+      } else {
+        // 查询别人的动态
+        HttpManager.getUserMoment(`/dynamicContentList/${this.$route.params.myuid}`).then(
+          (response) => {
+            console.log(response);
+            console.log("获取目标用户的动态成功");
+            this.mommentList = response;
+            console.log(this.mommentList);
+          },
+          (error) => {
+            // 请求错误
+            console.log(error.response);
+          }
+        );
+      }
     }
   },
   components: {
@@ -66,23 +98,19 @@ export default {
   computed: {
     ...mapGetters("user", ["uid"])
   },
-  mounted() {
-    HttpManager.getUserMoment(`/dynamicContentList/${this.uid}`).then(
-      (response) => {
-        console.log(response);
-        console.log("获取成功");
-        this.mommentList = response;
-        console.log(this.mommentList);
-        // this.momentContent = response[26].content
-        // this.$refs.test.innerHTML=this.momentContent
-        // console.log(testHTML);
-      },
-      (error) => {
-        // 请求错误
-        console.log(error.response);
+  created() {
+    this.$watch(
+      () => this.isown,
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...
+        this.requestmoment();
+        console.log("主人变化了");
       }
     );
-  }
+    this.requestmoment();
+    console.log(this.isown);
+  },
+  mounted() {}
 };
 </script>
 

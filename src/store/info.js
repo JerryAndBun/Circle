@@ -7,6 +7,7 @@ const info = {
     state: {
         searchtext:null,
         isuser:false,
+        tempuid:'',
     },
     getters: {
         searchtext: state => {
@@ -23,6 +24,14 @@ const info = {
             }
             return isuser
         },
+        tempuid: state => {
+            let tempuid = state.tempuid
+            if (!tempuid) {
+                tempuid = JSON.parse(window.localStorage.getItem('tempuid')) || null
+            }
+            return tempuid
+        },
+
     },
     mutations: {
         setSearchText: (state, searchtext) => {
@@ -32,6 +41,10 @@ const info = {
         setIsUser: (state, isuser) => {
             state.isuser = isuser;
             window.localStorage.setItem('isuser', JSON.stringify(isuser))
+        },
+        setTempuid: (state, setTempuid) => {
+            state.setTempuid = setTempuid;
+            window.localStorage.setItem('setTempuid', JSON.stringify(setTempuid))
         },
     },
     actions: {}

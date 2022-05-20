@@ -4,7 +4,6 @@
     <div class="user">
       <img class="avatar" :src='`${baseurl}${avatar}`'></img>
       <div class="nickname">{{nickname}}</div>
-      <!-- <div class="nickname">{{nickname}}</div> -->
       <div class="time">{{createdAt}}</div>
     </div>
     <div class="content" ref="content"></div>
@@ -31,12 +30,6 @@ export default {
           this.myavatar=require('../assets/imgs/头像.jpg')
       }
       this.$refs.content.innerHTML=this.content
-      // console.log('子组件----------');
-      // console.log(this.avatar);
-      // console.log(this.nickname);
-      // console.log(this.content);
-      // console.log(this.comment);
-      // console.log(this.likes);
   },
 };
 
