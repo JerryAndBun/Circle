@@ -1,37 +1,13 @@
 <template>
-  <div class="contentdiv">
-    <!-- setting -->
-    <div class="updateavatar">
-      <!-- <form :action="`${baseurl}/avatarImg`"> -->
-      <span class="notes">我的头像</span>
-      <div class="updatebtn">
-        <div class="chooseimg" @click="chooseimg">选择文件</div>
-        <input ref="uploadinput" class="uploadinput" type='file' accept="image/*" @change='filechange'>
-        <div class="submit" @click="submitfile()">提交文件</div>
-      </div>
+  <div>
+    <div class="togle">
+      <div class="basicinfo" @click="tobasicinfo">基本信息</div>
+      <div class="accountsecurity" @click="toaccountsecurity">账号安全</div>
       <div class="line"></div>
-      <div class="preview">
-        <img :src="`${dataURL}${avatar}`" alt="">
-        当前头像
-      </div>
     </div>
-    <div class="updatenickname">
-      <span class="notes">我的昵称</span>
-      <input ref="nicknnameinput" class="nicknnameinput" :value="`${itemList.nickname}`" @change="changenickname">
-    </div>
-    <div class="UID">
-      <span class="notes">UID</span>
-      {{itemList.uid}}
-    </div>
-    <div class="createdAt">
-      <span class="notes">创建时间</span>
-      {{this.createdAt.replace(/\-/g,'年').replace(/\-/g,'月')+'日'}}
-    </div>
-    <div class="updatesignature">
-      <span class="notes">我的签名</span>
-      <div contenteditable="true" ref="signatureinput" class="signatureinput" @blur="changesignature">{{itemList.signature}}</div>
-    </div>
+    <router-view :itemList='itemList'></router-view>
   </div>
+
 </template>
 
 <script>
@@ -41,74 +17,13 @@ import { mapGetters } from "vuex";
 
 export default {
   props: ["itemList"],
-  computed: {
-    ...mapGetters("user", ["avatar",'createdAt'])
-  },
-  data() {
-    return {
-      item: this.itemList,
-      file: "",
-      dataURL: BASE_URL
-    };
-  },
   methods: {
-    changenickname() {
-      // console.log(this.$refs.nicknnameinput.value);
-      HttpManager.putUserNickname({
-        nickname: this.$refs.nicknnameinput.value
-      }).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log("修改失败");
-          console.log(error);
-        }
-      );
+    tobasicinfo() {
+      this.$router.push(`/userpage/${this.$route.params.myuid}/setting/basicinfo`).catch((err) => {});
     },
-    changesignature() {
-      // console.log(this.$refs.signatureinput.innerHTML);
-      HttpManager.postUserSignature({
-        signature: this.$refs.signatureinput.innerHTML
-      }).then(
-        (response) => {
-          console.log(response);
-        },
-        (error) => {
-          console.log("修改失败");
-          console.log(error);
-        }
-      );
-    },
-    chooseimg() {
-      this.$refs.uploadinput.click();
-    },
-    filechange(e) {
-      // 手写的input需要一个对象将本地图片转换为对应的格式来上传
-      this.file = new FormData();
-      // e.target.files就是选中的文件的一个数组
-      this.file.append("avatarImg", e.target.files[0]);
-    },
-    submitfile() {
-      // alert()
-      HttpManager.postUserAvatar(this.file).then(
-        (response) => {
-          console.log(response);
-          console.log("上传成功");
-        },
-        (error) => {
-          console.log("败北~");
-        }
-      );
+    toaccountsecurity() {
+      this.$router.push(`/userpage/${this.$route.params.myuid}/setting/accountsecurity`).catch((err) => {});
     }
-  },
-  mounted() {
-    console.log("我");
-    // a.replace(/\//,'年')
-    // let a ='2020-12-23'
-    // console.log(a.replace(/\-/g,'年').replace(/\-/g,'月')+'日');
-    // console.log(this.item);
-    // console.log(`${BASE_URL}${this.item.avatar}`);
   }
 };
 </script>

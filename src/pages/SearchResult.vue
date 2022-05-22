@@ -85,7 +85,8 @@ export default {
         HttpManager.getUserList(`/search/${this.uid}`, { params: { keyword: this.searchtext } }).then(
           (response) => {
             this.userList=response
-            console.log(response);
+            console.log(this.userList);
+            // console.log(response);
           },
           (error) => {
             console.log("搜索失败");

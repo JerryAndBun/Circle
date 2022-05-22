@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import request from './api/request'
 import router from '../src/router/index'
 import store from './store/index';
 import './assets/css/global.scss'
@@ -9,5 +10,5 @@ new Vue({
   
   render: h => h(App),
   router,
-  store
+  store,
 }).$mount('#app')

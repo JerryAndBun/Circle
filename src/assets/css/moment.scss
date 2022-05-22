@@ -1,7 +1,6 @@
 @import '../css/var.scss';
 
 .momentdiv {
-    // margin-top: 10px;
     border-radius: 10px;
     width: 800px;
     min-height: 153px;
@@ -11,16 +10,7 @@
         width: 800px;
         height: 64px;
         display: flex;
-        // margin-top: 10px;
         padding-top: 4px;
-        // flex-direction: column;
-        // flex-wrap: wrap;
-        // align-items: ;
-        // align-self:flex-start;
-        // justify-content: left;
-        // align-items: stretch;
-        // background-color: red;
-        // float: right;
         .nickname{
             margin-top: 14px;
             margin-left: 14px;
@@ -35,13 +25,9 @@
             width: 54px;
             height: 54px;
             border-radius: 100%;
-            background-color: green;
             margin-left: 14px;
-            // padding-left: 4px;
             margin-top: 10px;
             display: inline-block;
-            // background-size: 130px;
-            // background-position: 130px
             size: 100px;
         }
         .time{
@@ -49,9 +35,7 @@
 
             margin-top: 44px;
             margin-left: -150px;
-            // margin-right: 0px;
             display: inline-block;
-            // vertical-align: top;
         }
 
     }

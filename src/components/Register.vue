@@ -118,13 +118,13 @@ export default {
     requestRegister() {
       // 发送请求前验证数据合法性
       // this.colorchange();
-      this.loseemail();
-      this.losenickname();
-      this.losepass();
-      if (!this.isagreement || !this.islegalemail || !this.islegalnickname || !this.islegalpassword) {
-        alert("不合法");
-        return;
-      }
+      // this.loseemail();
+      // this.losenickname();
+      // this.losepass();
+      // if (!this.isagreement || !this.islegalemail || !this.islegalnickname || !this.islegalpassword) {
+      //   alert("不合法");
+      //   return;
+      // }
       var tti;
       HttpManager.userRegister({
         email: this.email,

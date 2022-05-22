@@ -2,7 +2,7 @@
   <div class="head">
     <div class="headmain">
       <div class="navbox">
-        <img src='../assets/imgs/MyLogo.png' alt="">
+        <img src='../assets/imgs/MyLogo.png' @click="tohomepage" style="cursor:pointer" alt="">
         <div class="daohangbox">
           <div class="daohangbox2">
             <a class="daohangboxa" href="">分区</a>
@@ -25,8 +25,8 @@
         <li ref="logintext" :class="dongtaiclass" @mouseenter="avatarEnteranimation" @mouseleave="avatarOutanimation">
           <router-link href="" to="/login" class="logintextlink" v-if="!islogin">登录/注册</router-link>
           <transition name="jump">
-            <div class="avatar" ref="avatar" v-if="islogin" @click="touserpage">
-            </div>
+            <img class="avatar" ref="avatar" :src="`${baseurl}${avatar}`" v-if="islogin" @click="touserpage">
+            </img>
           </transition>
           <transition name="fade">
             <div class="userbox" ref="userbox" v-if="islogin">
@@ -210,16 +210,18 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { BASE_URL } from "../api/config";
 export default {
   data() {
     return {
       dongtaiclass: "logintext-login",
       timein: "",
-      searchtext: ""
+      searchtext: "",
+      baseurl: BASE_URL
     };
   },
   computed: {
-    ...mapGetters("user", ["nickname", "uid", "islogin"])
+    ...mapGetters("user", ["nickname", "uid", "islogin", "avatar"])
   },
   methods: {
     search() {
@@ -235,6 +237,13 @@ export default {
         })
         .catch((err) => {});
     },
+    tohomepage() {
+      this.$router
+        .push({
+          path: `/`
+        })
+        .catch((err) => {});
+    },
     logout() {
       this.$store.commit("user/setAvatar", null);
       this.$store.commit("user/setCreatedAt", null);
@@ -247,6 +256,7 @@ export default {
       this.$store.commit("user/setUid", null);
       this.$store.commit("user/setToken", null);
       this.$store.commit("user/setIsLogin", false);
+      this.$store.commit("info/setSearchText", null);
       this.dongtaiclass = "logintext-login";
       this.$route.params.myuid = "";
       this.$router
@@ -273,7 +283,7 @@ export default {
         this.$refs.avatar.style.transform = "scale(100%)";
       }
     },
-    tomessage(){
+    tomessage() {
       this.$router
         .push({
           path: `/messagepage`

@@ -74,11 +74,32 @@
         border-bottom-left-radius: 10px;
         overflow: hidden;
         border-right: 1px solid $main-grey;
+
         .top {
             @include listyle;
             // text-align: center;
-            justify-content: space-around;
+            justify-content: center;
+            align-items: center;
             font-weight: 600;
+            border-bottom-width: 1px;
+            flex-direction: row;
+
+            &:after {
+                position: absolute;
+                top: 50px;
+                content: '';
+                width: 60px;
+                height: 1px;
+                display: block;
+                margin: 0 auto;
+                border-bottom: 1px solid $unfocus;
+            }
+
+            .icon-youjian {
+                font-size: 22px;
+                margin-right: 10px;
+                color: $main-pink
+            }
         }
 
         .user {
@@ -98,7 +119,7 @@
                 border-radius: 100%;
                 background-position: center;
                 background-size: 110%;
-                box-shadow: 0px 2px 10px $unfocus;
+                // box-shadow: 0px 2px 10px $unfocus;
             }
 
             span {
@@ -107,6 +128,11 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+        }
+        .active{
+            // @include userbasic();
+            background-color:$main-blue;
+            color:$main-white
         }
     }
 
@@ -119,21 +145,42 @@
         overflow: hidden;
         background-color: $main-white;
 
+        .nomessage {
+            position: absolute;
+            width: 1000px;
+            height: 650px;
+            background-color: $main-white;
+
+            .empty,
+            .emptytext {
+                // margin: 300px auto;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+
+            .emptytext {
+                top: 65%;
+            }
+        }
+
         .window {
             width: 1000px;
             height: 450px;
             // padding: 10px;
             background-color: $main-grey;
 
-            
+
             // background-color: blue;
         }
-// 对私信页面的输入框做一些
-        .publish {
+
+        // 对私信页面的输入框做一些
+        /deep/ .publish {
             // position: absolute;
             bottom: 0px;
             height: 110px;
-            max-width: 950px;
+            max-width: 980px;
             border-radius: 0px;
             border: 1px solid $main-grey;
 
@@ -155,12 +202,11 @@
             // background-color: rgb(219, 32, 32) !important;
             .text_area {
                 height: 110px;
-                width: 960px;
-
+                width: 980px;
                 .text_area_inner {
                     background-color: $main-grey;
                     padding: 10px;
-                    width: 930px;
+                    width: 950px !important;
                     min-height: 90px;
                 }
             }

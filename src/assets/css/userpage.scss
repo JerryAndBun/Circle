@@ -128,7 +128,11 @@
             font-size: 12px;
             width: 600px;
             height: 60px;
-            margin-top: 20px;
+            margin-top: 16px;
+
+            p {
+                width: 400px;
+            }
 
             p {
                 text-overflow: -o-ellipsis-lastline;
@@ -171,16 +175,21 @@
 
         .followmediv {
             width: 160px !important;
+
             a {
-                margin-top: 20px;
+                margin-top: 10px;
                 font-size: 14px;
                 display: inline-block;
                 width: 100px;
                 color: $white;
                 background-color: $main-blue;
                 border-radius: 10px;
-                height: 40px;
-                line-height: 40px;
+                height: 30px;
+                line-height: 30px;
+            }
+
+            .messagea {
+                background-color: $main-pink;
             }
         }
 
@@ -241,6 +250,7 @@
         .topic_area {
             border-radius: 15px;
             background-color: $white;
+            height: 60px;
             width: 180px;
             // height: 600px;
         }

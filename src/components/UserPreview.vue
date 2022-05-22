@@ -89,7 +89,18 @@ export default {
       this.$refs.btn.style.color = "rgb(248,248,248)";
       this.$refs.btn.innerHTML = "关注";
     }
-  }
+  },
+  created(){
+    this.$watch(
+      () => this.item, //要检测的字段
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...
+        console.log(toParams);
+
+        this.itemList=toParams
+      }
+    );
+  },
 };
 </script>
 

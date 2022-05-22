@@ -46,7 +46,7 @@
       </div>
     </div>
     <div class="loginsuccess" v-if="issuccess">
-      <div class="touxiang"></div>
+      <img class="touxiang" :src="`${baseurl}${avatar}`"></img>
       <div class="welcomediv">
         <span class="nickname">{{nickname}}</span>
         <br>
@@ -64,6 +64,8 @@
 import { mapGetters, mapState } from "vuex";
 import axios from "axios";
 import HttpManager from "../api/index";
+import {BASE_URL} from '../api/config'
+
 export default {
   data() {
     return {
@@ -77,8 +79,12 @@ export default {
       ismengban: false,
       avilibleemail: false,
       timer: "",
-      second: 3
+      second: 3,
+      baseurl:BASE_URL
     };
+  },
+  computed:{
+    ...mapGetters('user',['avatar'])
   },
   methods: {
     // 清除蒙版

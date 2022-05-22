@@ -28,7 +28,13 @@ const HttpManager = {
     postUserSignature:(params)=>post(`/signature`,params),
     // 修改用户昵称
     putUserNickname:(params)=>put(`/userInfo`,params),
-    // 
+    //检测邮箱是否有效 
     postCheckEmail:(params)=>post(`/check`,params),
+    // 查询已登录用户与其他用用户的消息列表,自己的UID在请求头自带，固无需参数
+    getUserMessage:()=>get(`/message`),
+    // 发送私信
+    postMessage:(params)=>post(`/message`,params),
+    // 获取与目标用户的聊天记录
+    getSigelTalk:(url) => get(url),
 }
 export default HttpManager

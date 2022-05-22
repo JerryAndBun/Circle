@@ -36,7 +36,18 @@ const routes = new vueRouter({
                     path: 'fanslist', component: () => import('../components/FansList')
                 },
                 {
-                    path: 'setting', component: () => import('../components/Setting')
+                    path: 'setting', component: () => import('../components/Setting'),
+                    children: [
+                        {
+                            path: '/', redirect: 'basicinfo'
+                        },
+                        {
+                            path: 'basicinfo', component: () => import('../components/BasicInfo.vue'),
+                        },
+                        {
+                            path: 'accountsecurity', component: () => import('../components/AccountSecurity.vue'),
+                        },
+                    ]
                 },
             ]
         },
@@ -56,11 +67,11 @@ const routes = new vueRouter({
         },
         {
             path: '/messagepage', component: () => import('../pages/MessagePage.vue'),
-            // children:[
-            //     {
-            //         path:''
-            //     }
-            // ]
+            children:[
+                {
+                    path: ':uid',name:'window', component: () => import('../components/MessageWindow.vue'),
+                },
+            ]
         }
     ]
 })

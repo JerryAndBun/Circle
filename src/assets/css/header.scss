@@ -307,7 +307,6 @@ icon-shouji {
 
 // 头像
 .avatar {
-    background-color: red;
     transition: all .1s;
     cursor: pointer;
     width: 30px;
@@ -318,7 +317,7 @@ icon-shouji {
     top: 50%;
     margin-top: -15px;
     margin-left: -15px;
-    background-image: url(../assets/imgs/头像.jpg);
+    // background-image: url(../assets/imgs/头像.jpg);
     background-position: 0px -2px;
     background-size: auto 110%;
 }

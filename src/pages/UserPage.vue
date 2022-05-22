@@ -11,10 +11,14 @@
           </div>
         </div>
         <div class="sign">
+          <div class="coversitiondiv">
+
+          </div>
           <img class="useravatar" :src='`${baseurl}${itemList.avatar}`'>
           </img>
           <p>{{itemList.signature}}
           </p>
+
         </div>
         <div class="followdiv">
           <p class="follow">{{itemList.focusOn}}</p><br>
@@ -30,6 +34,7 @@
         </div>
         <div v-if="!isown" class="followmediv">
           <a ref="followa" href="" @click.prevent="follow">关注</a>
+          <a ref="message" class="messagea" href="" @click.prevent="talktohim">私信</a>
         </div>
       </div>
       <div class="home_area">
@@ -43,7 +48,11 @@
             <router-view :isown="isown" :itemList="itemList"></router-view>
           </keep-alive>
         </main>
-        <aside class="topic_area">3</aside>
+        <aside class="topic_area">
+          <div class="coversitiondiv">
+
+          </div>
+        </aside>
       </div>
     </div>
   </div>
@@ -112,7 +121,6 @@ export default {
         }).then(
           (response) => {
             console.log(response.data);
-            // this.itemList=response.data
             console.log("关注成功");
           },
           (error) => {}
@@ -185,6 +193,10 @@ export default {
         }
       ];
       this.$refs.tab_area.style.height = "240px";
+    },
+    talktohim() {
+      // alert(this.$route.params)
+      this.$router.push(`/messagepage/${this.$route.params.myuid}`)
     }
   },
   components: {
@@ -194,6 +206,7 @@ export default {
   created() {
     // 获取路由传过来的参数，并设置为当前用户中心的myuid
     //判断是否为登录用户
+    // console.log(this.$route.params.myuid);
     if (this.$route.params.myuid != this.uid) this.isown = false;
     // 用户页面刷新请求新的数据并提交到vuex中
     this.$watch(
@@ -205,9 +218,7 @@ export default {
         if (toParams == this.uid) {
           this.changeisown();
           console.log(this.isown);
-        }
-        else{
-          
+        } else {
         }
       }
     );
