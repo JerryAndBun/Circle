@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vp_content">
     <div class="vp_box">
       <router-link to="/video/:av">
         <img :src="src" class="vp_pic" alt="">

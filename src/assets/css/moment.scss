@@ -6,12 +6,23 @@
     min-height: 153px;
     background-color: $main-white;
     margin-bottom: 10px;
+    /deep/.content {
+        img {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: top;
+            margin-right: 1px;
+        }
+    }
+
     .user {
         width: 800px;
         height: 64px;
         display: flex;
         padding-top: 4px;
-        .nickname{
+
+        .nickname {
             margin-top: 14px;
             margin-left: 14px;
             font-size: 20px;
@@ -21,6 +32,7 @@
             vertical-align: top;
             display: inline-block;
         }
+
         .avatar {
             width: 54px;
             height: 54px;
@@ -30,7 +42,8 @@
             display: inline-block;
             size: 100px;
         }
-        .time{
+
+        .time {
             height: 18px;
 
             margin-top: 44px;

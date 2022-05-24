@@ -33,12 +33,14 @@
             width: 380px;
             text-indent: 1rem;
             background-color: rgb(241, 241, 241);
-            &::-webkit-input-placeholder{
+
+            &::-webkit-input-placeholder {
                 // color: red;
                 color: $unfocus;
                 font-size: 16px;
 
             }
+
             &:focus {
                 border: 1px solid $main-blue;
             }
@@ -64,6 +66,7 @@
     }
 
     .distinguish {
+
         position: absolute;
         transform: translateX(-50%);
         left: 50%;
@@ -71,6 +74,18 @@
         // padding-left: 64px;
         width: 1190px;
         height: 36px;
+
+        .line {
+            position: absolute;
+            bottom: 0px;
+            width: 64px;
+            height: 4px;
+            margin-left: 72px;
+            background-color: $main-blue;
+            transform: translateX(-64px);
+            transition: all ease-in-out .3s;
+            border-radius: 10px;
+        }
         .video,
         .user {
             user-select: none;
@@ -80,6 +95,7 @@
             display: inline-block;
             width: 80px;
             height: 36px;
+
             a {
                 display: inline-block;
                 width: 80px;
@@ -88,9 +104,6 @@
                 text-decoration: none;
                 color: $focus;
             }
-        }
-        .video {
-            border-bottom: 2px solid $main-blue;
         }
     }
 }

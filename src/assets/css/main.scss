@@ -1,5 +1,5 @@
 @import '../css/var';
-
+@import '../css/banner.scss';
 html {
     background-color: $rice;
 }
@@ -16,35 +16,44 @@ html {
     background-position-x: center;
     background-position-y: top;
 }
-@media screen and (max-width:1109){
-    
-}
+
+@media screen and (max-width:1200) {}
+
 .top_area {
+    display: grid;
     position: absolute;
+    grid-gap: 20px 14px;
+    grid-template-columns: repeat(5, 1fr);
     left: 50%;
-    display: inline-block;
     transform: translateX(-50%);
-    width: 1160px;
+    width: 1200px;
     top: 270px;
-    height: 270px;
-    background-color: green;
+    height: 420px;
 
-    .banner {
-        display: inline-block;
-
-    }
-
-    .slider_area {
+    .banner_container {
+        height: 370px;
         width: 540px;
-        display: inline-block;
-        height: 270px;
-        background-color: yellow;
-        vertical-align: top;
+        grid-column: 1/3;
+        grid-row: 1/3;
+
+        .banner_mask {
+            position: absolute;
+            z-index: 3;
+            display: inline-block;
+            height: 370px;
+            width: 540px;
+            border-radius: $radious;
+            overflow: hidden;
+            background-image: linear-gradient(0, #2f3238 25%, transparent 45%);
+        }
 
     }
 
-    .banner_box {
-        display: inline-block;
 
+    .recommond_video {
+        // position: relative;
+        display: inline-block;
+        width: 660px;
+        height: 270px;
     }
 }

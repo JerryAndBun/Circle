@@ -7,16 +7,18 @@
         <a href="" class="sou" @click.prevent="authsearch=true,search()">搜索</a>
       </div>
       <div class="distinguish">
-        <div class="video" ref="video" @click="isvideo=true,myisuser=false,search()">
+        <div class="video" ref="video" @click="isvideo=true,myisuser=false,search(),topage1()">
           <router-link to="/searchresult/video">
             视频
           </router-link>
         </div>
-        <div class="user" ref="user" @click="myisuser=true,isvideo=false,search()">
+        <div class="user" ref="user" @click="myisuser=true,isvideo=false,search(),topage2()">
           <router-link to="/searchresult/user">
             用户
           </router-link>
+
         </div>
+        <div class="line" ref="line"></div>
       </div>
     </div>
     <div class="switchdiv">
@@ -38,12 +40,13 @@ export default {
       isvideo: true,
       firstvideo: true,
       authsearch: false,
+      ispage1: 1,
       videList: "",
       userList: ""
     };
   },
   components: {
-    Header
+    Header,
   },
   computed: {
     ...mapGetters("info", ["searchtext", "isuser"]),
@@ -54,19 +57,30 @@ export default {
       this.$store.commit("info/setSearchText", this.$refs.searchInput.value);
       console.log(this.$refs.searchInput.value);
     },
+    topage1() {
+      if (!this.ispage1) {
+        console.log(1);
+        this.$refs.line.style.transform = "translateX(-64px)";
+      }
+      this.ispage1 = 1;
+    },
+    topage2() {
+      if (this.ispage1) {
+        console.log(2);
+        this.$refs.line.style.transform = "translateX(14px)";
+      }
+      this.ispage1 = 0;
+    },
     search(a) {
       console.log(this.authsearch);
       console.log(this.myisuser);
       console.log(this.firstuser);
       console.log(this.isvideo);
       console.log(this.firstvideo);
-      // console.log(this.searchtext.length);
       if ((this.isvideo && this.firstvideo) || this.authsearch) {
         // 视频组件
         this.firstvideo = false;
         this.firstuser = true;
-        this.$refs.video.style.borderBottom = "2px solid rgb(15,155,241)";
-        this.$refs.user.style.borderBottom = "none";
         this.authsearch = false;
         this.$store.commit("info/setIsUser", this.myisuser);
         console.log("这里是视频搜索");
@@ -76,15 +90,12 @@ export default {
         // 用户组件
         this.firstuser = false;
         this.firstvideo = true;
-        this.$refs.user.style.borderBottom = "2px solid rgb(15,155,241)";
-        this.$refs.video.style.borderBottom = "none";
-        this.authsearch = false;
         this.$store.commit("info/setIsUser", this.myisuser);
         console.log("这里是用户搜索");
         console.log(`关键字是${this.searchtext}`);
         HttpManager.getUserList(`/search/${this.uid}`, { params: { keyword: this.searchtext } }).then(
           (response) => {
-            this.userList=response
+            this.userList = response;
             console.log(this.userList);
             // console.log(response);
           },
@@ -103,12 +114,10 @@ export default {
       console.log("刷新执行");
     }
     this.$refs.searchInput.value = this.searchtext;
-    // console.log(this.$refs.searchInput.value);
-    // console.log("------------------------------");
   },
-  beforeRouteLeave(to,from,next){
-    this.$store.commit('info/setIsUser',false)
-    next()
+  beforeRouteLeave(to, from, next) {
+    this.$store.commit("info/setIsUser", false);
+    next();
   }
 };
 </script>

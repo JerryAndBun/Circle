@@ -204,8 +204,6 @@ export default {
           }
         },
         (error) => {
-          this.showerror()
-            this.$refs.alertdiv1.innerHTML='邮箱格式错误'
         }
       );
       // let avilibleemail =

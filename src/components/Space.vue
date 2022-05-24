@@ -31,18 +31,15 @@ export default {
       this.article = "";
     },
     send(params) {
-      // console.log(this.mommentList);
       // alert("动态");
       // let sendway = params[0];
       // let param = params[1];
-      // console.log(sendway, param);
       let param = params;
       HttpManager.sendMomment(param).then(
         (response) => {
           console.log("发送成功");
           HttpManager.getUserMoment(`/dynamicContentList`).then(
             (response) => {
-              console.log(response);
               console.log("获取成功");
               this.mommentList = response;
             },
@@ -64,10 +61,8 @@ export default {
         // 是已登录用户的动态
         HttpManager.getUserMoment(`/dynamicContentList`).then(
           (response) => {
-            console.log(response);
             console.log("获取已登录用户的动态成功");
             this.mommentList = response;
-            // console.log(this.mommentList);
           },
           (error) => {
             // 请求错误
@@ -78,10 +73,8 @@ export default {
         // 查询别人的动态
         HttpManager.getUserMoment(`/dynamicContentList/${this.$route.params.myuid}`).then(
           (response) => {
-            console.log(response);
             console.log("获取目标用户的动态成功");
             this.mommentList = response;
-            console.log(this.mommentList);
           },
           (error) => {
             // 请求错误
@@ -108,7 +101,6 @@ export default {
       }
     );
     this.requestmoment();
-    console.log(this.isown);
   },
   mounted() {}
 };

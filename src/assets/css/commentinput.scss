@@ -100,9 +100,9 @@
         }
         .suggest{
             display: inline-block;
-            position:absolute;
+            // position:absolute;
             bottom: 20px;
-            margin-right: 120px;
+            margin-left: 530px;
             color: $unfocus;
             font-size: 14px;
 
@@ -118,7 +118,7 @@
             @include scrollstyle;
             text-align: center;
 
-            .text_area_inner {
+            /deep/ .text_area_inner {
                 outline: none;
                 font-size: 14px;
                 line-height: 22px;

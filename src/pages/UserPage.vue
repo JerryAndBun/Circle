@@ -107,7 +107,6 @@ export default {
           uid: this.uid
         }).then(
           (response) => {
-            console.log(response.data);
             console.log("取关成功");
           },
           (error) => {}
@@ -120,7 +119,6 @@ export default {
           uid: this.uid
         }).then(
           (response) => {
-            console.log(response.data);
             console.log("关注成功");
           },
           (error) => {}
@@ -158,12 +156,13 @@ export default {
             this.$store.commit("user/setUid", response.uid);
           }
           this.itemList = response;
-          if (this.itemList.isFocusOn) {
+          console.log(this.itemList);
+          if (this.itemList.isFocusOn&&this.itemList.uid!=this.uid) {
             this.focusstyle();
-          } else {
+          }
+          if (!this.itemList.isFocusOn&&this.itemList.uid!=this.uid){
             this.unfocusstyle();
           }
-          console.log(this.itemList);
         },
         (error) => {}
       );
@@ -196,7 +195,7 @@ export default {
     },
     talktohim() {
       // alert(this.$route.params)
-      this.$router.push(`/messagepage/${this.$route.params.myuid}`)
+      this.$router.push(`/messagepage/${this.$route.params.myuid}`);
     }
   },
   components: {
@@ -206,7 +205,7 @@ export default {
   created() {
     // 获取路由传过来的参数，并设置为当前用户中心的myuid
     //判断是否为登录用户
-    // console.log(this.$route.params.myuid);
+
     if (this.$route.params.myuid != this.uid) this.isown = false;
     // 用户页面刷新请求新的数据并提交到vuex中
     this.$watch(
@@ -214,17 +213,16 @@ export default {
       (toParams, previousParams) => {
         // 对路由变化做出响应...
         this.requestinfo();
+
         // 是已登录用户的
         if (toParams == this.uid) {
           this.changeisown();
-          console.log(this.isown);
         } else {
         }
       }
     );
     this.requestinfo();
     // if()
-    console.log(this.itemList);
     this.$router.push(`/userpage/${this.$route.params.myuid}/space`).catch((err) => {});
   },
   mounted() {
@@ -232,7 +230,6 @@ export default {
       this.routerList = this.routerList.slice(0, 3);
       this.$refs.tab_area.style.height = "180px";
     }
-    // console.log(this.itemList);
   }
 };
 </script>

@@ -4,13 +4,14 @@
     <div class="streamer">
     </div>
     <div class="top_area">
-      <div class="slider_area">
+      <div class="banner_container">
+        <div class="footer">
+          <div class="banner_mask">
+          </div>
+        </div>
         <Banner class="banner"></Banner>
       </div>
-      <!-- count:{{$store.state.sum}} -->
-      <!-- {{$store.state.username}} -->
-      <!-- {{$store.state.userpassword}} -->
-      <VideoPreview v-for=""></VideoPreview>
+      <VideoPreview v-for="(item,index) in 6 " :key="index"></VideoPreview>
     </div>
   </div>
 </template>

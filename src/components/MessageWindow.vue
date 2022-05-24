@@ -5,7 +5,7 @@
       <div v-for="(item,index) in itemList.content" :class="[whichone=item.uid==uid?'minemessagecontent':'yoursmessagecontent']" :key="index">
         <!-- :src='`${baseurl}${itemList.avatar}`' -->
         <img :src="item.uid==uid?`${baseurl}${itemList.avatar}`:`${baseurl}${itemList.opAvatar}`" :class="item.uid==uid?'mineavatar':'yoursavatar'" alt="">
-        <div :class="item.uid==uid?'minediv':'yoursdiv'">{{item.content}}</div>
+        <div :class="item.uid==uid?'minediv':'yoursdiv'" v-html="item.content"></div>
       </div>
     </div>
     <Commentinput @send='send'></Commentinput>
@@ -45,6 +45,7 @@ export default {
               console.log("获取新的成功");
               console.log(response);
               this.itemList = response;
+              this.$emit('sendNewMessage',this.itemList)
             },
             (error) => {}
           );

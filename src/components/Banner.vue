@@ -50,16 +50,5 @@ export default {
 <style lang='scss' scpoed>
 @import "../assets/css/banner.scss";
 @import "../assets/css/swiper";
-.swiper .swiper-pagination-bullet-active {
-  background-color: #fff;
-  // border-radius: 50px;
-}
-.swiper {
-  width: 100%;
-  height: 2.2rem;
-}
-.swiper img {
-  width: 100%;
-  height: 100%;
-}
+
 </style>

@@ -1,0 +1,64 @@
+@import '../css/var.scss';
+
+.togle {
+    position: relative;
+    width: 800px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 40px;
+
+    .page1,
+    .page2 {
+        cursor: pointer;
+        user-select: none;
+        width: 64px;
+        height: 40px;
+    }
+
+    .page2 {
+        margin-left: 64px;
+    }
+
+    .line {
+        position: absolute;
+        bottom: 0px;
+        width: 64px;
+        height: 4px;
+        background-color: $main-blue;
+        transform: translateX(-64px);
+        transition: all ease-in-out .3s;
+        border-radius: 10px;
+    }
+
+}
+
+.backgroundDiv {
+    width: 800px;
+    height: 600px;
+    background-color: #fff;
+    position: absolute;
+
+    .emptyinfo {
+        position: absolute;
+        width: 800px;
+        height: 650px;
+        background-color: #fff;
+
+        .empty,
+        .emptytext {
+            // margin: 300px auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        .emptytext {
+            top: 65%;
+        }
+    }
+}

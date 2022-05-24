@@ -9,7 +9,10 @@
           <li class="top"><i class="iconfont icon-youjian"></i> 我的消息</li>
           <li class="user" :class="current==index?'active':''" v-for="(item,index) in messageList" @click="tothischat(item),changecurrent(index)">
             <img class="useravatar" :src="`${baseurl}${item.opAvatar}`" alt="">
-            <span>{{item.opNickname}}</span>
+            <div class="infodiv">
+              <span class="nicksapn">{{item.opNickname}}</span>
+              <span class="precontentspan" v-html="item.content[item.content.length-1].content"></span>
+            </div>
           </li>
         </ul>
       </aside>
@@ -18,8 +21,10 @@
           <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="">
           <div class="emptytext">这里什么都没有呢</div>
         </div>
-        <router-view :item='thismessageList' v-if="isshowwindow">
-        </router-view>
+        <keep-alive>
+          <router-view :item='thismessageList' v-if="isshowwindow" @sendNewMessage='sendNewMessage'>
+          </router-view>
+        </keep-alive>
       </aside>
     </div>
     <div class="usermain">
@@ -37,13 +42,13 @@ import { BASE_URL } from "../api/config";
 export default {
   data() {
     return {
-      messageList: "",
       thismessageList: "", //用于中转的变量
       current: 0,
       baseurl: BASE_URL,
       isshowwindow: false,
       singlemessage: "",
-      count: 0
+      count: 0,
+      messageList: ""
     };
   },
   methods: {
@@ -55,6 +60,16 @@ export default {
     },
     changecurrent(index) {
       this.current = index;
+    },
+    sendNewMessage(params) {
+      // 发送了新消息，获取新的消息列表
+      // console.log(params);
+      // this.messageList.
+      // console.log(this.messageList);
+      // console.log("----------");
+      const tihuan = (item) => item.opUid == params.opUid;
+      this.messageList.splice([this.messageList.findIndex(tihuan)], 1, params);
+      // console.log(this.messageList);
     }
   },
   components: {
@@ -63,12 +78,25 @@ export default {
   },
   computed: {
     ...mapGetters("user", ["uid"])
+    // CmessageList:{
+    //   get(){return this.messageList},
+    //   set(value){this.messageList=value}
+    // }
   },
   mounted() {
     // this.tothischat(this.messageList[this.messageList.length])
     // console.log();
   },
   created() {
+    this.$watch(
+      () => this.messageList, //要检测的字段
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...
+        console.log("变化了");
+        // this.itemList = toParams;
+        console.log(toParams);
+      }
+    );
     console.log("父组件");
     console.log("获取所有消息列表之前的数据是");
     console.log(this.messageList);
@@ -77,7 +105,6 @@ export default {
       (response) => {
         this.messageList = response;
         // 若是私信按钮的，生成一个空的聊天记录到List
-        // console.log(this.$route.params.uid);
         if (this.$route.params.uid) {
           HttpManager.getSigelTalk(`/singleMessage/${this.$route.params.uid}`).then(
             (response) => {
@@ -86,6 +113,7 @@ export default {
               this.singlemessage = response;
               console.log(this.singlemessage);
               const isntareadlyin = (item) => item.opUid != response.opUid;
+              // 若已存在消息列表则正常拉取和显示
               if (this.messageList.every(isntareadlyin)) {
                 this.messageList.unshift(this.singlemessage);
                 // this.tothischat(this.messageList[this.messageList.length - 1]);

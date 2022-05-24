@@ -1,6 +1,5 @@
 <template>
   <div class="momentdiv">
-
     <div class="user">
       <img class="avatar" :src='`${baseurl}${avatar}`'></img>
       <div class="nickname">{{nickname}}</div>

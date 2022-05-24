@@ -105,10 +105,12 @@
         .user {
             @include listyle;
             cursor: pointer;
-
             &:hover {
                 color: $main-white ;
                 background-color: $main-blue;
+                span{
+                    color:  $main-white !important;
+                }
             }
 
             .useravatar {
@@ -122,17 +124,47 @@
                 // box-shadow: 0px 2px 10px $unfocus;
             }
 
-            span {
-                margin-left: 10px;
-                margin-right: 4px;
+            .infodiv {
                 overflow: hidden;
                 text-overflow: ellipsis;
+                height: 50px;
+                width: 130px;
+
+                .nicksapn,
+                .precontentspan {
+                    margin-left: 10px;
+                    margin-bottom: 26px;
+                    margin-right: 4px;
+                }
+
+                .precontentspan {
+                    display: inline-block;
+                    color: $unfocus;
+                    font-size: 12px;
+                    width: 1200px;
+                    left: 20px;
+                    height: 24px;
+
+                    // line-height: 24px;
+
+                    /deep/img {
+                        display: inline-block;
+                        width: 20px;
+                        height: 20px;
+                        vertical-align: top;
+                        margin-right: 1px;
+                    }
+                }
             }
         }
-        .active{
+
+        .active {
             // @include userbasic();
-            background-color:$main-blue;
-            color:$main-white
+            background-color: $main-blue;
+            color: $main-white;
+            span{
+                color:  $main-white !important;
+            }
         }
     }
 
@@ -203,6 +235,7 @@
             .text_area {
                 height: 110px;
                 width: 980px;
+
                 .text_area_inner {
                     background-color: $main-grey;
                     padding: 10px;

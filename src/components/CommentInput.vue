@@ -96,6 +96,7 @@ export default {
       this.range.insertNode(parseDom);
       // 光标开始和光标结束重叠
       this.range.collapse(true);
+      this.isshowemoji=!this.isshowemoji
       // // this.$refs.text_area_inner.append(imgtag);
       // let input = document.getElementById("text_area_inner");
       // input.append(imgtag);
