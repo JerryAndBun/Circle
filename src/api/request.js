@@ -66,9 +66,9 @@ axios.interceptors.response.use(
 /* 
 封装方法
 */
-export function post(url, params) {
+export function post(url, params,config) {
   return new Promise((resolve, reject) => {
-    axios.post(url, params).then(
+    axios.post(url, params,config).then(
       response => { resolve(response) },
       error => { reject(error) }
     )

@@ -69,10 +69,10 @@
           </a>
         </li>
         <li class="guide-upload">
-          <i class="iconfont icon-shangchuan"></i>
-          <a class="icon-shangchuana" href="javascript:;">
+          <router-link to="/contribution" class="linktext">
+            <i class="iconfont icon-shangchuan"></i>
             投稿
-          </a>
+          </router-link>
         </li>
       </ul>
     </div>

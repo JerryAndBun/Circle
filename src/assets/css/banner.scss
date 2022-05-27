@@ -1,15 +1,11 @@
 @import '../css/global';
 @import '../css/var';
-.aaa{
-    color: red;
-    font-size: 30px;
-}
 .banner_box {
     width: 100%;
     height: 280px;
-    // margin-top: 15px;
     background-color: red;
-    display: inline-block;
+    // display:;
+    position:absolute;
     width: 540px;
     height: 280px;
     overflow: hidden;
@@ -23,29 +19,6 @@
 
     .swiper-container {
         height: 280px;
-        .swiper-pagination {
-            display: inline-block;
-            position: absolute;
-            width: 150px !important;
-            left: 10px;
 
-            //未激活样式
-            .swiper-pagination-bullet {
-                width: 8px;
-                height: 8px;
-                border-radius: 5px;
-                background-color: $rice;
-                opacity: 1;
-                border-radius: 10px;
-            }
-
-
-            //激活样式
-            .swiper-pagination-bullet-active {
-                background-color: $main-blue;
-                width: 15px;
-                height: 8px;
-            }
-        }
     }
 }

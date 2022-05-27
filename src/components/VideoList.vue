@@ -33,6 +33,8 @@ export default {
 
         console.log(1);
         this.$refs.line.style.transform = "translateX(-64px)";
+        this.$refs.emptytext.innerHTML='你还没有投稿'
+        
       }
       this.ispage1 = 1;
     },
@@ -41,6 +43,7 @@ export default {
       if (this.ispage1) {
         console.log(2);
         this.$refs.line.style.transform = "translateX(64px)";
+        this.$refs.emptytext.innerHTML='你还没有收藏'
       }
       this.ispage1 = 0;
     }

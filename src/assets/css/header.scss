@@ -221,10 +221,10 @@ head */
         width: 80px;
 
         .logintextlink {
-            color: $unfocus !important;
+            color: $unfocus  !important;
 
             &:hover {
-                color: $main-blue !important;
+                color: $main-blue  !important;
             }
         }
     }
@@ -252,9 +252,21 @@ head */
     border-radius: 5px;
     background-color: rgb(15, 155, 241);
 
-    a {
+    .linktext {
+        line-height: 26px;
+        display: inline-block;
+        width: 56px;
+        height: 26px;
         color: $main-white;
     }
+
+    // .icon-shangchuan {
+    //     height: 26px;
+    // }
+
+    // a {
+    //     color: $main-white;
+    // }
 }
 
 .word {

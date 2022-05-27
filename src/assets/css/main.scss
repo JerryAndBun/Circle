@@ -1,5 +1,7 @@
 @import '../css/var';
+
 @import '../css/banner.scss';
+
 html {
     background-color: $rice;
 }
@@ -17,7 +19,18 @@ html {
     background-position-y: top;
 }
 
-@media screen and (max-width:1200) {}
+// @media screen and (max-width:1200px) {
+//     .top_area{
+//     width: 1242px;
+
+//     }
+// }
+// @media (min-width:1201px) and (max-width:1700px) {
+//     .top_area {
+//         grid-template-columns: repeat(5, 1fr) !important;
+//         width: 1242px;
+//     }
+// }
 
 .top_area {
     display: grid;
@@ -26,7 +39,7 @@ html {
     grid-template-columns: repeat(5, 1fr);
     left: 50%;
     transform: translateX(-50%);
-    width: 1200px;
+    width: 1242px;
     top: 270px;
     height: 420px;
 
@@ -36,15 +49,43 @@ html {
         grid-column: 1/3;
         grid-row: 1/3;
 
-        .banner_mask {
-            position: absolute;
-            z-index: 3;
-            display: inline-block;
-            height: 370px;
-            width: 540px;
-            border-radius: $radious;
-            overflow: hidden;
-            background-image: linear-gradient(0, #2f3238 25%, transparent 45%);
+        .footer {
+            /deep/.swiper-pagination {
+                z-index: 5 !important;
+                display: inline-block;
+                position: absolute;
+                bottom: 60px;
+                width: 150px !important;
+
+                //未激活样式
+                .swiper-pagination-bullet {
+                    width: 10px;
+                    height: 10px;
+                    margin-left: 10px;
+                    border-radius: 5px;
+                    background-color: $rice;
+                    opacity: 1;
+                }
+
+
+                //激活样式
+                .swiper-pagination-bullet-active {
+                    background-color: $main-blue;
+                    width: 15px;
+                    height: 10px;
+                }
+            }
+
+            .banner_mask {
+                position: absolute;
+                z-index: 3;
+                display: inline-block;
+                height: 370px;
+                width: 540px;
+                border-radius: $radious;
+                overflow: hidden;
+                background-image: linear-gradient(0, #2f3238 25%, transparent 45%);
+            }
         }
 
     }
@@ -56,4 +97,16 @@ html {
         width: 660px;
         height: 270px;
     }
+
+
 }
+
+// .test {
+//     // display: block;
+//     position: absolute;
+//     left: 30vw;
+//     height: 30vw;
+//     width: 30vw;
+//     z-index: 3;
+//     background-color: red;
+// }

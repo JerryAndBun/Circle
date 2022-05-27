@@ -1,16 +1,31 @@
 @import './var';
 
 .vp_content {
+    // min-height: 100px;
+    // min-width: 180px;
+    // max-height: 130px;
+    // max-width: 234px;
     width: 220px;
     height: 200px;
+    // --title-font-size: 15px;
+    --title-font-size: 15px;
     display: inline-block;
-    .vp_box {
 
+    .vp_box {
         display: inline-block;
         width: 220px;
         border-radius: 10px;
         height: 150px;
         background-color: $main-blue;
+
+        .front_cover {
+            width: 220px;
+            border-radius: 10px;
+            display: inline-block;
+            height: 150px;
+
+        }
+
         // margin-left: 20px;
     }
 
@@ -22,13 +37,17 @@
             font-size: 16px;
             text-decoration: none;
             color: $focus;
+
+            h3 {
+                font-size: 15px;
+            }
         }
 
         .vp_info {
             // margin-top: 10px;
 
             a {
-                font-size: 14px;
+                font-size: 12px;
                 text-decoration: none;
                 color: $unfocus;
             }

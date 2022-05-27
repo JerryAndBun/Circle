@@ -67,11 +67,17 @@ const routes = new vueRouter({
         },
         {
             path: '/messagepage', component: () => import('../pages/MessagePage.vue'),
-            children:[
+            children: [
                 {
-                    path: ':uid',name:'window', component: () => import('../components/MessageWindow.vue'),
+                    path: ':uid', name: 'window', component: () => import('../components/MessageWindow.vue'),
                 },
             ]
+        },
+        {
+            path: '/contribution', component: () => import('../pages/Contribution.vue'),
+        },
+        {
+            path: '/cv', component: () => import('../components/VideoPlay.vue'),
         }
     ]
 })

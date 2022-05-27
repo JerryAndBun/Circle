@@ -50,5 +50,4 @@ export default {
 <style lang='scss' scpoed>
 @import "../assets/css/banner.scss";
 @import "../assets/css/swiper";
-
 </style>

@@ -10,9 +10,13 @@
         <div class="submit" @click="submitfile()">提交文件</div>
       </div>
       <div class="line"></div>
-      <div class="preview">
-        <img :src="`${dataURL}${avatar}`" alt="寄汤来咯">
+      <div class="preview" @click="chooseimg">
+        <img :src="`${dataURL}${avatar}`" alt="头像加载失败">
         当前头像
+      </div>
+      <div class="progress">
+        <div class="loaded" :style="{'width':`${progress}`}"></div>
+        <span class="loadedtext" ref="loadedtext">{{progress}}</span>
       </div>
     </div>
     <div class="updatenickname">
@@ -47,8 +51,19 @@ export default {
     return {
       item: this.itemList,
       file: "",
-      dataURL: BASE_URL
+      dataURL: BASE_URL,
+      progress:'0%',
+      config:'',
     };
+  },
+  watch:{
+    progress(newvalue,odlvalue){
+      console.log(newvalue);
+      if(newvalue=='100%'){
+        // this.progress='上传成功'
+        this.$refs.loadedtext.style.color='rgb(15,155,241)'
+      }
+    }
   },
   methods: {
     changenickname() {
@@ -90,13 +105,23 @@ export default {
     },
     submitfile() {
       // alert()
-      HttpManager.postUserAvatar(this.file).then(
+      this.config= {
+        onUploadProgress: (progress) => {
+          // 格式化成百分数
+          this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
+        }
+      };
+      HttpManager.postUserAvatar(this.file,this.config).then(
         (response) => {
           console.log(response);
           console.log("上传成功");
+          console.log(this.progress);
         },
         (error) => {
           console.log("败北~");
+          this.progress='上传失败'
+          this.$refs.loadedtext.style.color='rgb(255, 100, 100)'
+          console.log( this.progress);
         }
       );
     }

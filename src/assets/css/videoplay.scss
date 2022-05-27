@@ -1,0 +1,44 @@
+@import '../css/var.scss';
+
+.videocontainer {
+    position: relative;
+    display: inline-block;
+    width: 640px;
+    height: 360px;
+
+    .video {
+        // object-fit: fill;
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        // position: relative;
+        //所有控件
+        &::-webkit-media-controls-enclosure {
+            display: none;
+        }
+    }
+
+    .pause_playbtn,
+    .fullscreenbtn {
+        position: absolute;
+        width: 60px;
+        height: 30px;
+        background-color: $main-blue;
+        color: $main-white;
+        border-radius: 10px;
+        text-align: center;
+        user-select: none;
+        line-height: 30px;
+        bottom: 0px;
+
+    }
+
+    .pause_playbtn {
+        // top: 0px;
+        bottom: 0px;
+    }
+
+    .fullscreenbtn {
+        right: 0px;
+    }
+}

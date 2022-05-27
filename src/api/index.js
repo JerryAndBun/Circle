@@ -1,4 +1,3 @@
-// import get from '../api/index'
 import { get, post,put } from "../api/request"
 
 const HttpManager = {
@@ -23,7 +22,7 @@ const HttpManager = {
     // 取关用户
     postUnFocusUser :(params)=>post(`/unfocusOn`,params),
     // 上传头像
-    postUserAvatar:(params)=>post(`/avatarImg`,params),
+    postUserAvatar:(params,config)=>post(`/avatarImg`,params,config),
     // 修改签名
     postUserSignature:(params)=>post(`/signature`,params),
     // 修改用户昵称
