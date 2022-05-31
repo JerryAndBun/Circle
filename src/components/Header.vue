@@ -31,15 +31,11 @@
           <transition name="fade">
             <div class="userbox" ref="userbox" v-if="islogin">
               <div class="logout">
-                <router-link :to="{
-                  path:`/userpage/${this.uid}`
-                  }" class="username">{{nickname}}</router-link>
+                <router-link :to="`/userpage/${this.uid}`" class="username">{{nickname}}</router-link>
                 <a href="javascript:;" class="logouta" @click="logout">退出登录</a>
               </div>
               <div class="home" @click="touserpage">
-                <router-link :to="{
-                  path:`/userpage/${this.uid}`
-                  }" class="tohomelink">查看更多</router-link>
+                <router-link :to="`/userpage/${this.uid}`" class="tohomelink">查看更多</router-link>
               </div>
             </div>
           </transition>

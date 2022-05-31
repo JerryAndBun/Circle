@@ -213,7 +213,7 @@ export default {
         (error) => {
           console.log(error);
           console.log(error.response);
-          console.log(error.response.data.message);
+          // console.log(error.response.data.message);
           
           if (error.response.data.message == "邮箱未注册") {
             this.$refs.alertdiv.style.visibility = "visible";

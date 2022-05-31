@@ -35,7 +35,7 @@ html {
 .top_area {
     display: grid;
     position: absolute;
-    grid-gap: 20px 14px;
+    grid-gap: 14px 14px;
     grid-template-columns: repeat(5, 1fr);
     left: 50%;
     transform: translateX(-50%);
@@ -48,13 +48,15 @@ html {
         width: 540px;
         grid-column: 1/3;
         grid-row: 1/3;
-
+        .mySwiper{
+            height: 300px;
+        }
         .footer {
             /deep/.swiper-pagination {
                 z-index: 5 !important;
                 display: inline-block;
                 position: absolute;
-                bottom: 60px;
+                bottom: 90px;
                 width: 150px !important;
 
                 //未激活样式
@@ -80,7 +82,7 @@ html {
                 position: absolute;
                 z-index: 3;
                 display: inline-block;
-                height: 370px;
+                height: 342px;
                 width: 540px;
                 border-radius: $radious;
                 overflow: hidden;

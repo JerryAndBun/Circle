@@ -35,5 +35,19 @@ const HttpManager = {
     postMessage:(params)=>post(`/message`,params),
     // 获取与目标用户的聊天记录
     getSigelTalk:(url) => get(url),
+    // 点击收藏视频
+    postCollectByCv:(url)=>post(url),
+    // 查询用户收藏的视频
+    getCollectList:()=>get(`/collectList`),
+    // 取消收藏
+    // 上传视频
+    // 通过cv号查询视频
+    getVideoUrl:(url)=>get(url),
+    // 查询自己的投稿列表
+
+    //上传视频封面
+    postUploadTitlePic:(params)=>post(`/uploadTitlePic`,params),
+    // 点击投稿检查是否有上一次的记录
+    getUploadVideo:()=>get(`/uploadVideo`),
 }
 export default HttpManager

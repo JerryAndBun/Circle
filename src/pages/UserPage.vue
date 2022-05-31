@@ -50,17 +50,18 @@
         </main>
         <aside class="topic_area">
           <div class="coversitiondiv">
-
           </div>
         </aside>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 
 </template>
 
 <script>
 import Header from "../components/Header.vue";
+import Footer from '@/components/Footer.vue'
 import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 import { BASE_URL } from "../api/config";
@@ -199,7 +200,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    Footer,
   },
 
   created() {

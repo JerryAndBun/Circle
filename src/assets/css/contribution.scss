@@ -1,24 +1,101 @@
 @import '../css/var.scss';
 
+@mixin required {
+    .tips {
+        margin-left: 10px;
+        font-size: 12px;
+        color: $unfocus;
+    }
+
+    .title {
+        font-size: 18px;
+        color: $focus;
+    }
+
+    p {
+        display: inline-block;
+    }
+
+    .star {
+        color: $main-pink-red;
+    }
+}
+
+@mixin input {
+    outline: none;
+    border-radius: 4px;
+    border: #DCDFE6 1px solid;
+    text-indent: 6px;
+    font-size: 14px;
+    line-height: 30px;
+    width: 400px;
+    height: 30px;
+    margin-top: 6px;
+}
+
 .updatevideo_area {
     width: 600px;
-    margin: 60px auto;
+    margin: 100px auto;
     height: 300px;
     border: 2px dashed $main-blue;
-    z-index: 20;
     background: transparent;
+    position: relative;
+
     .hoverdiv {
-        z-index: 1;
         width: 600px;
         margin: 0 auto;
         height: 300px;
         text-align: center;
-        line-height: 300px;
-        // display: none;
-        background-color: $main-grey;
+        line-height: 260px;
         cursor: pointer;
-        // background-color: $unfocus;
+
+        .update_info {
+            position: absolute;
+            // top: 0px;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 60px;
+
+            p {
+                // position: absolute;
+                font-size: 14px;
+                color: $unfocus;
+                width: 250px;
+                height: 18px;
+                line-height: 18px;
+                text-align: center;
+            }
+        }
     }
+
+    .icon-shangchuan {
+        font-size: 72px;
+        font-weight: 100;
+        position: absolute;
+        top: 14%;
+        left: 50%;
+        margin-left: -36px;
+        color: $main-blue;
+    }
+
+    .choosefile {
+        position: absolute;
+        cursor: pointer;
+        width: 200px;
+        height: 40px;
+        border-radius: 10px;
+        font-size: 16px;
+        text-align: center;
+        line-height: 40px;
+        color: $main-white;
+        background-color: $main-blue;
+        left: 50%;
+        top: 78%;
+        margin-left: -100px;
+    }
+
 }
 
 .updatebtn {
@@ -27,7 +104,7 @@
     width: 300px;
     height: 200px;
 
-    .chooseimg,
+    .choosefile,
     .submit {
         cursor: pointer;
         width: 100px;
@@ -48,5 +125,219 @@
 
     .uploadinput {
         display: none;
+    }
+}
+
+.source_image_mask {
+    position: absolute;
+    // width: 100%;
+    // height: 100vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    // width: 100vw;
+    // height: 100vh;
+    // background-color: black;
+
+    .source_image_content {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 520px;
+        height: 450px;
+        background-color: $main-white;
+
+        .source-image {
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cancel {
+            position: absolute;
+            right: 0px;
+            width: 520px;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .cancel_text {
+                font-style: 16px;
+                margin-left: 30px;
+                // left: 0px;
+            }
+
+            .icon-guanbi {
+                cursor: pointer;
+                margin-right: 30px;
+                font-weight: 300;
+                font-size: 30px;
+                line-height: 40px;
+                font-size: 20px;
+                // right: 10px;
+            }
+        }
+
+        .rechoose,
+        .confirm {
+            user-select: none;
+            cursor: pointer;
+            position: absolute;
+            width: 180px;
+            height: 36px;
+            border-radius: 10px;
+            // background-color: red;
+            bottom: 20px;
+            text-align: center;
+            line-height: 36px;
+            font-size: 16px;
+        }
+
+        .confirm {
+            right: 0px;
+            // border: 1px;
+            background-color: $main-red;
+            color: $main-white;
+            margin-right: 30px;
+        }
+
+        .rechoose {
+            left: 0px;
+            border: 1px solid $main-red;
+            color: $main-red;
+            margin-left: 30px;
+        }
+    }
+
+}
+
+.selected_area {
+    width: 1000px;
+    height: 800px;
+    display: flex;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 40px;
+
+    .video_info {
+        width: 600px;
+        height: 800px;
+
+
+
+        .title {
+            margin-top: 20px;
+            font-size: 22px;
+            color: $focus;
+            font-weight: 400;
+        }
+
+        .cover {
+            position: relative;
+            margin-top: 20px;
+            width: 600px;
+            height: 150px;
+            .video_cover_preview{
+                cursor: pointer;
+                top: 0px;
+                position: absolute;
+                z-index: 40;
+                // background-color: red;
+                width: 224px;
+                height: 126px;
+            }
+            // background-color: $main-blue;
+            .no_cover {
+                position: absolute;
+                background-color: $main-grey;
+                width: 224px;
+                height: 126px;
+                cursor: pointer;
+
+                .icon-shangchuan {
+                    position: absolute;
+                    font-size: 28px;
+                    top: 20%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+
+                span {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    color: $unfocus;
+                }
+
+                .upload_cover_input {
+                    display: none;
+                }
+            }
+
+            .cover_des {
+                position: absolute;
+                right: 0px;
+                width: 376px;
+                height: 126px;
+                padding: 20px;
+                box-sizing: border-box;
+
+                @include required;
+
+                .des {
+                    font-size: 12px;
+                    color: $unfocus;
+                }
+            }
+
+            .cover_img {
+                width: 224px;
+                height: 126px;
+            }
+
+
+
+
+        }
+
+        .video_title,
+        .video_partition {
+            @include required();
+
+            .video_title_input {
+
+                &:focus,
+                &:hover {
+                    border: $main-blue 1px solid;
+                }
+
+                @include input();
+
+            }
+
+            .block {
+                margin-top: 6px;
+            }
+        }
+
+        .video_partition {
+            margin-top: 10px;
+
+            .title {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    .upload_list {
+        width: 400px;
+        height: 800px;
+        background-color: $main-blue;
     }
 }

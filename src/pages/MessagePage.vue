@@ -29,11 +29,13 @@
     </div>
     <div class="usermain">
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Header from "../components/Header.vue";
+import Footer from '@/components/Footer.vue'
 import MessageWindow from "../components/MessageWindow.vue";
 import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
@@ -74,7 +76,8 @@ export default {
   },
   components: {
     Header,
-    MessageWindow
+    MessageWindow,
+    Footer
   },
   computed: {
     ...mapGetters("user", ["uid"])
@@ -104,6 +107,7 @@ export default {
     HttpManager.getUserMessage().then(
       (response) => {
         this.messageList = response;
+        console.log(this.messageList);
         // 若是私信按钮的，生成一个空的聊天记录到List
         if (this.$route.params.uid) {
           HttpManager.getSigelTalk(`/singleMessage/${this.$route.params.uid}`).then(

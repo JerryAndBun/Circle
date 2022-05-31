@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     topage1() {
-      if (!this.itemList.fansList) {
+      if (!this.itemList.fansList.length) {
         this.isempty = 1;
         this.$nextTick(() => {
           console.log((this.$refs.emptytext.innerHTML = "你还没有粉丝，快去投稿吧~"));
@@ -57,7 +57,7 @@ export default {
       this.ispage2 = 0;
     },
     topage2() {
-      if (!this.itemList.focusOnList) {
+      if (!this.itemList.focusOnList.length) {
         this.isempty = 1;
         console.log("11111111");
         this.$nextTick(() => {
@@ -75,9 +75,11 @@ export default {
   },
   created() {
     console.log(this.itemList);
-    if (!this.itemList.fansList) {
+    console.log(this.itemList.fansList);
+    if (!this.itemList.fansList.length) {
       this.isempty = 1;
     }
+    // console.log(this.isempty);
   }
 };
 </script>

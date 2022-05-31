@@ -5,25 +5,24 @@
     // min-width: 180px;
     // max-height: 130px;
     // max-width: 234px;
-    width: 220px;
+    width: 224px;
     height: 200px;
     // --title-font-size: 15px;
     --title-font-size: 15px;
     display: inline-block;
 
     .vp_box {
+        width: 224px;
+        height: 126px;
         display: inline-block;
-        width: 220px;
         border-radius: 10px;
-        height: 150px;
         background-color: $main-blue;
 
         .front_cover {
-            width: 220px;
+            width: 224px;
+            height: 126px;
             border-radius: 10px;
             display: inline-block;
-            height: 150px;
-
         }
 
         // margin-left: 20px;
@@ -31,15 +30,28 @@
 
     .vp_info_div {
         margin-top: 8px;
-        width: 220px;
+        // margin-left: 4px;
 
+        width: 224px;
+        vertical-align: middle;
+        display: flex;
+        align-items:flex-start;
+        justify-content: center;
+        flex-direction: column;
+        i{
+        margin-left: 4px;
+            margin-right: 4px;
+            vertical-align:middle;
+            font-size: 16px;
+        }
         a {
             font-size: 16px;
             text-decoration: none;
             color: $focus;
-
+            margin-right: 8px;
             h3 {
                 font-size: 15px;
+                width: 224px;
             }
         }
 

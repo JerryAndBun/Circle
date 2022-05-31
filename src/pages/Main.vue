@@ -6,7 +6,7 @@
     <div class="top_area">
       <div class="banner_container">
         <div class="banner_box">
-          <swiper :options="swiperOption" ref="mySwiper">
+          <swiper :options="swiperOption" ref="mySwiper" class="mySwiper">
             <swiper-slide><img class="pic" src="../assets/imgs/banners/1.png" /></swiper-slide>
             <swiper-slide><img class="pic" src="../assets/imgs/banners/2.png" /></swiper-slide>
             <swiper-slide><img class="pic" src="../assets/imgs/banners/3.png" /></swiper-slide>
@@ -21,7 +21,11 @@
           </div>
         </div>
       </div>
-      <VideoPreview v-for="(item,index) in 6 " :key="index"></VideoPreview>
+      <VideoPreview v-for="(item,index) in 6" :key="index" >
+        <i class="iconfont icon-UP"></i>
+        <a href="javascript:;" class="nickname">{{nickname}}昵称</a>
+        <a href="javascript:;" for="nickname">{{date}}日期</a>
+      </VideoPreview>
     </div>
     <div class="test"></div>
   </div>

@@ -1,0 +1,29 @@
+@import '../css/var.scss';
+.pagination {
+    text-align: center;
+    a {
+      margin: 0 5px;
+      
+      outline: none;
+      border-radius: 2px;
+      padding: 0 4px;
+      vertical-align: top;
+      display: inline-block;
+      font-size: 13px;
+      min-width: 35.5px;
+      height: 28px;
+      line-height: 28px;
+      cursor: pointer;
+      box-sizing: border-box;
+      text-align: center;
+      border: 0;
+    }
+    .active{
+      background-color: $main-blue;
+      color: $main-white;
+    }
+    .unactive{
+      background-color: $main-grey;
+      color: #606266;
+    }
+  }

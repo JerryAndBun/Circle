@@ -54,14 +54,14 @@
 }
 
 .contentdiv {
-    position: absolute;
+    position: relative;
     width: 1200px;
     height: 650px;
     background-color: $main-white;
     left: 50%;
     // margin: 20px auto;
     transform: translateX(-50%);
-    margin-top: 50px;
+    margin-top: 100px;
     border-radius: 10px;
     overflow: hidden;
 
@@ -245,4 +245,7 @@
             }
         }
     }
+}
+/deep/.footer{
+    margin-top: 210px;
 }

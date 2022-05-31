@@ -60,6 +60,7 @@ export default {
       userpassword: "",
       nickname: "",
       verifycode: "",
+      counter:'',
       isagreement: false,
       issendverifycode: false,
       isdisappear: true,
@@ -81,12 +82,12 @@ export default {
         this.timeout = 60;
         this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`;
         this.$refs.verifycode.style.color = `#999`;
-        let i = setInterval(() => {
+        this.counter = setInterval(() => {
           // console.log(this.timeout);
           this.timeout--;
           this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`;
           if (!this.timeout) {
-            clearInterval(i);
+            clearInterval(counter);
             this.$refs.verifycode.innerHTML = `获取验证码`;
             this.$refs.verifycode.style.color = `rgb(15,155,241)`;
             this.issendverifycode = false;
@@ -147,6 +148,7 @@ export default {
           setTimeout(() => {
             this.$router.push("/");
             clearInterval(tti);
+            clearInterval(this.counter)
             this.isdisappear = true;
             this.issuccess = false;
           }, 3000);

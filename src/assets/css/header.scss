@@ -98,11 +98,14 @@ head */
 }
 
 #lv2guide {
-    position: relative;
+    z-index: 30;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    // margin-left: -232px;
     width: 1190px;
-    margin: 0 auto;
+    // margin: 0 auto;
     visibility: hidden;
-    z-index: 10;
     line-height: 40px;
     background-color: rgb(255, 255, 255);
     height: 40px;
@@ -113,6 +116,7 @@ head */
 
 .lv2guideul {
     display: none;
+    // position: relative;
     line-height: 40px;
     height: 40px;
     width: auto;

@@ -77,7 +77,10 @@ const routes = new vueRouter({
             path: '/contribution', component: () => import('../pages/Contribution.vue'),
         },
         {
-            path: '/cv', component: () => import('../components/VideoPlay.vue'),
+            path: '/video', component: () => import('../components/VideoPlay.vue'),
+            children: [
+                { path: ':cv', component: () => import('../components/VideoPlay.vue') }
+            ]
         }
     ]
 })

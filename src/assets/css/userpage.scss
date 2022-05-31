@@ -46,12 +46,12 @@
 
 .usermain {
     margin-top: 150px !important;
-    // min-height: 900px;
     width: 1200px;
     opacity: .99;
     margin: 0 auto;
     border-radius: 15px;
-
+    // min-height: 900px;
+    height: auto;
     .useravatar {
         position: absolute;
         z-index: 2;
@@ -242,8 +242,8 @@
         .content_area {
             border-radius: 15px;
             width: 800px;
-            // height: 900px;
-            // background-color: $white;
+            min-height: 1000px;
+            overflow: hidden;
             margin: 0 10px;
         }
 
@@ -254,9 +254,5 @@
             width: 180px;
             // height: 600px;
         }
-    }
-
-    .content_area {
-        overflow: hidden;
     }
 }
