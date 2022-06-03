@@ -312,18 +312,13 @@ export default {
           this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
         }
       };
-      // console.log(this.$refs.summary_input.target.value);
-      
-      
       for (const item of filesArray) {
           let formData = new FormData()
-          // console.log(this.$refs.summary_input.value);
           let summary=this.$refs.summary_input.value
           let title=this.$refs.title_input.value
           formData.append('videoFile',item)
           formData.append('summary ',summary)
           formData.append('title',title)
-
           // {
           //     formData,
           //     params: { summary : summary,title:title } 
