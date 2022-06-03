@@ -83,7 +83,7 @@
           <p class="title">标题</p>
           <p class="tips">最多50字符</p>
           </br>
-          <input class="video_title_input" type="text" maxlength="50">
+          <input class="the_input" type="text" maxlength="50" ref="title_input">
         </div>
         <div class="video_partition">
           <p class="star">*</p>
@@ -97,15 +97,72 @@
               </el-cascader>
           </div>
         </div>
-        
+        <div class="video_tag">
+          <p class="star">*</p>
+          <p class="title">标签</p>
+          <p class="tips">添加话题增加曝光哦，最多添加六个</p>
+          </br>
+          <div class="tag_input_div">
+            <span class="tag" v-for="(item,index) in tag_list" :key="index">
+              {{item}}<i class="iconfont icon-guanbi" @click="delete_tag(index)"></i>
+            </span>
+            <div class="the_input_instance" >
+              <input class="the_input" ref="tag_input" placeholder="按Enter键创建标签" type="text" maxlength="10" @keyup.enter="get_tag">
+            </div>
+            <p class="tip_info">还可添加{{6-tag_list.length}}个tag</p>
+          </div>
+        </div>
+        <div class="video_summary">
+          <p class="star">*</p>
+          <p class="title">简介</p>
+          <p class="tips">最多200字符</p>
+          </br>
+          <textarea class="the_input" ref="summary_input" type="text" maxlength="200"></textarea>
+        </div>
+        <div class="submit_btn" @click="submitfile()">发布投稿</div>
+
       </div>
       <div class="upload_list">
-        
+        <h1 class="upload_list_title">上传视频</h1>
+        <p class="tips_info">请勿上传含有政治有害、色情挑逗、血腥暴力等违法因素的视频内容</p>
+        <div class="video_list">
+          <div class="video_file" v-for="(item,index) in filesArray" :key="index">
+            <div class="video_attribute">
+              <span class="p_part">P1</span>
+              <input type="text" class="p_name">
+              <span class="remain_word">7/45</span>
+            </div>
+            <div class="video_process">
+              <div class="finish_part" :style="{'width':'100%','height':'6px'}"></div>
+            </div>
+            <div class="video_state">
+              <span class="state">上传中</span>
+              <a href="" @click.prevent="" class="delete_video">删除</a>
+            </div>
+          </div>
+        </div>
+        <div class="add_video_file">
+          <div class="hoverdiv" ref="hoverdiv" 
+            @click="choosefile" 
+            @dragover="ondragover"
+            @dragenter="ondragenter" 
+            @dragleave="ondragleave" 
+            @drop="ondrop"><p class="ddd">拖动到此上传</p>
+          <div class="update_info">
+            <p>支持批量添加文件</p>
+            <p>单次上传文件大小不超过200MB</p>
+            <p>暂仅支持mp4格式</p>
+          </div>
+          <!-- </div> -->
+          <i class="iconfont icon-shangchuan"></i>
+          <div class="choosefile" @click="choosefile">选择文件</div>
+        </div>
+        </div>
       </div>
     </div>
+
     <div class="updatebtn">
-      <input ref="uploadinput" class="uploadinput" type='file' accept=".mp4,.flv,.avi,.wmv,.mov,.webm,.mpeg4,.ts,.mpg,.rm,.rmvb,.mkv,.m4v" @change='filechange'>
-      <!-- <div class="submit" @click="submitfile()">提交文件</div> -->
+      <input ref="uploadinput" class="uploadinput" multiple type='file' accept=".mp4,.flv,.avi,.wmv,.mov,.webm,.mpeg4,.ts,.mpg,.rm,.rmvb,.mkv,.m4v" @change='filechange'>
     </div>
     <Footer></Footer>
   </div>
@@ -130,26 +187,14 @@ export default {
       video_cover_url:'',
       baseurl:BASE_URL,
       have_preview:false,
+      tag_list:[],
+      filesArray:[],
       // 
       value: [],
       options: options,
       // 
       previews:{},
       option: {
-        // img: '',             //裁剪图片的地址
-        // outputSize: 1,       //裁剪生成图片的质量(可选0.1 - 1)
-        // outputType: 'jpeg',  //裁剪生成图片的格式（jpeg || png || webp）
-        // info: true,          //图片大小信息
-        // canScale: true,      //图片是否允许滚轮缩放
-        // autoCrop: true,      //是否默认生成截图框
-        // autoCropWidth: 224,  //默认生成截图框宽度
-        // autoCropHeight: 126, //默认生成截图框高度
-        // // fixedBox: true, // 固定截图框大小 不允许改变
-        // fixed: true, // 是否开启截图框宽高固定比例
-        // fixedNumber: [1.77,1], // 截图框的宽高比例
-        // full: true, // 是否输出原图比例的截图
-        // canMoveBox: true, // 截图框能否拖动
-        // original: false, // 上传图片按照原始比例渲染
         img: '',             //裁剪图片的地址
         outputSize: 1,       //裁剪生成图片的质量(可选0.1 - 1)
         outputType: 'jpeg',  //裁剪生成图片的格式（jpeg || png || webp）
@@ -166,17 +211,9 @@ export default {
         canMoveBox: true,    //截图框能否拖动
         original: false,     //上传图片按照原始比例渲染
         centerBox: true,    //截图框是否被限制在图片里面
-        
-        height: false,        //是否按照设备的dpr 输出等比例图片
-
-        infoTrue: false,     //true为展示真实输出图片宽高，false展示看到的截图框宽高,false才能看到预览？
-
-        maxImgSize: 1000,    //限制图片最大宽度和高度
-        enlarge: 1,          //图片根据截图框输出比例倍数
-        // mode: '230px 150px'  //图片默认渲染方式
       },
       fileName:'',  //本机文件地址
-      imgFile:'',
+      // imgFile:'',
     }
   },
   components: {
@@ -184,12 +221,35 @@ export default {
     Footer,
     VueCropper,
   },
+    watch:{
+    progress(newvalue,odlvalue){
+      console.log(newvalue);
+      if(newvalue=='100%'){
+        // this.progress='上传成功'
+        // this.$refs.loadedtext.style.color='rgb(15,155,241)'
+      }
+    }
+  },
   methods: {
+    // 获取tag
+    get_tag(e){
+      console.log(e.target.value);
+      if(this.tag_list.includes(e.target.value)||e.target.value==''||this.tag_list.length>5){
+        return
+      }else{
+        this.tag_list.push(e.target.value)
+        e.target.value=''
+        console.log(this.tag_list);
+      }
+    },
+    delete_tag(index){
+      this.tag_list.splice(index,1)
+      console.log('删除了第'+index+'个tag');
+    },
     close_cut(){
       this.imgselected=false
     },
     chosecover(){
-      // alert()
       this.$refs.upload_cover_input.click()
     },
     handleChange(value) {
@@ -198,17 +258,20 @@ export default {
     choosefile() {
       this.$refs.uploadinput.click();
     },
-    // 上传封面的
-    coverchange(){
-
-    },
+    // 单击上传视频的
     filechange(e) {
       // 手写的input需要一个对象将本地图片转换为对应的格式来上传
       this.file = new FormData();
       // e.target.files就是选中的文件的一个数组
-      this.file.append("avatarImg", e.target.files[0]);
-      console.log(this.file.get("avatarImg"));
-      // console.log(this.file.avatarImg);
+      console.log(e.target.files);
+      for (let index = 0; index < e.target.files.length; index++) {
+        this.file.append(`${e.target.files[index].name}`, e.target.files[index]);
+      }
+      // console.log(this.file.entries());
+      for (const iterator of this.file) {
+        console.log(iterator);
+        console.log('2');
+      }
     },
     submitfile() {
       HttpManager.postUserAvatar(this.file).then(
@@ -237,17 +300,54 @@ export default {
       e.preventDefault();
     },
     ondrop(e) {
+      
       this.$refs.hoverdiv.style.backgroundColor = "#fff";
       e.stopPropagation();
       e.preventDefault();
-      const filesArray = e.dataTransfer.files;
-      for (let i = 0; i < filesArray.length; i++) {
-        console.log(filesArray);
-      }
+      let filesArray = e.dataTransfer.files;
       this.selected=true
+      this.config= {
+        onUploadProgress: (progress) => {
+          // 格式化成百分数
+          this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
+        }
+      };
+      // console.log(this.$refs.summary_input.target.value);
+      
+      
+      for (const item of filesArray) {
+          let formData = new FormData()
+          // console.log(this.$refs.summary_input.value);
+          let summary=this.$refs.summary_input.value
+          let title=this.$refs.title_input.value
+          formData.append('videoFile',item)
+          formData.append('summary ',summary)
+          formData.append('title',title)
+
+          // {
+          //     formData,
+          //     params: { summary : summary,title:title } 
+          //   }
+          HttpManager.postVideo(formData,this.config).then(
+          response=>{
+            console.log(response);
+            console.log('上传成功');
+          },
+          error=>{
+            console.log(error);
+            console.log('上传失败');
+          }
+        )
+      }
+      
+      // this.video_array.concat(filesArray)
+      // console.log(this.video_array);
+
+      // this.video_array= Array.from(new Set(this.video_array));
+      // console.log(this.video_array);
     },
-    // 
     //选择本地图片
+    // 上传封面的
     uploadImg(e) {
         // 若选择了封面
         if(e.target.files[0]){
@@ -296,6 +396,7 @@ export default {
         HttpManager.postUploadTitlePic(this.video_cover).then((response)=>{
           this.video_cover_url=response.data
           this.have_preview=true
+          this.close_cut()
           console.log(`${this.baseurl}${this.video_cover_url}`);
         },(error)=>{
 
@@ -304,6 +405,7 @@ export default {
       })
     }
   },
+
   mounted() {
     const dropzone = document.getElementById("updatevideo_area");
     let that = this.ishover;
@@ -313,6 +415,11 @@ export default {
     HttpManager.getUploadVideo().then(
       (response)=>{
         console.log(response);
+        if(response){
+          this.selected=true
+          this.have_preview=true
+          this.video_cover_url=response.titlePagePath
+        }
       },error=>{
 
       }

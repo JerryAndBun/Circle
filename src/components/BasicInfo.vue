@@ -111,6 +111,7 @@ export default {
           this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
         }
       };
+      console.log(this.file);
       HttpManager.postUserAvatar(this.file,this.config).then(
         (response) => {
           console.log(response);

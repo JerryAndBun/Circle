@@ -21,26 +21,7 @@
     }
 }
 
-@mixin input {
-    outline: none;
-    border-radius: 4px;
-    border: #DCDFE6 1px solid;
-    text-indent: 6px;
-    font-size: 14px;
-    line-height: 30px;
-    width: 400px;
-    height: 30px;
-    margin-top: 6px;
-}
-
-.updatevideo_area {
-    width: 600px;
-    margin: 100px auto;
-    height: 300px;
-    border: 2px dashed $main-blue;
-    background: transparent;
-    position: relative;
-
+@mixin uploadstyle {
     .hoverdiv {
         width: 600px;
         margin: 0 auto;
@@ -85,7 +66,7 @@
         cursor: pointer;
         width: 200px;
         height: 40px;
-        border-radius: 10px;
+        border-radius: 5px;
         font-size: 16px;
         text-align: center;
         line-height: 40px;
@@ -95,34 +76,31 @@
         top: 78%;
         margin-left: -100px;
     }
+}
 
+@mixin input {
+    outline: none;
+    border-radius: 4px;
+    border: #DCDFE6 1px solid;
+    text-indent: 6px;
+    font-size: 14px;
+    line-height: 30px;
+    width: 400px;
+    height: 30px;
+    margin-top: 6px;
+}
+
+.updatevideo_area {
+    width: 600px;
+    margin: 100px auto;
+    height: 300px;
+    border: 2px dashed $main-blue;
+    background: transparent;
+    position: relative;
+    @include uploadstyle()
 }
 
 .updatebtn {
-    // margin-right: 40px;
-    margin: 0 auto;
-    width: 300px;
-    height: 200px;
-
-    .choosefile,
-    .submit {
-        cursor: pointer;
-        width: 100px;
-        height: 40px;
-        border-radius: 10px;
-        font-size: 16px;
-        text-align: center;
-        line-height: 40px;
-        color: $main-white;
-        background-color: $main-blue;
-        float: right;
-    }
-
-    .submit {
-        // margin-top: 20px;
-        margin-right: 100px;
-    }
-
     .uploadinput {
         display: none;
     }
@@ -241,8 +219,9 @@
             position: relative;
             margin-top: 20px;
             width: 600px;
-            height: 150px;
-            .video_cover_preview{
+            height: 140px;
+
+            .video_cover_preview {
                 cursor: pointer;
                 top: 0px;
                 position: absolute;
@@ -251,6 +230,7 @@
                 width: 224px;
                 height: 126px;
             }
+
             // background-color: $main-blue;
             .no_cover {
                 position: absolute;
@@ -302,15 +282,14 @@
             }
 
 
-
-
         }
 
         .video_title,
         .video_partition {
+            height: 90px;
             @include required();
 
-            .video_title_input {
+            .the_input {
 
                 &:focus,
                 &:hover {
@@ -326,18 +305,265 @@
             }
         }
 
-        .video_partition {
+        .video_tag {
+            @include required();
+
             margin-top: 10px;
 
-            .title {
-                margin-right: 20px;
+            .tag_input_div {
+                display: flex;
+                flex-wrap: wrap;
+                width: 390px;
+                height: auto;
+                min-height: 30px;
+                box-sizing: content-box;
+                justify-content: flex-start;
+                align-items: center;
+                border: #DCDFE6 1px solid;
+                border-radius: 5px;
+                margin-top: 6px;
+
+                &:focus,
+                &:hover {
+                    border: $main-blue 1px solid;
+                }
+
+                padding: 5px;
+
+                .tag {
+                    display: inline-block;
+                    // width: 30px;
+                    line-height: 30px;
+                    // padding: 10px;
+                    height: 30px;
+                    font-size: 14px;
+                    color: $main-blue;
+                    margin: 5px;
+                    padding-left: 8px;
+                    padding-right: 8px;
+                    border-radius: 5px;
+                    background-color: $main-grey;
+
+                    .icon-guanbi {
+                        font-size: 14px;
+                        cursor: pointer;
+                        margin-left: 5px;
+                    }
+                }
+
+                .the_input_instance {
+                    display: inline-block;
+                    min-width: 200px;
+                    // width: auto;
+                    height: 20px;
+                    margin: 5px;
+                    flex: 1;
+
+                    .the_input {
+                        // min-width: 200px;
+                        width: 100%;
+                        height: 20px;
+                        border: none;
+                        outline: none;
+                        margin-left: 5px;
+                        vertical-align: top;
+
+                        &::placeholder {
+                            font-size: 14px;
+                        }
+                    }
+                }
+
+                .tip_info {
+                    display: inline-block;
+                    font-size: 14px;
+                    margin: 8px 0 8px 12px;
+                    margin-right: 8px;
+                    cursor: default;
+                    color: #DCDFE6;
+                }
             }
+        }
+
+        .video_summary {
+            @include required();
+
+            .the_input {
+
+                &:focus,
+                &:hover {
+                    border: $main-blue 1px solid;
+                }
+
+                width: 400px !important;
+                @include input();
+                font-family:Arial,
+                Helvetica,
+                sans-serif;
+            }
+        }
+
+        .submit_btn {
+            // position: absolute;
+            cursor: pointer;
+            width: 200px;
+            height: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            line-height: 40px;
+            color: $main-white;
+            background-color: $main-blue;
+            left: 50%;
+            top: 78%;
+            margin-top: 30px;
+            // margin-left: 100px;
+            // margin: 0 auto;
         }
     }
 
     .upload_list {
+        margin-top: 20px;
         width: 400px;
-        height: 800px;
-        background-color: $main-blue;
+
+        .upload_list_title {
+            font-size: 22px;
+            font-weight: 400;
+            color: $focus;
+        }
+
+        .tips_info {
+            font-size: 12px;
+            color: $unfocus;
+        }
+
+        .video_list {
+            margin-top: 20px;
+            width: 380px;
+
+            .video_file {
+                width: 390px;
+                height: 70px;
+                background-color: $rice;
+                border-radius: 10px;
+                display: flex;
+                justify-content: space-around;
+                align-items: flex-start;
+                flex-direction: column;
+                margin-bottom: 16px;
+
+                .video_attribute {
+                    width: 400px;
+                    height: 30px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    padding-top: 5px;
+
+                    .p_part,
+                    .remain_word {
+                        margin-right: 10px;
+                        margin-left: 10px;
+
+                        color: $focus;
+                    }
+
+                    .remain_word {
+                        font-size: 12px;
+                        ;
+                        margin-right: 18px;
+                    }
+
+                    .p_name {
+                        border: 1px solid $font-grey;
+                        outline: none;
+                        height: 20px;
+                        text-indent: 4px;
+                        line-height: 20px;
+                        width: 300px;
+                        border-radius: 5px;
+
+                        &:focus,
+                        &:hover {
+                            border: $main-blue 1px solid;
+                        }
+                    }
+                }
+
+                .video_process {
+                    margin-left: 40px;
+                    border-radius: 8px;
+                    background-color: $unfocus;
+                    width: 300px;
+                    height: 6px;
+
+                    .finish_part {
+                        height: 6px;
+                        border-radius: 8px;
+                        background-color: $main-blue;
+                    }
+                }
+
+                .video_state {
+                    font-size: 12px;
+                    width: 300px;
+                    display: flex;
+                    margin-left: 38px;
+                    justify-content: space-between;
+                    color: $focus;
+                    padding-bottom: 5px;
+
+                    .state {
+                        width: 200px;
+                    }
+
+                    .delete_video {
+                        color: $unfocus;
+                        text-decoration: none;
+                    }
+                }
+            }
+        }
+
+        .add_video_file {
+            margin-top: 30px;
+            width: 390px;
+            height: 350px;
+            border: 2px dashed $main-blue;
+            position: relative;
+            @include uploadstyle();
+
+            .hoverdiv {
+                width: 390px;
+                height: 400px;
+
+                // line-height: 100px;
+                .ddd {
+                    position: absolute;
+                    height: 30px;
+                    line-height: 30px;
+                    left: 50%;
+                    top: 35%;
+                    transform: translate(-50%, -50%);
+                    // color:red;
+
+                }
+
+                .icon-shangchuan {
+                    top: 10%;
+                    height: 72px;
+                    line-height: 72px;
+                }
+
+                .update_info {
+                    top: 50%;
+                }
+
+                .choosefile {
+                    top: 75%;
+                }
+            }
+
+        }
     }
 }

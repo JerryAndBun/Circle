@@ -49,5 +49,7 @@ const HttpManager = {
     postUploadTitlePic:(params)=>post(`/uploadTitlePic`,params),
     // 点击投稿检查是否有上一次的记录
     getUploadVideo:()=>get(`/uploadVideo`),
+    // 上传投稿视频
+    postVideo:(params,config)=>post(`/video`,params,config)
 }
 export default HttpManager
