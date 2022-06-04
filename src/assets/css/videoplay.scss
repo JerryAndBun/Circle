@@ -67,6 +67,7 @@
             .video {
                 object-fit: contain;
                 width: 100%;
+                position: relative;
 
                 //所有控件
                 &::-webkit-media-controls-enclosure {
@@ -74,27 +75,78 @@
                 }
             }
 
-            .pause_playbtn,
-            .fullscreenbtn {
+            .controls_container {
                 position: absolute;
-                width: 60px;
-                height: 30px;
-                background-color: $main-blue;
-                color: $main-white;
-                border-radius: 10px;
-                text-align: center;
-                user-select: none;
-                line-height: 30px;
-                bottom: 0px;
+                bottom: 4px;
+                width: 100%;
+                height: 40px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .iconfont {
+                    font-size: 20px;
+                    color: $main-white;
+                }
+
+                .process {
+                    width: 100%;
+                    height: 4px;
+                    background-color: $unfocus;
+                    position: absolute;
+                    top: -10px;
+                    .played {
+                        display: none;
+                        width: 100%;
+                        height: 6px;
+                        background-color: $main-pink-red;
+                        &:hover {
+                            display: block;
+
+                        }
+                    }
+                }
+
+                .left_area {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-around;
+                    text-align: center;
+
+                    .pause_playbtn {
+                        width: 40px;
+                        height: 40px;
+                        line-height: 40px;
+                    }
+
+                    .timerange {
+                        width: 100px;
+                        height: 40px;
+                    }
+                }
+
+                .right_area {
+                    width: 90px;
+                    height: 100%;
+                    justify-content: space-around;
+                    line-height: 40px;
+                    display: flex;
+                    align-items: center;
+                    text-align: center;
+
+                    .fullscreenbtn,
+                    .volume {
+                        width: 40px;
+                        height: 40px;
+                    }
+
+                    .fullscreenbtn {
+                        // width: 60px;
+                        margin-right: 10px;
+                    }
+                }
             }
 
-            .pause_playbtn {
-                bottom: 0px;
-            }
-
-            .fullscreenbtn {
-                right: 0px;
-            }
         }
 
         .footer_bar {
@@ -138,6 +190,7 @@
                 cursor: pointer;
                 width: 60px;
                 user-select: none;
+
                 &:hover {
                     color: $main-blue;
                 }
@@ -147,8 +200,10 @@
         .tagList_container {
             min-height: 100px;
             border-bottom: 1px solid $main-grey;
+
             .tagList {
                 list-style: none;
+
                 li {
                     display: inline-block;
                     width: auto;
@@ -161,6 +216,7 @@
                     padding-left: 12px;
                     padding-right: 12px;
                     margin-top: 20px;
+
                     a {
                         text-decoration: none;
                         color: #61666D;
@@ -170,7 +226,7 @@
             }
         }
 
-        .comment_container{
+        .comment_container {
             min-height: 500px;
         }
 

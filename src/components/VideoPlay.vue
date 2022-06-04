@@ -23,16 +23,32 @@
         <div class="video_container" ref="video_container">
           <video class="video" id="video" ref="video" 
             preload 
-            :src="`${baseurl}${videoItem.path}`" 
+            src='../assets/midea/案例视频.mp4'
             autoplay 
-            preload="auto" 
+            preload="auto"
             poster="" 
             loop='true'
-            type="video/mp4"
-            @playing="palying">
+            type="video/mp4">
           </video>
-          <div class="pause_playbtn" ref="pause_playbtn" @click="playchange">暂停</div>
-          <div class="fullscreenbtn" ref='fullscreen_btn' @click="fullscreenchange">全屏</div>
+          <div class="controls_container">
+            <div class="process" ref="process">
+              <div class="played" ref="played"></div>
+            </div>
+            <div class="left_area">
+              <div class="pause_playbtn" ref="pause_playbtn" @click="playchange">
+                <i class="iconfont" :class="paused?'icon-bofang':'icon-zanting'"></i>
+              </div>
+              <div class="timerange"></div>
+            </div>
+            <div class="right_area">
+              <div class="volume">
+                <i class="iconfont icon-yinliang"></i>
+              </div>
+              <div class="fullscreenbtn" ref='fullscreen_btn' @click="fullscreenchange">
+                <i class="iconfont" :class="fullscreened?'icon-tuichuquanping':'icon-quanping'"></i>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="footer_bar">
           <div class="footer_mindiv ">
@@ -95,39 +111,32 @@ export default {
     CommentInput,
   },
   methods: {
-    palying(){
-      // console.log('111');
-    this.$refs.pause_playbtn.innerHTML='暂停'
-    },
-    test(){
-      console.log('666');
-    },
     playchange(){
-      console.log('00');
+      console.log(this.$refs.video.paused);
       if(this.$refs.video.paused){
+        this.paused=false
         this.$refs.video.play()
-        this.$refs.pause_playbtn.innerHTML='暂停'
+        // this.$refs.pause_playbtn.innerHTML='暂停'
       }else{
+        this.paused=true
         this.$refs.video.pause()
-        this.$refs.pause_playbtn.innerHTML='播放'
+        // this.$refs.pause_playbtn.innerHTML='播放'
       }
     },
-    pause() {
-      this.$refs.video.pause();
-    },
-    play() {
-      this.$refs.video.play();
-    },
+    // 全屏的函数
     fullscreenchange() {
       if(!this.fullscreened){
         this.fullscreen()
         this.fullscreened=true
-        this.$refs.fullscreen_btn.innerHTML='退出全屏'
+        // 为了适配不同屏幕，居中
+        this.$refs.video.style.top='50%'
+        this.$refs.video.style.transform='translateY(-50%)'
       }else{
         console.log('120');
         this.exitFullscreen()
         this.fullscreened=false
-        this.$refs.fullscreen_btn.innerHTML='全屏'
+        this.$refs.video.style.top='0%'
+        this.$refs.video.style.transform='translateY(0%)'
       }
     },
     // 全屏
@@ -177,13 +186,14 @@ export default {
     }
   },
   mounted(){
-    if(this.$refs.video.paused){
-      this.paused=true
-      console.log(this.paused);
-    }else{
-      this.paused=false
-      console.log(this.paused);
-    }
+    // this.$refs.process.
+    // if(this.$refs.video.paused){
+    //   this.paused=true
+    //   console.log(this.paused);
+    // }else{
+    //   this.paused=false
+    //   console.log(this.paused);
+    // }
     if(this.$refs.des.offsetHeight>80){
       this.$nextTick(()=>{
         this.clickformore=true
