@@ -1,4 +1,5 @@
 @import '../css/var.scss';
+@import '../css/global.scss';
 
 .allcontainer {
     max-width: 2540px;
@@ -61,10 +62,12 @@
             position: relative;
             width: 100%;
             max-width: 1157px;
-            // max-height: 648px;
+            // height: calc(32% - 5px);
             background-color: transparent;
+            overflow: hidden;
 
             .video {
+                display: block;
                 object-fit: contain;
                 width: 100%;
                 position: relative;
@@ -77,11 +80,14 @@
 
             .controls_container {
                 position: absolute;
-                bottom: 4px;
+                bottom: 0px;
                 width: 100%;
                 height: 40px;
                 display: flex;
+                opacity: 0;
+                background: linear-gradient(0deg, $focus 20%, transparent);
                 justify-content: space-between;
+                transition: all .2s linear;
                 align-items: center;
 
                 .iconfont {
@@ -94,15 +100,17 @@
                     height: 4px;
                     background-color: $unfocus;
                     position: absolute;
-                    top: -10px;
-                    .played {
-                        display: none;
-                        width: 100%;
-                        height: 6px;
-                        background-color: $main-pink-red;
-                        &:hover {
-                            display: block;
+                    top: -4px;
 
+                    .buffered {}
+
+                    .played {
+                        width: 100%;
+                        height: 4px;
+                        background-color: $main-pink-red;
+
+                        &:hover {
+                            height: 6px;
                         }
                     }
                 }
@@ -119,9 +127,26 @@
                         line-height: 40px;
                     }
 
-                    .timerange {
+                    .timer_ange {
                         width: 100px;
                         height: 40px;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        font-size: 12px;
+
+                        span {
+                            color: $main-grey;
+                        }
+
+                        .played {
+                            color: white !important;
+
+                        }
+
+                        .duration {
+                            color: $unfocus  !important;
+                        }
                     }
                 }
 
