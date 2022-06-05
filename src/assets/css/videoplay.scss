@@ -95,9 +95,10 @@
                     color: $main-white;
                 }
 
-                .process {
+                .progress {
                     width: 100%;
                     height: 4px;
+                    display: inline-block;
                     background-color: $unfocus;
                     position: absolute;
                     top: -4px;
@@ -105,12 +106,12 @@
                     .buffered {}
 
                     .played {
-                        width: 100%;
+                        transition: all .1s linear;
                         height: 4px;
                         background-color: $main-pink-red;
-
                         &:hover {
                             height: 6px;
+                            margin-top: -1px;
                         }
                     }
                 }

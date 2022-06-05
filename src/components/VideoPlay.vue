@@ -34,11 +34,12 @@
             >
           </video>
           <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
-            <div class="process" ref="process">
+            <div class="progress" ref="progress" @mousedown="jump_duration">
               <!-- 已缓存的条，可能有多个 -->
               <div class="buffered"></div>
               <!-- 已播放的条 -->
-              <div class="played" ref="played"></div>
+              <div class="played" ref="played" :style="{width:videoItem.percent*100+'%'}"></div>
+              <i class="iconfont icont-circle"></i>
             </div>
             <div class="left_area">
               <div class="pause_playbtn" ref="pause_playbtn" @click="playchange">
@@ -118,6 +119,8 @@ export default {
       fullscreened:false,
       is_more_hour:false,
       videoItem:{
+        percent:'',
+        played_lenght:'',
         currentTime:'',
         duration:'',
         duration_h:'',
@@ -143,11 +146,10 @@ export default {
   watch:{
     videoItem:{
       handler: (val, olVal) => {
-        console.log('我变化了', val, olVal)
+        // console.log('我变化了', val, olVal)
         if(val.duration_h){
           this.is_more_hour=true
         }
-        // val.played_h=this.fill_zero(2)
       },
       deep: true,
     }
@@ -159,33 +161,53 @@ export default {
     // 视频可播放了的事件
     test(){
       console.log('该事件执行');
-      this.videoItem.duration='111'
+      // this.videoItem.duration='111'
+      console.log();
+    },
+    jump_duration(e){
+      let moused_downX=e.offsetX,
+          progress_lenght=this.$refs.progress.offsetWidth,
+          video_duration=parseInt(this.$refs.video.duration);
+          // 计算百分比
+      this.videoItem.percent=(moused_downX/progress_lenght).toFixed(2)
+      let new_time=parseInt(video_duration*this.videoItem.percent)
+      this.videoItem.currentTime=new_time
+      this.$refs.video.currentTime=new_time
+      console.log(this.videoItem.played_lenght);
+      console.log(moused_downX);
+      console.log(progress_lenght);
+      console.log(video_duration);
+      console.log(this.videoItem.percent);
+      console.log(new_time);
     },
     // 补零的方法
     fill_zero(length,num){
       return (Array(length).join('0')+num).slice(-length)
     },
     get_new_timerange(){
-      // 获取到将当前播放的时间
-      this.videoItem.currentTime=parseInt(this.$refs.video.currentTime)
+      // 当视频播放时，获取到将当前播放的时间
+      this.videoItem.currentTime=this.$refs.video.currentTime
+      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(4)
+      console.log(this.videoItem.percent);
       this.videoItem.played_h=Math.floor(this.videoItem.currentTime/3600)
       this.videoItem.played_m=this.fill_zero(2,Math.floor((this.videoItem.currentTime-this.videoItem.played_h*3600)/60))
       this.videoItem.played_s=this.fill_zero(2,Math.floor(this.videoItem.currentTime-(this.videoItem.played_h*3600+this.videoItem.played_m*60))) 
+      // this.videoItem.played_lenght=this.$refs.progress.offsetWidth*this.videoItem.percent+'%';
+      console.log('1');
     },
     init_video(){
       // 初始化视频信息,计算时分秒
+      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(2)
       this.videoItem.duration=Math.floor(this.$refs.video.duration)   //单位为秒
       this.videoItem.duration_h=Math.floor(this.videoItem.duration/3600)
       this.videoItem.duration_m=this.fill_zero(2,Math.floor((this.videoItem.duration-this.videoItem.duration_h*3600)/60))
       this.videoItem.duration_s=this.fill_zero(2,Math.floor(this.videoItem.duration-(this.videoItem.duration_h*3600+this.videoItem.duration_m*60)))
     },
     video_playing(){
-      // console.log('111');
     },
     mouse_in_contrl(){
       clearTimeout(this.control_timer)
       this.$refs.controls_container.style.opacity='1'
-      // console.log(this.$refs.video.buffered.end(0));
     },
     mouse_out_contrl(){
       clearTimeout(this.control_timer)
@@ -246,7 +268,6 @@ export default {
       }
     },
     unfold(){
-      // this.$refs.clickformore.style.height='auto'
       let des = document.getElementById('des')
       console.log(this.isfold);
       if(this.isfold){
@@ -261,37 +282,9 @@ export default {
         this.isfold=true
         this.$refs.clickformore.innerHTML='展开更多'
       }
-      // let des_text = document.getElementById('des_text')
-      // this.$refs.des.offsetHeight=this.$refs.des_text.offsetHeight
-      // console.log(des.style.height);
-      // console.log(this.$refs.des_text.offsetHeight);
     }
   },
   mounted(){
-    // 不知道为什么对不上高度，在这矫正一下
-    let video_container=document.getElementById('video_container')
-    let video=document.getElementById('video')
-    console.log(video_container.style.height);
-    console.log(video.style.height);
-    console.log(video_container);
-    console.log(video);
-    video_container.style.height=video.style.height
-    // =`${}`
-    // this.$refs.process.
-    // if(this.$refs.video.paused){
-    //   this.paused=true
-    //   console.log(this.paused);
-    // }else{
-    //   this.paused=false
-    //   console.log(this.paused);
-    // }
-    // 获取视频的长度
-    // while (1) {
-    //   if(this.$refs.video.readyState){
-    //   console.log(Math.floor(this.$refs.video.duration));
-    //   break;
-    //   }
-    // }
     if(this.$refs.des.offsetHeight>80){
       this.$nextTick(()=>{
         this.clickformore=true
