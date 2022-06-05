@@ -21,10 +21,10 @@
           </div>
         </div>
       </div>
-      <VideoPreview v-for="(item,index) in 6" :key="index" >
+      <VideoPreview v-for="(item,index) in video_list" :key="index" :video_item="item">
         <i class="iconfont icon-UP"></i>
-        <a href="javascript:;" class="nickname">{{nickname}}昵称</a>
-        <a href="javascript:;" for="nickname">{{date}}日期</a>
+        <a href="javascript:;" class="nickname">{{item.nickname}}</a>
+        <a href="javascript:;" for="nickname">{{item.createdAt}}</a>
       </VideoPreview>
     </div>
     <div class="test"></div>
@@ -35,6 +35,7 @@ import Header from "../components/Header.vue";
 import Banner from "@/components/Banner.vue";
 import VideoPreview from "@/components/VideoPreview.vue";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import HttpManager from '@/api';
 
 export default {
   data() {
@@ -50,7 +51,8 @@ export default {
           el: ".swiper-pagination", //分页器的类名
           clickable: true //设置分页小圆点可手动点击
         }
-      }
+      },
+      video_list:'',
     };
   },
   components: {
@@ -90,6 +92,12 @@ export default {
         that.windowWidth = window.fullWidth; // 宽
       })();
     };
+  },
+  created(){
+    HttpManager.postAllVideo().then(response=>{
+      console.log(response.data);
+      this.video_list=response.data
+    })
   }
 };
 </script>

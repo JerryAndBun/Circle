@@ -129,11 +129,11 @@
           <div class="video_file" v-for="(item,index) in filesArray" :key="index">
             <div class="video_attribute">
               <span class="p_part">P1</span>
-              <input type="text" class="p_name">
-              <span class="remain_word">7/45</span>
+              <input type="text" class="p_name" :value="item.title">
+              <span class="remain_word">{{item.title.length}}/45</span>
             </div>
             <div class="video_process">
-              <div class="finish_part" :style="{'width':'100%','height':'6px'}"></div>
+              <div class="finish_part" :style="{'width':progress,'height':'6px'}"></div>
             </div>
             <div class="video_state">
               <span class="state">上传中</span>
@@ -189,6 +189,7 @@ export default {
       have_preview:false,
       tag_list:[],
       filesArray:[],
+      cv:'',
       // 
       value: [],
       options: options,
@@ -264,19 +265,68 @@ export default {
       this.file = new FormData();
       // e.target.files就是选中的文件的一个数组
       console.log(e.target.files);
-      for (let index = 0; index < e.target.files.length; index++) {
-        this.file.append(`${e.target.files[index].name}`, e.target.files[index]);
+      this.upload_video(e.target.files)
+      // for (let index = 0; index < e.target.files.length; index++) {
+      //   this.file.append(`${e.target.files[index].name}`, e.target.files[index]);
+      // }
+    },
+    // 上传视频的函数，可以判断是否重复
+    upload_video(List){
+      let double=0
+      for (const iterator of List) {
+        for (const item of this.filesArray) {
+          if(iterator.name===item.name){
+            console.log('文件重复');
+            double=1
+            break
+            }else{
+              double=0
+            }
+          }
+        if(double){
+          break
+        }
+        this.filesArray.push(iterator)
       }
-      // console.log(this.file.entries());
-      for (const iterator of this.file) {
-        console.log(iterator);
-        console.log('2');
+      if(this.filesArray){
+        console.log(this.filesArray);
+        this.selected=true
       }
+      this.config= {
+        onUploadProgress: (progress) => {
+          // 格式化成百分数
+          this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
+        }
+      };
+      let formData= new FormData()
+      // 往表单提交数据，上传至服务器，未激活状态
+      for (const item of this.filesArray) {
+        formData.append('videoFile',item)
+        formData.append('cv',this.cv)
+      }
+      HttpManager.postVideo(formData,this.config).then(
+        response=>{
+          console.log(response);
+          this.cv=response.data
+          console.log('上传成功');
+          this.selected=true
+        },
+        error=>{
+          console.log(error);
+          console.log('上传失败');
+        }
+      )
     },
     submitfile() {
-      HttpManager.postUserAvatar(this.file).then(
+      HttpManager.postPublish(`${this.baseurl}/publish/${this.cv}`,{
+        cv:this.cv,
+        links:this.tag_list,
+        summary:this.$refs.summary_input.value,
+        title:this.$refs.title_input.value
+        }).then(
         (response) => {
           console.log(response);
+          this.$router.push('/')
           console.log("上传成功");
         },
         (error) => {
@@ -300,46 +350,13 @@ export default {
       e.preventDefault();
     },
     ondrop(e) {
-      
+      console.log(this.filesArray);
       this.$refs.hoverdiv.style.backgroundColor = "#fff";
       e.stopPropagation();
       e.preventDefault();
-      let filesArray = e.dataTransfer.files;
-      this.selected=true
-      this.config= {
-        onUploadProgress: (progress) => {
-          // 格式化成百分数
-          this.progress = Math.floor((progress.loaded / progress.total) * 100) + "%";
-        }
-      };
-      for (const item of filesArray) {
-          let formData = new FormData()
-          let summary=this.$refs.summary_input.value
-          let title=this.$refs.title_input.value
-          formData.append('videoFile',item)
-          formData.append('summary ',summary)
-          formData.append('title',title)
-          // {
-          //     formData,
-          //     params: { summary : summary,title:title } 
-          //   }
-          HttpManager.postVideo(formData,this.config).then(
-          response=>{
-            console.log(response);
-            console.log('上传成功');
-          },
-          error=>{
-            console.log(error);
-            console.log('上传失败');
-          }
-        )
-      }
+      // 上传视频
+      this.upload_video(e.dataTransfer.files)
       
-      // this.video_array.concat(filesArray)
-      // console.log(this.video_array);
-
-      // this.video_array= Array.from(new Set(this.video_array));
-      // console.log(this.video_array);
     },
     //选择本地图片
     // 上传封面的
@@ -396,7 +413,6 @@ export default {
         },(error)=>{
 
         })
-        // this.close_cut()
       })
     }
   },
@@ -404,21 +420,28 @@ export default {
   mounted() {
     const dropzone = document.getElementById("updatevideo_area");
     let that = this.ishover;
-  },
-  created(){
     // 查询用户是否有上一次的编辑记录
+
     HttpManager.getUploadVideo().then(
       (response)=>{
         console.log(response);
-        if(response){
+        if(response.videoEffectiveDtoList.length){
           this.selected=true
           this.have_preview=true
           this.video_cover_url=response.titlePagePath
+          if(response.videoEffectiveDtoList){
+            this.filesArray=response.videoEffectiveDtoList
+            this.selected=true
+            this.cv=response.videoEffectiveDtoList[0].cv
+          }
         }
       },error=>{
 
       }
     )
+  },
+  created(){
+    
   }
 };
 </script>

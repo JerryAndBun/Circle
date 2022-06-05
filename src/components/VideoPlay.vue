@@ -20,10 +20,10 @@
             </div>
           </div>
         </div>
-        <div class="video_container" id="video_container" ref="video_container">
+        <div class="video_container" id="video_container" ref="video_container" @mousemove="mouse">
           <video class="video" id="video" ref="video" 
-            preload 
-            src='../assets/midea/案例视频.mp4'
+            preload
+            :src="`${baseurl}${videoItem.video_path}`"
             preload="auto"
             poster="" 
             loop='true'
@@ -34,12 +34,15 @@
             >
           </video>
           <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
-            <div class="progress" ref="progress" @mousedown="jump_duration">
+            <div class="progress" ref="progress" @click="jump_duration">
               <!-- 已缓存的条，可能有多个 -->
               <div class="buffered"></div>
               <!-- 已播放的条 -->
-              <div class="played" ref="played" :style="{width:videoItem.percent*100+'%'}"></div>
-              <i class="iconfont icont-circle"></i>
+              <div class="played" ref="played" :style="{width:videoItem.percent*100+'%'}">
+                <div class="dotdiv">
+                  
+                </div>
+              </div>
             </div>
             <div class="left_area">
               <div class="pause_playbtn" ref="pause_playbtn" @click="playchange">
@@ -119,13 +122,13 @@ export default {
       fullscreened:false,
       is_more_hour:false,
       videoItem:{
+        video_path:'',
         percent:'',
         played_lenght:'',
         currentTime:'',
         duration:'',
         duration_h:'',
         duration_m:'',
-        
         duration_s:'',
         played_h:'00',
         played_m:'00',
@@ -164,6 +167,9 @@ export default {
       // this.videoItem.duration='111'
       console.log();
     },
+    mouse(){
+      console.log('651513');
+    },
     jump_duration(e){
       let moused_downX=e.offsetX,
           progress_lenght=this.$refs.progress.offsetWidth,
@@ -193,13 +199,15 @@ export default {
       this.videoItem.played_m=this.fill_zero(2,Math.floor((this.videoItem.currentTime-this.videoItem.played_h*3600)/60))
       this.videoItem.played_s=this.fill_zero(2,Math.floor(this.videoItem.currentTime-(this.videoItem.played_h*3600+this.videoItem.played_m*60))) 
       // this.videoItem.played_lenght=this.$refs.progress.offsetWidth*this.videoItem.percent+'%';
-      console.log('1');
     },
     init_video(){
       // 初始化视频信息,计算时分秒
-      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(2)
       this.videoItem.duration=Math.floor(this.$refs.video.duration)   //单位为秒
+      console.log(this.videoItem.duration);
+      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(2)
+      console.log(this.videoItem.percent);
       this.videoItem.duration_h=Math.floor(this.videoItem.duration/3600)
+      console.log(this.videoItem.duration_h);
       this.videoItem.duration_m=this.fill_zero(2,Math.floor((this.videoItem.duration-this.videoItem.duration_h*3600)/60))
       this.videoItem.duration_s=this.fill_zero(2,Math.floor(this.videoItem.duration-(this.videoItem.duration_h*3600+this.videoItem.duration_m*60)))
     },
@@ -300,11 +308,10 @@ export default {
     HttpManager.getVideoUrl(url).then((response)=>{
       console.log('查询视频URL地址成功');
       console.log(response);
-      this.videoItem=response
+      this.videoItem.video_path=response.videoPath
       console.log(this.videoItem);
     },(error)=>{
       console.log('查询视频URL地址失败');
-
     })
     
   },

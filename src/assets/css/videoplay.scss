@@ -98,21 +98,39 @@
                 .progress {
                     width: 100%;
                     height: 4px;
-                    display: inline-block;
                     background-color: $unfocus;
                     position: absolute;
-                    top: -4px;
+                    transition: all .1s linear;
 
-                    .buffered {}
+                    // top: -4px;
+                    bottom: 0px;
+                    &:hover{
+                        height: 8px;
+                        .dotdiv{
+                            position: absolute;
+                            display: inline-block;
+                            font-size: 16px;
+                            background-color: $main-red;
+                            border-radius: 100%;
+                            border: 2px solid $main-white;
+                            right: -5px;
+                            top: -4px;
+                            width: 10px;
+                            height: 10px;
+                            z-index: 600;
+                        }
+                    }
+                    .buffered {
+                        
+                    }
 
                     .played {
                         transition: all .1s linear;
-                        height: 4px;
+                        height: 100%;
                         background-color: $main-pink-red;
-                        &:hover {
-                            height: 6px;
-                            margin-top: -1px;
-                        }
+                        position: relative;
+                        
+
                     }
                 }
 

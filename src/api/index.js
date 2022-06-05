@@ -50,6 +50,10 @@ const HttpManager = {
     // 点击投稿检查是否有上一次的记录
     getUploadVideo:()=>get(`/uploadVideo`),
     // 上传投稿视频
-    postVideo:(params,config)=>post(`/video`,params,config)
+    postVideo:(params,config)=>post(`/video`,params,config),
+    // 提交发布视频
+    postPublish:(url,params)=>post(url,params),
+    // 获取所有视频
+    postAllVideo:()=>post('/allVideoList')
 }
 export default HttpManager

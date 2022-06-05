@@ -66,7 +66,7 @@
         </li>
         <li class="guide-upload">
           <router-link to="/contribution" class="linktext">
-            <i class="wpjiconfont icon-shangchuan"></i>
+            <i class="iconfont icon-shangchuan"></i>
             投稿
           </router-link>
         </li>
