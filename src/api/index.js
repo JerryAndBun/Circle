@@ -1,4 +1,4 @@
-import { get, post,put } from "../api/request"
+import { deletemethods, get, post,put } from "../api/request"
 
 const HttpManager = {
     // 登录提交用户登录信息
@@ -38,13 +38,13 @@ const HttpManager = {
     // 点击收藏视频
     postCollectByCv:(url)=>post(url),
     // 查询用户收藏的视频
-    getCollectList:()=>get(`/collectList`),
+    getCollectList:(url)=>get(url),
     // 取消收藏
     // 上传视频
     // 通过cv号查询视频
     getVideoUrl:(url)=>get(url),
     // 查询自己的投稿列表
-
+    getVideoList:(url)=>get(url),
     //上传视频封面
     postUploadTitlePic:(params)=>post(`/uploadTitlePic`,params),
     // 点击投稿检查是否有上一次的记录
@@ -54,6 +54,12 @@ const HttpManager = {
     // 提交发布视频
     postPublish:(url,params)=>post(url,params),
     // 获取所有视频
-    postAllVideo:()=>post('/allVideoList')
+    postAllVideo:()=>post('/allVideoList'),
+    // 删除分P视频
+    deletePVideo:(url)=>deletemethods(url),
+    // 收藏该视频
+    postCollectVideo:(url)=>post(url),
+    // 取消收藏
+    deleteCollectVideo:(url)=>deletemethods(url),
 }
 export default HttpManager

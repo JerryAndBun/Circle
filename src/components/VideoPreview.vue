@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="vp_info_div">
-      <router-link :to="`/video/${cv}`" >
+      <router-link :to="`/video/${video_item.cv}`" >
         <h3>{{video_item.title}}</h3>
       </router-link>
       <div class="vp_info">
@@ -26,6 +26,9 @@ export default {
       // cv:'"a37ec456"',
       baseurl:BASE_URL
     }
+  },
+  created(){
+    console.log(this.video_item);
   },
 };
 </script>

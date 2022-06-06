@@ -16,7 +16,6 @@
           <router-link to="/searchresult/user">
             用户
           </router-link>
-
         </div>
         <div class="line" ref="line"></div>
       </div>
@@ -85,6 +84,7 @@ export default {
         this.$store.commit("info/setIsUser", this.myisuser);
         console.log("这里是视频搜索");
         console.log(`关键字是${this.searchtext}`);
+        // HttpManager.
       }
       if ((this.myisuser && this.firstuser) || this.authsearch) {
         // 用户组件
@@ -114,6 +114,9 @@ export default {
       console.log("刷新执行");
     }
     this.$refs.searchInput.value = this.searchtext;
+  },
+  created(){
+    // HttpManager
   },
   beforeRouteLeave(to, from, next) {
     this.$store.commit("info/setIsUser", false);

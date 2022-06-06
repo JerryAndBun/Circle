@@ -128,13 +128,18 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 height: 50px;
-                width: 130px;
-
+                width: 120px;
+                margin-left: 10px;
+                display: flex;
+                flex-direction: column;
+                line-height: 24px;
+                align-items: flex-start;
+                // justify-content: ;
                 .nicksapn,
                 .precontentspan {
-                    margin-left: 10px;
-                    margin-bottom: 26px;
-                    margin-right: 4px;
+                    // margin-left: 10px;
+                    margin-bottom: 2px;
+                    // margin-right: 4px;
                 }
 
                 .precontentspan {

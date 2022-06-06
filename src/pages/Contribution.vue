@@ -130,14 +130,14 @@
             <div class="video_attribute">
               <span class="p_part">P1</span>
               <input type="text" class="p_name" :value="item.title">
-              <span class="remain_word">{{item.title.length}}/45</span>
+              <span class="remain_word">{{item.title?item.title.length:'0'}}/45</span>
             </div>
             <div class="video_process">
               <div class="finish_part" :style="{'width':progress,'height':'6px'}"></div>
             </div>
             <div class="video_state">
-              <span class="state">上传中</span>
-              <a href="" @click.prevent="" class="delete_video">删除</a>
+              <span class="state">{{progress=='100%'?'上传完成':progress}}</span>
+              <a href="" class="delete_video" @click.prevent="delete_video(item.pid)" >删除</a>
             </div>
           </div>
         </div>
@@ -222,7 +222,7 @@ export default {
     Footer,
     VueCropper,
   },
-    watch:{
+  watch:{
     progress(newvalue,odlvalue){
       console.log(newvalue);
       if(newvalue=='100%'){
@@ -232,6 +232,44 @@ export default {
     }
   },
   methods: {
+    // 删除上传的分P视频
+    get_cache_video_list(){
+       HttpManager.getUploadVideo().then(
+      (response)=>{
+        console.log(response);
+        if(response.videoEffectiveDtoList.length){
+          console.log('11111');
+          this.selected=true
+          // this.have_preview=true
+          this.progress='100%'
+          this.video_cover_url=response.titlePagePath
+          if(response.videoEffectiveDtoList){
+            this.filesArray=response.videoEffectiveDtoList
+            this.selected=true
+            this.cv=response.videoEffectiveDtoList[0].cv
+          }
+        }
+      },error=>{
+
+      }
+    )
+    },
+    delete_video(pid){
+      HttpManager.deletePVideo(`/video/${this.cv}/${pid}`).then(
+        response=>{
+          console.log('删除成功');
+          console.log(response);
+          this.filesArray=response.videoEffectiveDtoList
+          // this.get_cache_video_list()
+          // setTimeout(() => {
+          //   this.get_cache_video_list()
+          // }, 1000);
+        },
+        error=>{
+          console.log('删除失败');
+        }
+      )
+    },
     // 获取tag
     get_tag(e){
       console.log(e.target.value);
@@ -272,6 +310,7 @@ export default {
     },
     // 上传视频的函数，可以判断是否重复
     upload_video(List){
+      this.selected=true
       let double=0
       for (const iterator of List) {
         for (const item of this.filesArray) {
@@ -319,10 +358,10 @@ export default {
     },
     submitfile() {
       HttpManager.postPublish(`${this.baseurl}/publish/${this.cv}`,{
-        cv:this.cv,
-        links:this.tag_list,
-        summary:this.$refs.summary_input.value,
-        title:this.$refs.title_input.value
+          cv:this.cv,
+          tags:this.tag_list,
+          summary:this.$refs.summary_input.value,
+          title:this.$refs.title_input.value
         }).then(
         (response) => {
           console.log(response);
@@ -421,27 +460,10 @@ export default {
     const dropzone = document.getElementById("updatevideo_area");
     let that = this.ishover;
     // 查询用户是否有上一次的编辑记录
-
-    HttpManager.getUploadVideo().then(
-      (response)=>{
-        console.log(response);
-        if(response.videoEffectiveDtoList.length){
-          this.selected=true
-          this.have_preview=true
-          this.video_cover_url=response.titlePagePath
-          if(response.videoEffectiveDtoList){
-            this.filesArray=response.videoEffectiveDtoList
-            this.selected=true
-            this.cv=response.videoEffectiveDtoList[0].cv
-          }
-        }
-      },error=>{
-
-      }
-    )
+    
   },
   created(){
-    
+    this.get_cache_video_list()
   }
 };
 </script>

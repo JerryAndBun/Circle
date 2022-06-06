@@ -9,7 +9,7 @@
     <div class="backgroundDiv">
       <div v-if="isempty" class="emptyinfo">
         <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="">
-        <div class="emptytext" id="emptytext" ref="emptytext">你还没有粉丝，快去投稿吧~</div>
+        <div class="emptytext" id="emptytext" ref="emptytext">暂无粉丝，快去投稿吧~</div>
       </div>
       <div class="fansList" v-if="ispage1">
         <UserPreview v-for="(item,index) in itemList.fansList" :key="index" :item="item"></UserPreview>
@@ -45,7 +45,7 @@ export default {
       if (!this.itemList.fansList.length) {
         this.isempty = 1;
         this.$nextTick(() => {
-          console.log((this.$refs.emptytext.innerHTML = "你还没有粉丝，快去投稿吧~"));
+          console.log((this.$refs.emptytext.innerHTML = "暂无粉丝，快去投稿吧~"));
         });
       } else {
         this.isempty = 0;
@@ -61,7 +61,7 @@ export default {
         this.isempty = 1;
         console.log("11111111");
         this.$nextTick(() => {
-          console.log((this.$refs.emptytext.innerHTML = "你还没有关注的人哦"));
+          console.log((this.$refs.emptytext.innerHTML = "暂无关注的人哦"));
         });
       } else {
         this.isempty = 0;

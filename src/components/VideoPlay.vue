@@ -4,15 +4,15 @@
     <div class="allcontainer" ref="videocontainer" id="videocontainer" >
       <div class="left_container">
         <div class="title_container">
-          <h1 class="title_text">{{videoItem.title}}</h1>
+          <h1 class="title_text">{{video_item.title}}</h1>
           <div class="video_info">
             <div class="playNum minidiv">
               <i class=" iconfont icon-bofangliang "></i>
-              {{videoItem.playNum}}
+              {{video_item.playNum}}
             </div>
             <div class="createAt minidiv">
               <i class=" iconfont icon-riqi "></i>
-              {{videoItem.createdAt}}
+              {{video_item.createdAt}}
             </div>
             <div class="copyRight minidiv">
               <i class=" iconfont icon-jinzhi "></i>
@@ -23,7 +23,7 @@
         <div class="video_container" id="video_container" ref="video_container" @mousemove="mouse">
           <video class="video" id="video" ref="video" 
             preload
-            :src="`${baseurl}${videoItem.video_path}`"
+            :src="`${baseurl}${video_item.videoPath}`"
             preload="auto"
             poster="" 
             loop='true'
@@ -38,7 +38,7 @@
               <!-- 已缓存的条，可能有多个 -->
               <div class="buffered"></div>
               <!-- 已播放的条 -->
-              <div class="played" ref="played" :style="{width:videoItem.percent*100+'%'}">
+              <div class="played" ref="played" :style="{width:video_play_Item.percent*100+'%'}">
                 <div class="dotdiv">
                   
                 </div>
@@ -49,17 +49,17 @@
                 <i class="iconfont" :class="paused?'icon-bofang':'icon-zanting'"></i>
               </div>
               <div class="timer_ange">
-                <span class="played_h played" v-if="is_more_hour">{{videoItem.played_h}}</span>
+                <span class="played_h played" v-if="is_more_hour">{{video_play_Item.played_h}}</span>
                 <span v-if="is_more_hour">:</span>
-                <span class="played_m played">{{videoItem.played_m}}</span>
+                <span class="played_m played">{{video_play_Item.played_m}}</span>
                 <span>:</span>
-                <span class="played_s played">{{videoItem.played_s}}</span>
+                <span class="played_s played">{{video_play_Item.played_s}}</span>
                 <span>/</span>
-                <span class="duration_h duration" v-if="is_more_hour">{{videoItem.duration_h}}</span>
+                <span class="duration_h duration" v-if="is_more_hour">{{video_play_Item.duration_h}}</span>
                 <span v-if="is_more_hour">:</span>
-                <span class="duration_m duration">{{videoItem.duration_m}}</span>
+                <span class="duration_m duration">{{video_play_Item.duration_m}}</span>
                 <span>:</span>
-                <span class="duration_s duration">{{videoItem.duration_s}}</span>
+                <span class="duration_s duration">{{video_play_Item.duration_s}}</span>
               </div>
             </div>
             <div class="right_area">
@@ -73,27 +73,28 @@
           </div>
         </div>
         <div class="footer_bar">
-          <div class="footer_mindiv ">
-            <i class="iconfont icon-dianzan"></i>{{}}
+          <div class="footer_mindiv">
+            <!-- :class="is_liked?active:unactive" -->
+            <i class="iconfont icon-dianzan"  @click=""></i>{{video_item.collects}}
           </div>
-          <div class="footer_mindiv ">
-            <i class="iconfont icon-shoucang"></i>{{}}
+          <div class="footer_mindiv">
+            <i class="iconfont icon-shoucang" :class="is_collected?'active':'unactive'" @click="collect_video"></i>{{video_item.collects}}
           </div>
-          <div class="footer_mindiv ">
-            <i class="iconfont icon-zhuanfa"></i>{{}}
+          <div class="footer_mindiv">
+            <i class="iconfont icon-zhuanfa"></i>{{video_item.collects}}
           </div>
         </div>
         <div class="description_container"  ref="description_container">
           <div class="des" ref="des" id="des">
             <span class="des_text" ref="des_text" id="des_text">
-              暂无简介
+              {{video_item.summary}}
             </span>
           </div>
           <div class="clickformore" ref="clickformore" @click="unfold" v-if="clickformore">展开更多</div>
         </div>
         <div class="tagList_container">
           <ul class="tagList">
-            <li v-for="(item,index) in 6" :key="index"><a href="" @click.prevent="">标签标签</a></li>
+            <li v-for="(item,index) in video_item.tags" :key="index"><a href="" @click.prevent="">{{item}}</a></li>
           </ul>
         </div>
         <div class="comment_container">
@@ -119,10 +120,17 @@ export default {
     return {
       // 是否暂停
       paused:true,
+      // 是否全屏
       fullscreened:false,
+      // 视频时长是否超过一小时
       is_more_hour:false,
-      videoItem:{
-        video_path:'',
+      // 是否已收藏
+      is_collected:false,
+      video_item:{
+        // video_path:'',
+        // links:''
+      },
+      video_play_Item:{
         percent:'',
         played_lenght:'',
         currentTime:'',
@@ -147,7 +155,7 @@ export default {
     CommentInput,
   },
   watch:{
-    videoItem:{
+    video_play_Item:{
       handler: (val, olVal) => {
         // console.log('我变化了', val, olVal)
         if(val.duration_h){
@@ -164,26 +172,47 @@ export default {
     // 视频可播放了的事件
     test(){
       console.log('该事件执行');
-      // this.videoItem.duration='111'
+      // this.video_play_Item.duration='111'
       console.log();
     },
+    collect_video(){
+      // console.log(this.video_item.cv)
+      HttpManager.postCollectVideo(`/collect/${this.video_item.cv}`).then(
+        response=>{console.log('收藏该视频成功');this.is_collected=true},
+        error=>{console.log('收藏该视频失败');
+          if(error.data.message==='视频已收藏'){
+            HttpManager.deleteCollectVideo(`/unCollect/${this.video_item.cv}`).then(
+              response=>{
+                console.log('取消收藏成功');
+                this.is_collected=false
+              },
+              error=>{
+                console.log('取消收藏失败');
+              }
+            )
+          }
+        }
+      )
+    },
     mouse(){
-      console.log('651513');
+      // console.log('651513');
+      this.mouse_in_contrl()
+      this.mouse_out_contrl()
     },
     jump_duration(e){
       let moused_downX=e.offsetX,
           progress_lenght=this.$refs.progress.offsetWidth,
           video_duration=parseInt(this.$refs.video.duration);
           // 计算百分比
-      this.videoItem.percent=(moused_downX/progress_lenght).toFixed(2)
-      let new_time=parseInt(video_duration*this.videoItem.percent)
-      this.videoItem.currentTime=new_time
+      this.video_play_Item.percent=(moused_downX/progress_lenght).toFixed(2)
+      let new_time=parseInt(video_duration*this.video_play_Item.percent)
+      this.video_play_Item.currentTime=new_time
       this.$refs.video.currentTime=new_time
-      console.log(this.videoItem.played_lenght);
+      console.log(this.video_play_Item.played_lenght);
       console.log(moused_downX);
       console.log(progress_lenght);
       console.log(video_duration);
-      console.log(this.videoItem.percent);
+      console.log(this.video_play_Item.percent);
       console.log(new_time);
     },
     // 补零的方法
@@ -192,24 +221,24 @@ export default {
     },
     get_new_timerange(){
       // 当视频播放时，获取到将当前播放的时间
-      this.videoItem.currentTime=this.$refs.video.currentTime
-      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(4)
-      console.log(this.videoItem.percent);
-      this.videoItem.played_h=Math.floor(this.videoItem.currentTime/3600)
-      this.videoItem.played_m=this.fill_zero(2,Math.floor((this.videoItem.currentTime-this.videoItem.played_h*3600)/60))
-      this.videoItem.played_s=this.fill_zero(2,Math.floor(this.videoItem.currentTime-(this.videoItem.played_h*3600+this.videoItem.played_m*60))) 
-      // this.videoItem.played_lenght=this.$refs.progress.offsetWidth*this.videoItem.percent+'%';
+      this.video_play_Item.currentTime=this.$refs.video.currentTime
+      this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(4)
+      // console.log(this.video_play_Item.percent);
+      this.video_play_Item.played_h=Math.floor(this.video_play_Item.currentTime/3600)
+      this.video_play_Item.played_m=this.fill_zero(2,Math.floor((this.video_play_Item.currentTime-this.video_play_Item.played_h*3600)/60))
+      this.video_play_Item.played_s=this.fill_zero(2,Math.floor(this.video_play_Item.currentTime-(this.video_play_Item.played_h*3600+this.video_play_Item.played_m*60))) 
+      // this.video_play_Item.played_lenght=this.$refs.progress.offsetWidth*this.video_play_Item.percent+'%';
     },
     init_video(){
       // 初始化视频信息,计算时分秒
-      this.videoItem.duration=Math.floor(this.$refs.video.duration)   //单位为秒
-      console.log(this.videoItem.duration);
-      this.videoItem.percent=(this.videoItem.currentTime/this.videoItem.duration).toFixed(2)
-      console.log(this.videoItem.percent);
-      this.videoItem.duration_h=Math.floor(this.videoItem.duration/3600)
-      console.log(this.videoItem.duration_h);
-      this.videoItem.duration_m=this.fill_zero(2,Math.floor((this.videoItem.duration-this.videoItem.duration_h*3600)/60))
-      this.videoItem.duration_s=this.fill_zero(2,Math.floor(this.videoItem.duration-(this.videoItem.duration_h*3600+this.videoItem.duration_m*60)))
+      this.video_play_Item.duration=Math.floor(this.$refs.video.duration)   //单位为秒
+      console.log(this.video_play_Item.duration);
+      this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(2)
+      console.log(this.video_play_Item.percent);
+      this.video_play_Item.duration_h=Math.floor(this.video_play_Item.duration/3600)
+      console.log(this.video_play_Item.duration_h);
+      this.video_play_Item.duration_m=this.fill_zero(2,Math.floor((this.video_play_Item.duration-this.video_play_Item.duration_h*3600)/60))
+      this.video_play_Item.duration_s=this.fill_zero(2,Math.floor(this.video_play_Item.duration-(this.video_play_Item.duration_h*3600+this.video_play_Item.duration_m*60)))
     },
     video_playing(){
     },
@@ -292,14 +321,18 @@ export default {
       }
     }
   },
-  mounted(){
-    if(this.$refs.des.offsetHeight>80){
-      this.$nextTick(()=>{
-        this.clickformore=true
+  updated(){
+    // this.clickformore=true
+    console.log(this.$refs.des_text.offsetHeight);
+    this.$nextTick(()=>{
+      if(this.$refs.des_text.offsetHeight>79){
+        console.log('超了');
+        this.$nextTick(()=>{
+          this.clickformore=true
       })
-      // alert()
       console.log(this.clickformore);
-    }
+      }
+    })
   },
   created(){
     // 根据cv号查询视频地址
@@ -308,8 +341,8 @@ export default {
     HttpManager.getVideoUrl(url).then((response)=>{
       console.log('查询视频URL地址成功');
       console.log(response);
-      this.videoItem.video_path=response.videoPath
-      console.log(this.videoItem);
+      this.video_item=response
+      console.log(this.video_item);
     },(error)=>{
       console.log('查询视频URL地址失败');
     })

@@ -11,7 +11,7 @@
             <img class="useravatar" :src="`${baseurl}${item.opAvatar}`" alt="">
             <div class="infodiv">
               <span class="nicksapn">{{item.opNickname}}</span>
-              <span class="precontentspan" v-html="item.content[item.content.length-1].content"></span>
+              <span class="precontentspan" v-html="item.content.length?item.content[item.content.length-1].content:''"></span>
             </div>
           </li>
         </ul>
@@ -50,7 +50,8 @@ export default {
       isshowwindow: false,
       singlemessage: "",
       count: 0,
-      messageList: ""
+      messageList: "",
+      // precontentspan:'',
     };
   },
   methods: {
@@ -74,21 +75,21 @@ export default {
       // console.log(this.messageList);
     }
   },
+  computed: {
+    ...mapGetters("user", ["uid"]),
+     precontentspan(){
+      // return item.content[item.content.length-1].content
+    }
+  },
   components: {
     Header,
     MessageWindow,
     Footer
   },
-  computed: {
-    ...mapGetters("user", ["uid"])
-    // CmessageList:{
-    //   get(){return this.messageList},
-    //   set(value){this.messageList=value}
-    // }
-  },
+  
   mounted() {
     // this.tothischat(this.messageList[this.messageList.length])
-    // console.log();
+    console.log(this.precontentspan);
   },
   created() {
     this.$watch(
@@ -110,10 +111,12 @@ export default {
         console.log(this.messageList);
         // 若是私信按钮的，生成一个空的聊天记录到List
         if (this.$route.params.uid) {
+          console.log(this.$route.params.uid);
           HttpManager.getSigelTalk(`/singleMessage/${this.$route.params.uid}`).then(
             (response) => {
               this.isshowwindow = true;
               console.log("所有单个消息列表");
+              console.log(this.isshowwindow);
               this.singlemessage = response;
               console.log(this.singlemessage);
               const isntareadlyin = (item) => item.opUid != response.opUid;
@@ -129,13 +132,13 @@ export default {
           );
         }
         if (this.messageList.length === 0) {
-          return; //没有消息
+        //没有消息
+          return; 
         }
-        // 有消息
+        // 有消息,显示第一个
         this.isshowwindow = true;
         console.log("所有消息列表");
         console.log(this.messageList);
-        // if
         this.tothischat(this.messageList[0]);
       },
       (error) => {

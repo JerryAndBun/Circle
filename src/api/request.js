@@ -89,3 +89,10 @@ export function put(url, params) {
     ).catch(error => { reject(error) })
   })
 }
+export function deletemethods(url, params) {
+  return new Promise((resolve, reject) => {
+    axios.delete(url, params).then(
+      response => { resolve(response.data) }
+    ).catch(error => { reject(error) })
+  })
+}
