@@ -20,7 +20,7 @@
             </div>
           </div>
         </div>
-        <div class="video_container" id="video_container" ref="video_container" @mousemove="mouse">
+        <div class="video_container" id="video_container" ref="video_container" @mousemove="video_mouse_move">
           <video class="video" id="video" ref="video" 
             preload
             :src="`${baseurl}${video_item.videoPath}`"
@@ -34,12 +34,12 @@
             >
           </video>
           <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
-            <div class="progress" ref="progress" @click="jump_duration">
+            <div class="progress" ref="progress" @click="jump_duration" @mousedown="progress_mousedown" @mouseup="progress_mouseup">
               <!-- 已缓存的条，可能有多个 -->
               <div class="buffered"></div>
               <!-- 已播放的条 -->
               <div class="played" ref="played" :style="{width:video_play_Item.percent*100+'%'}">
-                <div class="dotdiv">
+                <div class="dotdiv" ref="dotdiv">
                   
                 </div>
               </div>
@@ -126,6 +126,8 @@ export default {
       is_more_hour:false,
       // 是否已收藏
       is_collected:false,
+      // 是否在拖拽
+      is_draging:false,
       video_item:{
         // video_path:'',
         // links:''
@@ -166,14 +168,28 @@ export default {
     }
   },
   computed:{
-
+    origin (){
+      return this.getElementLeft(this.$refs.progress)
+    },
+    width () {
+      return this.$refs.progress.offsetWidth
+    }
   },
   methods: {
     // 视频可播放了的事件
     test(){
       console.log('该事件执行');
-      // this.video_play_Item.duration='111'
       console.log();
+    },
+    getElementLeft (element) {
+      var actualTop = element.offsetLeft // 这是获取元素距父元素顶部的距离
+      var current = element.offsetParent // 这是获取父元素
+      while (current !== null) {
+        // 当它上面有元素时就继续执行
+        actualTop += current.offsetLeft // 这是获取父元素距它的父元素顶部的距离累加起来
+        current = current.offsetParent // 继续找父元素
+      }
+      return actualTop
     },
     collect_video(){
       // console.log(this.video_item.cv)
@@ -194,10 +210,28 @@ export default {
         }
       )
     },
-    mouse(){
-      // console.log('651513');
+    video_mouse_move(){
       this.mouse_in_contrl()
+        this.mouse_out_contrl()
+    },
+    progress_mousedown(){
+      this.is_draging = true
+      // this.mouse_in_contrl()
+      document.body.addEventListener('mousemove', this.progress_drag)
+      document.body.addEventListener('mouseup', this.progress_mouseup)
+      this.$refs.dotdiv.style.visibility = 'visible'
+    },
+    progress_mouseup(){
+      this.is_draging = false
       this.mouse_out_contrl()
+      // this.$refs.dotdiv.style.visibility = 'hidden'
+      document.body.removeEventListener('mousemove',this.progress_drag)
+    },
+    progress_drag(e){
+      if (this.is_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
+        this.video_play_Item.percent= ((e.clientX - this.origin) / this.width).toFixed(2)
+        // console.log((diff * 100).toFixed(2));
+      }
     },
     jump_duration(e){
       let moused_downX=e.offsetX,
@@ -223,11 +257,9 @@ export default {
       // 当视频播放时，获取到将当前播放的时间
       this.video_play_Item.currentTime=this.$refs.video.currentTime
       this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(4)
-      // console.log(this.video_play_Item.percent);
       this.video_play_Item.played_h=Math.floor(this.video_play_Item.currentTime/3600)
       this.video_play_Item.played_m=this.fill_zero(2,Math.floor((this.video_play_Item.currentTime-this.video_play_Item.played_h*3600)/60))
       this.video_play_Item.played_s=this.fill_zero(2,Math.floor(this.video_play_Item.currentTime-(this.video_play_Item.played_h*3600+this.video_play_Item.played_m*60))) 
-      // this.video_play_Item.played_lenght=this.$refs.progress.offsetWidth*this.video_play_Item.percent+'%';
     },
     init_video(){
       // 初始化视频信息,计算时分秒
@@ -247,12 +279,15 @@ export default {
       this.$refs.controls_container.style.opacity='1'
     },
     mouse_out_contrl(){
-      clearTimeout(this.control_timer)
-      this.control_timer=setTimeout(
-        ()=>{
-          this.$refs.controls_container.style.opacity='0'
-        }
-      ,2000)
+      if(!this.is_draging){
+        clearTimeout(this.control_timer)
+        this.control_timer=setTimeout(
+          ()=>{
+            this.$refs.controls_container.style.opacity='0'
+          }
+        ,2000)
+      }
+
     },
     playchange(){
       if(this.$refs.video.paused){

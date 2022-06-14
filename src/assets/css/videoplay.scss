@@ -81,6 +81,7 @@
             }
 
             .controls_container {
+                user-select: none;
                 position: absolute;
                 bottom: 0px;
                 width: 100%;
@@ -102,9 +103,7 @@
                     height: 4px;
                     background-color: $unfocus;
                     position: absolute;
-                    transition: all .1s linear;
-
-                    // top: -4px;
+                    // transition: all .01s linear;
                     bottom: 0px;
                     &:hover{
                         height: 8px;

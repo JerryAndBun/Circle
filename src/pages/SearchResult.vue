@@ -3,7 +3,7 @@
     <Header @searchEvent="search"></Header>
     <div class="searchdiv">
       <div class="searchbox">
-        <input class="searchInput" ref="searchInput" placeholder="Circle What You Want" type=" text" @keyup.enter="search" @input="changekeword">
+        <input class="searchInput" ref="searchInput" placeholder="Circle What You Want" type=" text" @keydown="search(1)" @input="changekeword">
         <a href="" class="sou" @click.prevent="authsearch=true,search()">搜索</a>
       </div>
       <div class="distinguish">
@@ -21,7 +21,10 @@
       </div>
     </div>
     <div class="switchdiv">
-      <router-view :userList="userList" :videList="videList"></router-view>
+      <keep-alive>
+      
+        <router-view :userList="userList" :videList="videList"></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>
@@ -70,13 +73,15 @@ export default {
       }
       this.ispage1 = 0;
     },
+    // 这一部分应该有有优化，暑假优化
     search(a) {
       console.log(this.authsearch);
       console.log(this.myisuser);
       console.log(this.firstuser);
       console.log(this.isvideo);
       console.log(this.firstvideo);
-      if ((this.isvideo && this.firstvideo) || this.authsearch) {
+      console.log(a);
+      if ((this.isvideo && this.firstvideo) || this.authsearch||a) {
         // 视频组件
         this.firstvideo = false;
         this.firstuser = true;
@@ -86,7 +91,7 @@ export default {
         console.log(`关键字是${this.searchtext}`);
         // HttpManager.
       }
-      if ((this.myisuser && this.firstuser) || this.authsearch) {
+      if ((this.myisuser && this.firstuser) || this.authsearch||a) {
         // 用户组件
         this.firstuser = false;
         this.firstvideo = true;

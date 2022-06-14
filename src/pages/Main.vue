@@ -23,8 +23,8 @@
       </div>
       <VideoPreview v-for="(item,index) in video_list" :key="index" :video_item="item">
         <i class="iconfont icon-UP"></i>
-        <a href="javascript:;" class="nickname">{{item.nickname}}</a>
-        <a href="javascript:;" for="nickname">{{item.createdAt}}</a>
+        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
+        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
       </VideoPreview>
     </div>
     <div class="test"></div>

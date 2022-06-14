@@ -34,7 +34,8 @@ export default {
     return {
       ispage1: 1,
       ispage2: 0,
-      isempty: 0
+      isempty: 0,
+      item_list:'',
     };
   },
   components: {
@@ -42,7 +43,7 @@ export default {
   },
   methods: {
     topage1() {
-      if (!this.itemList.fansList.length) {
+      if (this.item_list.fansList.length==0) {
         this.isempty = 1;
         this.$nextTick(() => {
           console.log((this.$refs.emptytext.innerHTML = "暂无粉丝，快去投稿吧~"));
@@ -57,7 +58,8 @@ export default {
       this.ispage2 = 0;
     },
     topage2() {
-      if (!this.itemList.focusOnList.length) {
+      console.log(this.item_list.focusOnList.length);
+      if (this.item_list.focusOnList.length==0) {
         this.isempty = 1;
         console.log("11111111");
         this.$nextTick(() => {
@@ -76,8 +78,11 @@ export default {
   created() {
     console.log(this.itemList);
     console.log(this.itemList.fansList);
-    if (!this.itemList.fansList.length) {
+    this.item_list=this.itemList
+    if (!this.item_list.fansList.length) {
       this.isempty = 1;
+    }else{
+      this.isempty = 0;
     }
     // console.log(this.isempty);
   }
