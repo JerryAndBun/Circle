@@ -280,6 +280,15 @@ export default {
       }
     },
     tomessage() {
+      if(!this.uid){
+        //  console.log(this.uid);
+        this.$router
+        .push({
+          path: `/login`
+        })
+        .catch((err) => {});
+        return
+      }
       this.$router
         .push({
           path: `/messagepage`

@@ -38,6 +38,7 @@
             .video_info {
                 height: auto;
                 display: flex;
+
                 // .playNum{
                 //     width: 30px;
                 // }
@@ -105,9 +106,11 @@
                     position: absolute;
                     // transition: all .01s linear;
                     bottom: 0px;
-                    &:hover{
+
+                    &:hover {
                         height: 8px;
-                        .dotdiv{
+
+                        .dotdiv {
                             position: absolute;
                             display: inline-block;
                             font-size: 16px;
@@ -121,16 +124,15 @@
                             z-index: 600;
                         }
                     }
-                    .buffered {
-                        
-                    }
+
+                    .buffered {}
 
                     .played {
                         transition: all .1s linear;
                         height: 100%;
                         background-color: $main-pink-red;
                         position: relative;
-                        
+
 
                     }
                 }
@@ -183,6 +185,52 @@
                     .volume {
                         width: 40px;
                         height: 40px;
+                        display: flex;
+
+                        flex-direction: column;
+                        justify-content: flex-start;
+                    }
+
+                    .volume {
+                        height: 140px;
+                        margin-bottom: 0px;
+                        align-self: flex-end;
+
+                        .volume_panel {
+                            height: 100px;
+                            background: rgba(21, 21, 21, 0.8);
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: space-around;
+                            border-radius: 4px;
+                            .volume_bar {
+                                height: 80px;
+                                width: 4px;
+                                background-color: $unfocus;
+                                position: relative;
+                                
+                                .palyed_volume_bar{
+                                    position: absolute;
+                                    // margin-top: 40px;
+                                    bottom: 0px;
+                                    width: 4px;
+                                    // height: 40%;
+                                    background-color: $main-red;
+                                    .dotdiv {
+                                        position:absolute;
+                                        left: -5px;
+                                        margin-bottom: 0px;
+                                        display: inline-block;
+                                        background-color: $main-red;
+                                        border-radius: 100%;
+                                        border: 2px solid $main-white;
+                                        width: 10px;
+                                        height: 10px;
+                                    }
+                                }
+                            }
+                        }
                     }
 
                     .fullscreenbtn {
@@ -211,10 +259,12 @@
                 margin-right: 4px;
                 color: $unfocus
             }
-            .active{
+
+            .active {
                 color: $main-blue;
             }
-            .unactive{
+
+            .unactive {
                 color: $unfocus
             }
         }

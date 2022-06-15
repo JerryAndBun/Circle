@@ -2,9 +2,11 @@
   <div class="vp_content">
     <div class="vp_box">
       <router-link :to="`/video/${video_item.cv}`" class="front_cover">
-        <!-- 封面 -->
         <img :src="`${baseurl}${video_item.picPath}`" class="vp_pic" alt="">
       </router-link>
+      <!-- <router-link :to="`/video/${video_item.cv}`" class="front_cover">
+        <img :src="`${baseurl}${video_item.picPath}`" class="vp_pic" alt="">
+      </router-link> -->
     </div>
     <div class="vp_info_div">
       <router-link :to="`/video/${video_item.cv}`" >

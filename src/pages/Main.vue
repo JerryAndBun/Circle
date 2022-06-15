@@ -21,7 +21,12 @@
           </div>
         </div>
       </div>
-      <VideoPreview v-for="(item,index) in video_list" :key="index" :video_item="item">
+      <!-- <VideoPreview v-for="(item,index) in video_list" :key="index" :video_item="item">
+        <i class="iconfont icon-UP"></i>
+        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
+        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
+      </VideoPreview> -->
+      <VideoPreview v-for="(item,index) in 6" :key="index" :video_item="item">
         <i class="iconfont icon-UP"></i>
         <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
         <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>

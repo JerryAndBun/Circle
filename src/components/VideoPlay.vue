@@ -23,7 +23,7 @@
         <div class="video_container" id="video_container" ref="video_container" @mousemove="video_mouse_move">
           <video class="video" id="video" ref="video" 
             preload
-            :src="`${baseurl}${video_item.videoPath}`"
+            src="../assets/midea/案例视频.mp4"
             preload="auto"
             poster="" 
             loop='true'
@@ -64,6 +64,13 @@
             </div>
             <div class="right_area">
               <div class="volume">
+                <div class="volume_panel">
+                  <div class="volume_bar">
+                    <div class="palyed_volume_bar" :style="{height:video_play_Item.volume*100+'%'}">
+                      <div class="dotdiv"></div>
+                    </div>
+                  </div>
+                </div>
                 <i class="iconfont icon-yinliang"></i>
               </div>
               <div class="fullscreenbtn" ref='fullscreen_btn' @click="fullscreenchange">
@@ -128,13 +135,16 @@ export default {
       is_collected:false,
       // 是否在拖拽
       is_draging:false,
+      is_in_control_panel:false,
       video_item:{
         // video_path:'',
         // links:''
       },
       video_play_Item:{
         percent:'',
+        volume:'',
         played_lenght:'',
+
         currentTime:'',
         duration:'',
         duration_h:'',
@@ -210,10 +220,6 @@ export default {
         }
       )
     },
-    video_mouse_move(){
-      this.mouse_in_contrl()
-        this.mouse_out_contrl()
-    },
     progress_mousedown(){
       this.is_draging = true
       // this.mouse_in_contrl()
@@ -274,12 +280,19 @@ export default {
     },
     video_playing(){
     },
-    mouse_in_contrl(){
+    video_mouse_move(){
+      // console.log(this.$refs.video.width);
+      // let video = document.getElementById('video')
+      // console.log(video.style.width);
+      this.show_control()
+      this.hide_control()
+    },
+    show_control(){
       clearTimeout(this.control_timer)
       this.$refs.controls_container.style.opacity='1'
     },
-    mouse_out_contrl(){
-      if(!this.is_draging){
+    hide_control(){
+      if(!this.is_draging&&!this.is_in_control_panel){
         clearTimeout(this.control_timer)
         this.control_timer=setTimeout(
           ()=>{
@@ -287,7 +300,14 @@ export default {
           }
         ,2000)
       }
-
+    },
+    mouse_in_contrl(){
+      this.is_in_control_panel=true
+      this.show_control()
+    },
+    mouse_out_contrl(){
+      this.is_in_control_panel=false
+      this.hide_control()
     },
     playchange(){
       if(this.$refs.video.paused){
@@ -357,7 +377,6 @@ export default {
     }
   },
   updated(){
-    // this.clickformore=true
     console.log(this.$refs.des_text.offsetHeight);
     this.$nextTick(()=>{
       if(this.$refs.des_text.offsetHeight>79){
@@ -381,7 +400,10 @@ export default {
     },(error)=>{
       console.log('查询视频URL地址失败');
     })
-    
+  },
+  mounted() {
+    this.video_play_Item.volume=this.$refs.video.volume
+    console.log(this.video_play_Item.volume);
   },
 };
 </script>
