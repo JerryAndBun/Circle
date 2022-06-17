@@ -18,14 +18,16 @@
         border-radius: 10px;
         background-color: $main-blue;
         cursor: pointer;
-            .vp_pic {
-                width: auto;
-                height: auto;
-                max-width: 100%;
-                max-height: 100%;
-                border-radius: 10px;
-                display: inline-block;
-            }
+
+        .vp_pic {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
         // margin-left: 20px;
     }
 
@@ -39,6 +41,22 @@
         align-items: flex-start;
         justify-content: center;
         flex-direction: column;
+
+        h3 {
+            font-weight: 400;
+            word-break: break-all;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 200px;
+            /* 将对象作为弹性伸缩盒子模型显示 */
+            display: -webkit-box;
+            /* 限制在一个块元素显示的文本的行数 */
+            /* -webkit-line-clamp 其实是一个不规范属性，使用了WebKit的CSS扩展属性，该方法适用于WebKit浏览器及移动端；*/
+            -webkit-line-clamp: 2;
+            /* 设置或检索伸缩盒对象的子元素的排列方式 */
+            -webkit-box-orient: vertical;
+
+        }
 
         i {
             margin-left: 4px;

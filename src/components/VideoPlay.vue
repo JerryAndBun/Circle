@@ -109,7 +109,11 @@
           </ul>
         </div>
         <div class="comment_container">
+          <span class="tip_info">评论&nbsp{{}}</span>
           <CommentInput></CommentInput>
+        </div>
+        <div class="comment_list_container">
+          <CommentDiv></CommentDiv>
         </div>
       </div>
       <div class="right_container">
@@ -117,16 +121,17 @@
           <div class="auth_avatar"></div>
           <div class="info_div">
             <span class="auth_nickname">JerryAnDBun</span>
-            <span class="auth_signature">签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名</span>
+            <span class="auth_signature">签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名</span>
             <div class="foucus_btn">+&nbsp关注</div>
           </div>
 
         </div>
         <div class="recommond_container">
-         <VideoPreview class="VideoPreview" v-for="(item,index) in 6" :key="index" :video_item="item">
+          <span class="tip_info">为你推荐</span>
+         <VideoPreview class="VideoPreview" v-for="(item,index) in 6"  :key="index" :video_item="video_item">
           <i class="iconfont icon-UP"></i>
-          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
-          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">JJJJJJ</router-link>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">2022-9-10</router-link>
         </VideoPreview>
         </div>
       </div>
@@ -140,11 +145,16 @@ import HttpManager from '@/api';
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import CommentInput from '@/components/CommentInput.vue'
+import CommentDiv from '@/components/CommentDiv.vue'
 import VideoPreview from '@/components/VideoPreview.vue'
 import {BASE_URL} from '@/api/config'
 export default {
   data() {
     return {
+      // 假数据
+      video_item:{
+        title:'好好好好好好好'
+      },
       // 是否暂停
       paused:true,
       // 是否全屏
@@ -160,8 +170,6 @@ export default {
 
       is_in_control_panel:false,
       video_item:{
-        // video_path:'',
-        // links:''
       },
       video_play_Item:{
         percent:'',
@@ -189,6 +197,7 @@ export default {
     Header,
     Footer,
     CommentInput,
+    CommentDiv,
     VideoPreview,
   },
   watch:{

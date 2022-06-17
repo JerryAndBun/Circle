@@ -7,9 +7,9 @@
       </router-link> -->
     </div>
     <div class="vp_info_div">
-      <h3 @click="to_this_video">{{video_item.title}}</h3>
+      <h3 @click="to_this_video">123312312123312312331232312312331232312323123331232312312331232312323123</h3>
       <div class="vp_info">
-        <slot></slot>
+        <slot></slot> 
       </div>
     </div>
   </div>
