@@ -17,21 +17,15 @@
         display: inline-block;
         border-radius: 10px;
         background-color: $main-blue;
-
-        .front_cover {
-            width: 224px;
-            height: 126px;
-            border-radius: 10px;
-            display: inline-block;
-
+        cursor: pointer;
             .vp_pic {
-                width: 224px;
-                height: 126px;
+                width: auto;
+                height: auto;
+                max-width: 100%;
+                max-height: 100%;
                 border-radius: 10px;
                 display: inline-block;
             }
-        }
-
         // margin-left: 20px;
     }
 

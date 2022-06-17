@@ -39,7 +39,7 @@
               <div class="buffered"></div>
               <!-- 已播放的条 -->
               <div class="played" ref="played" :style="{width:video_play_Item.percent*100+'%'}">
-                <div class="dotdiv" ref="dotdiv">
+                <div class="progress_dotdiv" ref="progress_dotdiv">
                   
                 </div>
               </div>
@@ -65,11 +65,15 @@
             <div class="right_area">
               <div class="volume">
                 <div class="volume_panel">
-                  <div class="volume_bar">
+                  <div class="played_range" :style="{height:video_play_Item.volume_precent}"></div>
+                  <div class="played_range_mask"></div>
+                  <input type="range" id="volume_range" class="volume_range" @change="range_change">
+
+                  <!-- <div class="volume_bar">
                     <div class="palyed_volume_bar" :style="{height:video_play_Item.volume*100+'%'}">
-                      <div class="dotdiv"></div>
+                      <div class="volume_dotdiv"></div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <i class="iconfont icon-yinliang"></i>
               </div>
@@ -109,7 +113,22 @@
         </div>
       </div>
       <div class="right_container">
-        <div class="info_container"></div>
+        <div class="info_container">
+          <div class="auth_avatar"></div>
+          <div class="info_div">
+            <span class="auth_nickname">JerryAnDBun</span>
+            <span class="auth_signature">签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名</span>
+            <div class="foucus_btn">+&nbsp关注</div>
+          </div>
+
+        </div>
+        <div class="recommond_container">
+         <VideoPreview class="VideoPreview" v-for="(item,index) in 6" :key="index" :video_item="item">
+          <i class="iconfont icon-UP"></i>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
+        </VideoPreview>
+        </div>
       </div>
     </div>
     <Footer></Footer>
@@ -121,6 +140,7 @@ import HttpManager from '@/api';
 import Header from '@/components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import CommentInput from '@/components/CommentInput.vue'
+import VideoPreview from '@/components/VideoPreview.vue'
 import {BASE_URL} from '@/api/config'
 export default {
   data() {
@@ -134,7 +154,10 @@ export default {
       // 是否已收藏
       is_collected:false,
       // 是否在拖拽
-      is_draging:false,
+      is_progress_draging:false,
+      // 音量条是否在拖拽
+      is_volume_draging:false,
+
       is_in_control_panel:false,
       video_item:{
         // video_path:'',
@@ -143,6 +166,7 @@ export default {
       video_play_Item:{
         percent:'',
         volume:'',
+        volume_precent:'',
         played_lenght:'',
 
         currentTime:'',
@@ -165,11 +189,11 @@ export default {
     Header,
     Footer,
     CommentInput,
+    VideoPreview,
   },
   watch:{
     video_play_Item:{
       handler: (val, olVal) => {
-        // console.log('我变化了', val, olVal)
         if(val.duration_h){
           this.is_more_hour=true
         }
@@ -220,25 +244,48 @@ export default {
         }
       )
     },
+    range_change(){
+      let dom = document.getElementById('volume_range')
+      console.log(dom.value);
+      this.video_play_Item.volume_precent=dom.value*0.8+'%'
+    },
+    // 音量条的拖拽函数
+    // volime_mousedown(){
+    //   this.is_volume_draging = true
+    //   document.body.addEventListener('mousemove', this.volume_drag)
+    //   document.body.addEventListener('mouseup', this.volume_mouseup)
+    //   this.$refs.volume_dotdiv.style.visibility = 'visible'
+    // },
+    // volime_mouseup(){
+    //   this.is_volume_draging = false
+    //   this.mouse_out_contrl()
+    //   document.body.removeEventListener('mousemove',this.progress_drag)
+    // },
+    // volume_drag(e){
+    //   if (this.is_progress_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
+    //     this.video_play_Item.percent= ((e.clientX - this.origin) / this.width).toFixed(2)
+    //   }
+    // },
+    // 进度条的拖拽函数
     progress_mousedown(){
-      this.is_draging = true
-      // this.mouse_in_contrl()
+      this.is_progress_draging = true
       document.body.addEventListener('mousemove', this.progress_drag)
       document.body.addEventListener('mouseup', this.progress_mouseup)
-      this.$refs.dotdiv.style.visibility = 'visible'
+      this.$refs.progress_dotdiv.style.visibility = 'visible'
     },
     progress_mouseup(){
-      this.is_draging = false
-      this.mouse_out_contrl()
-      // this.$refs.dotdiv.style.visibility = 'hidden'
+      this.is_progress_draging = false
       document.body.removeEventListener('mousemove',this.progress_drag)
+      this.mouse_out_contrl()
     },
+    // 进度条拖拽函数
     progress_drag(e){
-      if (this.is_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
+      if (this.is_progress_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
         this.video_play_Item.percent= ((e.clientX - this.origin) / this.width).toFixed(2)
-        // console.log((diff * 100).toFixed(2));
+        this.video_play_Item.currentTime=parseInt(this.video_play_Item.duration*this.video_play_Item.percent)
       }
     },
+    // 点击进度条跳转时间
     jump_duration(e){
       let moused_downX=e.offsetX,
           progress_lenght=this.$refs.progress.offsetWidth,
@@ -262,7 +309,9 @@ export default {
     get_new_timerange(){
       // 当视频播放时，获取到将当前播放的时间
       this.video_play_Item.currentTime=this.$refs.video.currentTime
-      this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(4)
+      if(!this.is_progress_draging) {
+        this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(4)
+      }
       this.video_play_Item.played_h=Math.floor(this.video_play_Item.currentTime/3600)
       this.video_play_Item.played_m=this.fill_zero(2,Math.floor((this.video_play_Item.currentTime-this.video_play_Item.played_h*3600)/60))
       this.video_play_Item.played_s=this.fill_zero(2,Math.floor(this.video_play_Item.currentTime-(this.video_play_Item.played_h*3600+this.video_play_Item.played_m*60))) 
@@ -281,9 +330,6 @@ export default {
     video_playing(){
     },
     video_mouse_move(){
-      // console.log(this.$refs.video.width);
-      // let video = document.getElementById('video')
-      // console.log(video.style.width);
       this.show_control()
       this.hide_control()
     },
@@ -292,7 +338,7 @@ export default {
       this.$refs.controls_container.style.opacity='1'
     },
     hide_control(){
-      if(!this.is_draging&&!this.is_in_control_panel){
+      if(!this.is_progress_draging&&!this.is_in_control_panel){
         clearTimeout(this.control_timer)
         this.control_timer=setTimeout(
           ()=>{
@@ -308,6 +354,7 @@ export default {
     mouse_out_contrl(){
       this.is_in_control_panel=false
       this.hide_control()
+      
     },
     playchange(){
       if(this.$refs.video.paused){
@@ -377,7 +424,6 @@ export default {
     }
   },
   updated(){
-    console.log(this.$refs.des_text.offsetHeight);
     this.$nextTick(()=>{
       if(this.$refs.des_text.offsetHeight>79){
         console.log('超了');
@@ -402,6 +448,8 @@ export default {
     })
   },
   mounted() {
+    let dom = document.getElementById('volume_range')
+    dom.value=100
     this.video_play_Item.volume=this.$refs.video.volume
     console.log(this.video_play_Item.volume);
   },
