@@ -36,7 +36,7 @@ import VideoPreview from '../components/VideoPreview.vue'
 import PageWrapper from '../components/PageWrapper.vue'
 import {BASE_URL} from '../api/config.js'
 import HttpManager from '@/api';
-import {mapGetters} from 'vuex'
+import {mapGetters} from 'vuex';
 import ContributionVue from '@/pages/Contribution.vue';
 export default {
   props: ["itemList",'isown'],
