@@ -43,7 +43,8 @@ export default {
   },
   methods: {
     topage1() {
-      if (this.item_list.fansList.length==0) {
+      console.log(this.itemList.fansLists);
+      if (this.itemList.fansList.length==0) {
         this.isempty = 1;
         this.$nextTick(() => {
           console.log((this.$refs.emptytext.innerHTML = "暂无粉丝，快去投稿吧~"));
@@ -58,8 +59,10 @@ export default {
       this.ispage2 = 0;
     },
     topage2() {
-      console.log(this.item_list.focusOnList.length);
-      if (this.item_list.focusOnList.length==0) {
+      // console.log(this.item_list.focusOnList.length);
+      console.log(this.itemList);
+      console.log(this.itemList.focusOnList);
+      if (this.itemList.focusOnList.length==0) {
         this.isempty = 1;
         console.log("11111111");
         this.$nextTick(() => {

@@ -20,17 +20,23 @@
             </div>
           </div>
         </div>
-        <div class="video_container" id="video_container" ref="video_container" @mousemove="video_mouse_move">
-          <video class="video" id="video" ref="video" 
+        <div class="video_container" 
+          id="video_container" 
+          ref="video_container" 
+          @mousemove="video_mouse_move"
+          @keydown.enter="test"
+        >
+          <video class="video" id="video" ref="video"
             preload
-            src="../assets/midea/案例视频.mp4"
+            :src="`${baseurl}${video_item.videoPath}`"
             preload="auto"
-            poster="" 
-            loop='true'
+            poster=""
             type="video/mp4"
             @canplay="init_video"
             @playing="video_playing"
             @timeupdate='get_new_timerange'
+            @click="playchange"
+            @dblclick="fullscreenchange"
             >
           </video>
           <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
@@ -63,19 +69,15 @@
               </div>
             </div>
             <div class="right_area">
-              <div class="volume">
-                <div class="volume_panel">
-                  <div class="played_range" :style="{height:video_play_Item.volume_precent}"></div>
-                  <div class="played_range_mask"></div>
-                  <input type="range" id="volume_range" class="volume_range" @change="range_change">
-
-                  <!-- <div class="volume_bar">
-                    <div class="palyed_volume_bar" :style="{height:video_play_Item.volume*100+'%'}">
-                      <div class="volume_dotdiv"></div>
-                    </div>
-                  </div> -->
+              <div class="volume" @mouseenter="show_volume_panel" @mouseleave="hide_volume_panel">
+                <div class="volume_panel" ref="volume_panel" >
+                  <el-slider
+                    v-model="volume_value"
+                    vertical
+                    height="60px">
+                  </el-slider>
                 </div>
-                <i class="iconfont icon-yinliang"></i>
+                <i class="iconfont icon-yinliang" ></i>
               </div>
               <div class="fullscreenbtn" ref='fullscreen_btn' @click="fullscreenchange">
                 <i class="iconfont" :class="fullscreened?'icon-tuichuquanping':'icon-quanping'"></i>
@@ -118,20 +120,20 @@
       </div>
       <div class="right_container">
         <div class="info_container">
-          <div class="auth_avatar"></div>
+          <img class="auth_avatar" :src="`${baseurl}${auth_info.avatar}`"></img>
           <div class="info_div">
-            <span class="auth_nickname">JerryAnDBun</span>
-            <span class="auth_signature">签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名签名</span>
-            <div class="foucus_btn">+&nbsp关注</div>
+            <span class="auth_nickname">{{video_item.nickname}}</span>
+            <span class="auth_signature">{{auth_info.signature}}</span>
+            <div class="foucus_btn" ref="foucus_btn" :class="auth_info.isFocusOn?'focused':'unfocus'" @click="sendrequest">+&nbsp关注</div>
           </div>
 
         </div>
         <div class="recommond_container">
           <span class="tip_info">为你推荐</span>
-         <VideoPreview class="VideoPreview" v-for="(item,index) in 6"  :key="index" :video_item="video_item">
+        <VideoPreview class="VideoPreview" v-for="(item,index) in recommond_list"  :key="index" :video_item="item">
           <i class="iconfont icon-UP"></i>
-          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">JJJJJJ</router-link>
-          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">2022-9-10</router-link>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
+          <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
         </VideoPreview>
         </div>
       </div>
@@ -147,14 +149,18 @@ import Footer from '@/components/Footer.vue'
 import CommentInput from '@/components/CommentInput.vue'
 import CommentDiv from '@/components/CommentDiv.vue'
 import VideoPreview from '@/components/VideoPreview.vue'
+import {mapGetters} from 'vuex'
 import {BASE_URL} from '@/api/config'
 export default {
   data() {
     return {
-      // 假数据
-      video_item:{
-        title:'好好好好好好好'
-      },
+      timeout_playchange:null,
+      timeout_fulllscreechange:null,
+      auth_info:'',
+      // 音量值
+      volume_value:100,
+      // 推荐视频列表
+      recommond_list:'',
       // 是否暂停
       paused:true,
       // 是否全屏
@@ -174,9 +180,7 @@ export default {
       video_play_Item:{
         percent:'',
         volume:'',
-        volume_precent:'',
         played_lenght:'',
-
         currentTime:'',
         duration:'',
         duration_h:'',
@@ -208,7 +212,10 @@ export default {
         }
       },
       deep: true,
-    }
+    },
+    volume_value(val,old){
+     this.$refs.video.volume=val*0.01
+    },
   },
   computed:{
     origin (){
@@ -216,13 +223,102 @@ export default {
     },
     width () {
       return this.$refs.progress.offsetWidth
-    }
+    },
+    ...mapGetters("user", ["uid"])
+
   },
   methods: {
     // 视频可播放了的事件
     test(){
       console.log('该事件执行');
       console.log();
+      alert()
+    },
+    // 关注取关函数
+    sendrequest() {
+      // 已关注，执行取关操作
+      if (this.auth_info.isFocusOn) {
+        HttpManager.postUnFocusUser({
+          focusid: this.auth_info.uid,
+          uid: this.uid
+        }).then(
+          (response) => {
+            console.log(response.data);
+            console.log("取关成功");
+          },
+          (error) => {}
+        );
+        this.auth_info.isFocusOn = false;
+        this.$refs.foucus_btn.innerHTML='+&nbsp关注'
+
+      } else {
+        // 未关注，执行关注操作
+        HttpManager.postFollowUser({
+          focusid: this.auth_info.uid,
+          uid: this.uid
+        }).then(
+          (response) => {
+            console.log(response.data);
+            console.log("关注成功");
+          },
+          (error) => {}
+        );
+        this.auth_info.isFocusOn = true;
+        this.$refs.foucus_btn.innerHTML='已关注'
+
+      }
+    },
+
+    check_click_for_more(){
+        this.$nextTick(()=>{
+        if(this.$refs.des_text.offsetHeight>79){
+          this.$nextTick(()=>{
+            this.clickformore=true
+        })
+        console.log(this.clickformore);
+        }
+        else{
+          this.$nextTick(()=>{
+            this.clickformore=false
+        })
+        }
+      })
+    },
+    // 传入cv号查询视频相关信息
+    get_video_info(cv){
+      let url = `${this.baseurl}/video/${cv}`
+      console.log(url);
+      HttpManager.getVideoUrl(url).then((response)=>{
+        console.log('查询视频URL地址成功');
+        console.log(response);
+        this.video_item=response
+        console.log(this.video_item);
+        HttpManager.getUserInfo(`/userInfo/${this.video_item.uid}`).then(
+          response=>{
+            console.log(response);
+            this.auth_info=response
+            if(this.auth_info.isFocusOn){
+              // 已关注
+              this.$refs.foucus_btn.innerHTML='已关注'
+            }
+            else{
+              // 未关注
+              this.$refs.foucus_btn.innerHTML='+&nbsp关注'
+            }
+          },
+          error=>{
+            console.log(error);
+          },
+        )
+      },(error)=>{
+        console.log('查询视频URL地址失败');
+      })
+    },
+    hide_volume_panel(){
+      this.$refs.volume_panel.style.opacity='0'
+    },
+    show_volume_panel(){
+      this.$refs.volume_panel.style.opacity='1'
     },
     getElementLeft (element) {
       var actualTop = element.offsetLeft // 这是获取元素距父元素顶部的距离
@@ -235,7 +331,6 @@ export default {
       return actualTop
     },
     collect_video(){
-      // console.log(this.video_item.cv)
       HttpManager.postCollectVideo(`/collect/${this.video_item.cv}`).then(
         response=>{console.log('收藏该视频成功');this.is_collected=true},
         error=>{console.log('收藏该视频失败');
@@ -253,28 +348,6 @@ export default {
         }
       )
     },
-    range_change(){
-      let dom = document.getElementById('volume_range')
-      console.log(dom.value);
-      this.video_play_Item.volume_precent=dom.value*0.8+'%'
-    },
-    // 音量条的拖拽函数
-    // volime_mousedown(){
-    //   this.is_volume_draging = true
-    //   document.body.addEventListener('mousemove', this.volume_drag)
-    //   document.body.addEventListener('mouseup', this.volume_mouseup)
-    //   this.$refs.volume_dotdiv.style.visibility = 'visible'
-    // },
-    // volime_mouseup(){
-    //   this.is_volume_draging = false
-    //   this.mouse_out_contrl()
-    //   document.body.removeEventListener('mousemove',this.progress_drag)
-    // },
-    // volume_drag(e){
-    //   if (this.is_progress_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
-    //     this.video_play_Item.percent= ((e.clientX - this.origin) / this.width).toFixed(2)
-    //   }
-    // },
     // 进度条的拖拽函数
     progress_mousedown(){
       this.is_progress_draging = true
@@ -304,12 +377,6 @@ export default {
       let new_time=parseInt(video_duration*this.video_play_Item.percent)
       this.video_play_Item.currentTime=new_time
       this.$refs.video.currentTime=new_time
-      console.log(this.video_play_Item.played_lenght);
-      console.log(moused_downX);
-      console.log(progress_lenght);
-      console.log(video_duration);
-      console.log(this.video_play_Item.percent);
-      console.log(new_time);
     },
     // 补零的方法
     fill_zero(length,num){
@@ -328,11 +395,8 @@ export default {
     init_video(){
       // 初始化视频信息,计算时分秒
       this.video_play_Item.duration=Math.floor(this.$refs.video.duration)   //单位为秒
-      console.log(this.video_play_Item.duration);
       this.video_play_Item.percent=(this.video_play_Item.currentTime/this.video_play_Item.duration).toFixed(2)
-      console.log(this.video_play_Item.percent);
       this.video_play_Item.duration_h=Math.floor(this.video_play_Item.duration/3600)
-      console.log(this.video_play_Item.duration_h);
       this.video_play_Item.duration_m=this.fill_zero(2,Math.floor((this.video_play_Item.duration-this.video_play_Item.duration_h*3600)/60))
       this.video_play_Item.duration_s=this.fill_zero(2,Math.floor(this.video_play_Item.duration-(this.video_play_Item.duration_h*3600+this.video_play_Item.duration_m*60)))
     },
@@ -366,17 +430,20 @@ export default {
       
     },
     playchange(){
-      if(this.$refs.video.paused){
-        this.paused=false
-        console.log(this.paused);
-        this.$refs.video.play()
-      }else{
-        this.paused=true
-        this.$refs.video.pause()
-      }
+      clearTimeout(this.timeout_playchange)
+      this.timeout_playchange=setTimeout(()=>{
+        if(this.$refs.video.paused){
+          this.paused=false
+          this.$refs.video.play()
+        }else{
+          this.paused=true
+          this.$refs.video.pause()
+        }
+      },200)
     },
     // 全屏的函数
     fullscreenchange() {
+      clearTimeout(this.playchange)
       if(!this.fullscreened){
         this.fullscreen()
         this.fullscreened=true
@@ -384,11 +451,7 @@ export default {
         this.$refs.video.style.top='50%'
         this.$refs.video.style.transform='translateY(-50%)'
       }else{
-        console.log('120');
         this.exitFullscreen()
-        this.fullscreened=false
-        this.$refs.video.style.top='0%'
-        this.$refs.video.style.transform='translateY(0%)'
       }
     },
     // 全屏
@@ -402,28 +465,33 @@ export default {
       }
     },
     //退出全屏
+    // 退出全屏居中的函数
+    center_video(){
+      this.fullscreened=false
+      this.$refs.video.style.top='0%'
+      this.$refs.video.style.transform='translateY(0%)'
+    },
     exitFullscreen() {
       if (document.exitFullScreen) {
           document.exitFullScreen();
+          this.center_video()
       } else if (document.mozCancelFullScreen) {
           document.mozCancelFullScreen();
-          
+          this.center_video()
       } else if (document.webkitExitFullscreen) {
           document.webkitExitFullscreen();
-
+          this.center_video()
       } else if (element.msExitFullscreen) {
           element.msExitFullscreen();
+          this.center_video()
       }
     },
     unfold(){
       let des = document.getElementById('des')
-      console.log(this.isfold);
       if(this.isfold){
-        console.log(this.$refs.des_text.offsetHeight);
         des.style.maxHeight=`none`
         des.style.height=`${this.$refs.des_text.offsetHeight}px`
         this.isfold=false
-        console.log('>');
         this.$refs.clickformore.innerHTML='收起'
       }else{
         des.style.maxHeight=des.style.height=`80px`
@@ -433,34 +501,35 @@ export default {
     }
   },
   updated(){
-    this.$nextTick(()=>{
-      if(this.$refs.des_text.offsetHeight>79){
-        console.log('超了');
-        this.$nextTick(()=>{
-          this.clickformore=true
-      })
-      console.log(this.clickformore);
-      }
-    })
+    this.check_click_for_more()
   },
   created(){
-    // 根据cv号查询视频地址
-    let url = `${this.baseurl}/video/${this.$route.params.cv}`
-    console.log(url);
-    HttpManager.getVideoUrl(url).then((response)=>{
-      console.log('查询视频URL地址成功');
-      console.log(response);
-      this.video_item=response
-      console.log(this.video_item);
-    },(error)=>{
-      console.log('查询视频URL地址失败');
+    // 添加全局esc退出全屏事件
+    // document.addEventListener('exitFullscreen',()=>{
+    //   alert()
+    // })
+    // window.onresize=function () {
+    //   alert()
+    // }
+    // 检测路由参数
+    this.$watch(
+      () => this.$route.params.cv,			//要检测的字段
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...			//一般在这再次发起请求
+        // 根据cv号查询视频地址
+        this.get_video_info(toParams)
+      }
+    )
+    this.get_video_info(this.$route.params.cv)
+    HttpManager.postAllVideo().then(response=>{
+      this.recommond_list=response.data
     })
   },
   mounted() {
-    let dom = document.getElementById('volume_range')
-    dom.value=100
-    this.video_play_Item.volume=this.$refs.video.volume
-    console.log(this.video_play_Item.volume);
+    this.hide_volume_panel()
+    this.check_click_for_more()
+    console.log(this.auth_info);
+    
   },
 };
 </script>
