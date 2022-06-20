@@ -349,7 +349,7 @@ export default {
       )
     },
     // 进度条的拖拽函数
-    progress_mousedown(){
+    progress_mousedown(e){
       this.is_progress_draging = true
       document.body.addEventListener('mousemove', this.progress_drag)
       document.body.addEventListener('mouseup', this.progress_mouseup)
@@ -363,16 +363,22 @@ export default {
     // 进度条拖拽函数
     progress_drag(e){
       if (this.is_progress_draging && e.clientX >= this.origin && e.clientX <= (this.origin + this.width)) {
+        console.log('--------------');
         this.video_play_Item.percent= ((e.clientX - this.origin) / this.width).toFixed(2)
         this.video_play_Item.currentTime=parseInt(this.video_play_Item.duration*this.video_play_Item.percent)
+        this.$refs.video.currentTime=this.video_play_Item.currentTime
       }
     },
     // 点击进度条跳转时间
     jump_duration(e){
-      let moused_downX=e.offsetX,
+      console.log(e);
+      let moused_downX=e.clientX-this.origin,
           progress_lenght=this.$refs.progress.offsetWidth,
           video_duration=parseInt(this.$refs.video.duration);
           // 计算百分比
+      // console.log(moused_downX);
+      // console.log(progress_lenght);
+      // console.log(video_duration);
       this.video_play_Item.percent=(moused_downX/progress_lenght).toFixed(2)
       let new_time=parseInt(video_duration*this.video_play_Item.percent)
       this.video_play_Item.currentTime=new_time
@@ -404,13 +410,14 @@ export default {
     },
     video_mouse_move(){
       this.show_control()
-      this.hide_control()
+      this.hide_control(1)
     },
     show_control(){
       clearTimeout(this.control_timer)
       this.$refs.controls_container.style.opacity='1'
     },
-    hide_control(){
+    hide_control(x){
+      console.log(x);
       if(!this.is_progress_draging&&!this.is_in_control_panel){
         clearTimeout(this.control_timer)
         this.control_timer=setTimeout(
@@ -426,8 +433,7 @@ export default {
     },
     mouse_out_contrl(){
       this.is_in_control_panel=false
-      this.hide_control()
-      
+      this.hide_control(2)
     },
     playchange(){
       clearTimeout(this.timeout_playchange)
@@ -439,11 +445,11 @@ export default {
           this.paused=true
           this.$refs.video.pause()
         }
-      },200)
+      },300)
     },
     // 全屏的函数
     fullscreenchange() {
-      clearTimeout(this.playchange)
+      clearTimeout(this.timeout_playchange)
       if(!this.fullscreened){
         this.fullscreen()
         this.fullscreened=true

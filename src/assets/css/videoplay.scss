@@ -142,6 +142,7 @@
                     text-align: center;
 
                     .pause_playbtn {
+                        cursor: pointer;
                         width: 40px;
                         height: 40px;
                         line-height: 40px;
@@ -184,7 +185,7 @@
                         width: 40px;
                         height: 40px;
                         display: flex;
-
+                        cursor: pointer;
                         flex-direction: column;
                         justify-content: flex-start;
                     }

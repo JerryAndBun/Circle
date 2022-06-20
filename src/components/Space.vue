@@ -5,8 +5,13 @@
     </div>
     <div class="momentList">
       <div class="test" ref="test"></div>
-      <Moment v-for="(item,index) in mommentList" :key="item.contentId" :nickname="item.userInfo.nickname" :avatar="item.userInfo.avatar" :content="item.content" :comment="item.comment" :createdAt='item.createdAt'></Moment>
+      <Moment v-for="(item,index) in mommentList" :key="item.contentId" :item="item"></Moment>
+      <div class="none_moment">
+        <img src="../assets/imgs/这里什么都没有.png" alt="">
+        <span>没有动态了哦</span>
+      </div>
     </div>
+    
   </div>
 </template>
 
@@ -42,6 +47,7 @@ export default {
             (response) => {
               console.log("获取成功");
               this.mommentList = response;
+
             },
             (error) => {
               // 请求错误
@@ -106,6 +112,6 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss' scoped>
 @import "../assets/css/space.scss";
 </style>
