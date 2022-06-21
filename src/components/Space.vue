@@ -1,5 +1,8 @@
 <template>
   <div class="spacediv">
+    <div class="cir_toast_content">
+      <CirToast v-for="(item,index) in toast_list" :key="index" :item='item'></CirToast>
+    </div>
     <div ref="commentInputdiv" class="momentdiv">
       <CommentInput v-if="isown" v-model="article" ref="test" @cleararticle='cleararticle' @send='send'></CommentInput>
     </div>
@@ -18,6 +21,7 @@
 <script>
 import CommentInput from "@/components/CommentInput.vue";
 import Moment from "@/components/Moment.vue";
+import CirToast from '@/components/CirToast.vue';
 import HttpManager from "@/api/index";
 import { mapGetters } from "vuex";
 
@@ -27,7 +31,8 @@ export default {
     return {
       article: "",
       mommentList: "",
-      tool: 1
+      tool: 1,
+      list:[],
     };
   },
   methods: {
@@ -92,10 +97,12 @@ export default {
   },
   components: {
     CommentInput,
-    Moment
+    Moment,
+    CirToast,
   },
   computed: {
-    ...mapGetters("user", ["uid"])
+    ...mapGetters("user", ["uid"]),
+    ...mapGetters("info", ["toast_list"])
   },
   created() {
     this.$watch(

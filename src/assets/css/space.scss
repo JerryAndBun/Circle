@@ -1,5 +1,10 @@
 @import '../css/var.scss';
 
+.cir_toast_content {
+    
+    position: fixed;
+}
+
 .momentList {
     width: 800px;
     background-color: $white;

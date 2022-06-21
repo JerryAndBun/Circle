@@ -1,3 +1,5 @@
+
+
 const info = {
     namespaced: true,
     /* 
@@ -5,11 +7,19 @@ const info = {
     2.commitarticle功能
     */
     state: {
-        searchtext:null,
-        isuser:false,
-        tempuid:'',
+        searchtext: null,
+        isuser: false,
+        tempuid: '',
+        toast_list: [],
     },
     getters: {
+        toast_list: state => {
+            let toast_list = state.toast_list
+            if (!toast_list) {
+                toast_list = JSON.parse(window.localStorage.getItem('toast_list')) || null
+            }
+            return toast_list
+        },
         searchtext: state => {
             let searchtext = state.searchtext
             if (!searchtext) {
@@ -34,6 +44,11 @@ const info = {
 
     },
     mutations: {
+        toast_list: (state, toast_list) => {
+            // alert(Array.isArray(state.toast_list))
+            state.toast_list.push(toast_list);
+            window.localStorage.setItem('toast_list', JSON.stringify(toast_list))
+        },
         setSearchText: (state, searchtext) => {
             state.searchtext = searchtext;
             window.localStorage.setItem('searchtext', JSON.stringify(searchtext))
