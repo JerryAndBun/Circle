@@ -53,14 +53,14 @@
           </a>
         </li>
         <li ref="guide" class="guide guide-feed">
-          <a href="javascript:;">
+          <router-link :to="`/userpage/${uid}`" href="javascript:;">
             <i class="iconfont guideicon icon-xingxing" id="guideicon"></i>
             <span class="word dongtaiword">动态</span>
-          </a>
+          </router-link>
         </li>
         <li ref="guide" class="guide guide-cretive">
           <a href="javascript:;">
-            <i class="guideicon iconfont  icon-qian" id="guideicon"></i>
+            <i class="guideicon iconfont icon-qian" id="guideicon"></i>
             <span class="word chuangzuozheword">创作者</span>
           </a>
         </li>

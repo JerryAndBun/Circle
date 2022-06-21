@@ -1,5 +1,8 @@
 <template>
   <div class="box">
+    <div class="cir_toast_content">
+      <CirToast v-for="(item,index) in toast_list" :key="index" :item='item'></CirToast>
+    </div>
     <Header></Header>
     <div class="bg">
     </div>
@@ -62,6 +65,7 @@
 <script>
 import Header from "../components/Header.vue";
 import Footer from '@/components/Footer.vue'
+import CirToast from '@/components/CirToast.vue'
 import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 import { BASE_URL } from "../api/config";
@@ -97,7 +101,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["uid"])
+    ...mapGetters("user", ["uid"]),
+    ...mapGetters("info", ["toast_list"])
   },
   methods: {
     follow() {
@@ -202,6 +207,7 @@ export default {
   components: {
     Header,
     Footer,
+    CirToast,
   },
 
   created() {

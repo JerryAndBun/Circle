@@ -1,8 +1,5 @@
 <template>
   <div class="spacediv">
-    <div class="cir_toast_content">
-      <CirToast v-for="(item,index) in toast_list" :key="index" :item='item'></CirToast>
-    </div>
     <div ref="commentInputdiv" class="momentdiv">
       <CommentInput v-if="isown" v-model="article" ref="test" @cleararticle='cleararticle' @send='send'></CommentInput>
     </div>
