@@ -1,7 +1,7 @@
 <template>
   <div class="box">
-    <div class="cir_toast_content">
-      <CirToast v-for="(item,index) in toast_list" :key="index" :item='item'></CirToast>
+    <div v-if="" class="cir_toast_content">
+      <CirToast v-for="(item,index) in toast_list" :key="index" item='点赞成功' type='success'></CirToast>
     </div>
     <Header></Header>
     <div class="bg">
@@ -15,7 +15,6 @@
         </div>
         <div class="sign">
           <div class="coversitiondiv">
-
           </div>
           <img class="useravatar" :src='`${baseurl}${itemList.avatar}`'>
           </img>
@@ -230,10 +229,11 @@ export default {
       }
     );
     this.requestinfo();
-    // if()
     this.$router.push(`/userpage/${this.$route.params.myuid}/space`).catch((err) => {});
   },
   mounted() {
+    // 初始化清空通知列表
+    this.$store.commit('info/toast_list',{type:'empty',content:[]})
     if (!this.isown) {
       this.routerList = this.routerList.slice(0, 3);
       this.$refs.tab_area.style.height = "180px";

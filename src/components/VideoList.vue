@@ -94,6 +94,7 @@ export default {
     },
     topage2() {
       //第二个按钮的点击事件
+      console.log('aaaaa');
       // console.log(this.collects_list);
       if(this.collects_list.length==0){
         this.isempty=1

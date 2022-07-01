@@ -44,10 +44,16 @@ const info = {
 
     },
     mutations: {
-        toast_list: (state, toast_list) => {
+        toast_list: (state, payload) => {
             // alert(Array.isArray(state.toast_list))
-            state.toast_list.push(toast_list);
-            window.localStorage.setItem('toast_list', JSON.stringify(toast_list))
+            if (payload.type == 'push') {
+                state.toast_list.push(payload.content);
+                window.localStorage.setItem('toast_list', JSON.stringify(state.toast_list))
+            }
+            else {
+                state.toast_list = []
+                window.localStorage.setItem('toast_list', JSON.stringify(state.toast_list))
+            }
         },
         setSearchText: (state, searchtext) => {
             state.searchtext = searchtext;

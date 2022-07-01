@@ -37,7 +37,7 @@ export default {
   },
   methods:{
     test(){
-      this.$store.commit('info/toast_list','点赞成功')
+      this.$store.commit('info/toast_list',{type:'push',content:'点赞成功'})
       console.log(this.toast_list);
     },
   },

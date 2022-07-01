@@ -2,7 +2,7 @@
     <transition name="slide-fade">
         <div class="content" ref="content" v-if="is_show">
           <div class="toast" ref="toast">
-            <i class="iconfont icon-chenggong"></i>{{item}}
+            <i class="iconfont" :class="type=='success'?'icon-chenggong':'icon-shibai'"></i>{{item}}
           </div>
         </div>
     </transition>
@@ -11,7 +11,7 @@
 <script>
 import {mapGetters} from 'vuex'
 export default {
-    props:['item'],
+    props:['item','type'],
     // computed
     data() {
         return {
@@ -23,6 +23,7 @@ export default {
     mounted() {
         this.is_show=true
         console.log('123123123');
+        console.log(this.type);
         // this.$refs.content.style.transform='translateY(-20px)'
         setTimeout(()=>{
             this.is_show=false
@@ -34,27 +35,7 @@ export default {
 
 <style lang='scss' scoped>
 @import '../assets/css/cirtoast.scss';
-// .slide-fade-enter{
-//     opacity: 0;
-// }
-// .slide-fade-enter-active{
-//     transition: all .3s ease;
-// }
-// .slide-fade-enter-to{
-//     opacity: 1;
-// }
-// .slide-fade-leave{
-//     opacity: 1;
 
-// }
-// .slide-fade-leave-active{
-//     transition: all .3s ease;
-
-// }
-// .slide-fade-leave-to{
-//     opacity: 0;
-
-// }
 .slide-fade-enter-active {
   transition: all .3s ease;
 //   opacity: 1;
