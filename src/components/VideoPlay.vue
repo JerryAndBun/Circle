@@ -177,7 +177,7 @@ export default {
       is_in_control_panel:false,
       video_item:{
       },
-          video_play_Item:{
+      video_play_Item:{
         percent:'',
         volume:'',
         played_lenght:'',

@@ -164,7 +164,7 @@ import { BASE_URL } from "../api/config"
 import HttpManager from "../api/index"
 import Header from "../components/Header.vue"
 import Footer from "../components/Footer.vue"
-// import { VueCropper } from "vue-cropper"
+import { VueCropper } from "vue-cropper"
 import options from "../assets/options.js"
 export default {
   data() {
