@@ -8,90 +8,97 @@
     <!-- <router-view :itemList='itemList'></router-view> -->
     <div class="backgroundDiv">
       <div v-if="isempty" class="emptyinfo">
-        <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="">
+        <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
         <div class="emptytext" id="emptytext" ref="emptytext">暂无粉丝，快去投稿吧~</div>
       </div>
       <div class="fansList" v-if="ispage1">
-        <UserPreview v-for="(item,index) in itemList.fansList" :key="index" :item="item"></UserPreview>
+        <UserPreview
+          v-for="(item, index) in itemList.fansList"
+          :key="index"
+          :item="item"
+        ></UserPreview>
       </div>
       <div class="focusList" v-if="ispage2">
-        <UserPreview v-for="(item,index) in itemList.focusOnList" :key="index" :item="item"></UserPreview>
+        <UserPreview
+          v-for="(item, index) in itemList.focusOnList"
+          :key="index"
+          :item="item"
+        ></UserPreview>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import { BASE_URL } from "../api/config";
-import HttpManager from "../api/index";
-import { mapGetters } from "vuex";
-import UserPreview from "../components/UserPreview.vue";
+import { BASE_URL } from '../api/config'
+import HttpManager from '../api/index'
+import { mapGetters } from 'vuex'
+import UserPreview from '../components/UserPreview.vue'
 
 export default {
-  props: ["itemList"],
+  props: ['itemList'],
   data() {
     return {
       ispage1: 1,
       ispage2: 0,
       isempty: 0,
-      item_list:'',
-    };
+      item_list: '',
+    }
   },
   components: {
-    UserPreview
+    UserPreview,
   },
   methods: {
     topage1() {
-      console.log(this.itemList.fansLists);
-      if (this.itemList.fansList.length==0) {
-        this.isempty = 1;
+      console.log(this.itemList.fansLists)
+      if (this.itemList.fansList.length == 0) {
+        this.isempty = 1
         this.$nextTick(() => {
-          console.log((this.$refs.emptytext.innerHTML = "暂无粉丝，快去投稿吧~"));
-        });
+          console.log((this.$refs.emptytext.innerHTML = '暂无粉丝，快去投稿吧~'))
+        })
       } else {
-        this.isempty = 0;
+        this.isempty = 0
       }
       if (!this.ispage1) {
-        this.$refs.line.style.transform = "translateX(-64px)";
+        this.$refs.line.style.transform = 'translateX(-64px)'
       }
-      this.ispage1 = 1;
-      this.ispage2 = 0;
+      this.ispage1 = 1
+      this.ispage2 = 0
     },
     topage2() {
       // console.log(this.item_list.focusOnList.length);
-      console.log(this.itemList);
-      console.log(this.itemList.focusOnList);
-      if (this.itemList.focusOnList.length==0) {
-        this.isempty = 1;
-        console.log("11111111");
+      console.log(this.itemList)
+      console.log(this.itemList.focusOnList)
+      if (this.itemList.focusOnList.length == 0) {
+        this.isempty = 1
+        console.log('11111111')
         this.$nextTick(() => {
-          console.log((this.$refs.emptytext.innerHTML = "暂无关注的人哦"));
-        });
+          console.log((this.$refs.emptytext.innerHTML = '暂无关注的人哦'))
+        })
       } else {
-        this.isempty = 0;
+        this.isempty = 0
       }
       if (this.ispage1) {
-        this.$refs.line.style.transform = "translateX(64px)";
+        this.$refs.line.style.transform = 'translateX(64px)'
       }
-      this.ispage1 = 0;
-      this.ispage2 = 1;
-    }
+      this.ispage1 = 0
+      this.ispage2 = 1
+    },
   },
   created() {
-    console.log(this.itemList);
-    console.log(this.itemList.fansList);
-    this.item_list=this.itemList
+    console.log(this.itemList)
+    console.log(this.itemList.fansList)
+    this.item_list = this.itemList
     if (!this.item_list.fansList.length) {
-      this.isempty = 1;
-    }else{
-      this.isempty = 0;
+      this.isempty = 1
+    } else {
+      this.isempty = 0
     }
     // console.log(this.isempty);
-  }
-};
+  },
+}
 </script>
 
-<style lang='scss' scoped>
-@import "../assets/css/fanslist.scss";
+<style lang="scss" scoped>
+@import '../assets/css/fanslist.scss';
 </style>

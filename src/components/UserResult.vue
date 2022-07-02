@@ -1,35 +1,33 @@
 <template>
   <div>
     <div class="user_content_div">
-      <UserPreview v-for="(item,index) in userList" :item="item" :key="index"></UserPreview>
+      <UserPreview v-for="(item, index) in userList" :item="item" :key="index"></UserPreview>
     </div>
   </div>
 </template>
 
 <script>
-import UserPreview from "../components/UserPreview.vue";
+import UserPreview from '../components/UserPreview.vue'
 export default {
-  props: ["userList"],
+  props: ['userList'],
   data() {
     return {
-      myuserList: this.userList
-    };
+      myuserList: this.userList,
+    }
   },
   watch: {
     userList: (val) => {
-      immediate: true;
-    }
+      immediate: true
+    },
   },
   components: {
-    UserPreview
+    UserPreview,
   },
   mounted() {},
-  created() {
-    
-  }
-};
+  created() {},
+}
 </script>
 
-<style lang='scss' scoped>
-@import "../assets/css/userresult.scss";
+<style lang="scss" scoped>
+@import '../assets/css/userresult.scss';
 </style>

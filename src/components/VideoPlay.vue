@@ -39,7 +39,7 @@
             @dblclick="fullscreenchange"
             >
           </video>
-          <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
+            <div class="controls_container" id="controls_container" ref="controls_container"  @mouseenter="mouse_in_contrl" @mouseleave="mouse_out_contrl">
             <div class="progress" ref="progress" @click="jump_duration" @mousedown="progress_mousedown" @mouseup="progress_mouseup">
               <!-- 已缓存的条，可能有多个 -->
               <div class="buffered"></div>
@@ -177,7 +177,7 @@ export default {
       is_in_control_panel:false,
       video_item:{
       },
-      video_play_Item:{
+          video_play_Item:{
         percent:'',
         volume:'',
         played_lenght:'',
