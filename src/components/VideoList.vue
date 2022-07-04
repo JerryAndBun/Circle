@@ -74,21 +74,16 @@ export default {
         this.isempty = 0
       }
       if (!this.ispage1) {
-        console.log(this.itemList)
-        console.log(1)
         if (this.isempty) {
           this.$refs.emptytext.innerHTML = '暂无投稿'
         }
         this.$refs.line.style.transform = 'translateX(-64px)'
-        console.log(this.ispage1)
         this.ispage1 = 1
         this.ispage2 = 0
       }
     },
     topage2() {
       //第二个按钮的点击事件
-      console.log('aaaaa')
-      // console.log(this.collects_list);
       if (this.collects_list.length == 0) {
         this.isempty = 1
       } else {
@@ -101,46 +96,15 @@ export default {
             this.$refs.emptytext.innerHTML = '暂无收藏'
           })
         }
-        console.log(2)
         this.ispage1 = 0
         this.ispage2 = 1
       }
     },
-  },
-  created() {
-    // 根据UID不同查不同的
-    if (this.isown) {
-      // 查收藏列表
-      HttpManager.getCollectList(`/collectList/${this.uid}`).then(
-        (response) => {
-          console.log('查询自己收藏视频成功')
-          this.collects_list = response
-          console.log(response)
-        },
-        (error) => {
-          console.log('查询自己收藏视频失败')
-        }
-      )
-      // 查投稿视频
-      HttpManager.getVideoList(`/videoList/${this.uid}`).then(
-        (response) => {
-          this.contribution_list = response
-          console.log(this.contribution_list)
-          if (this.contribution_list.length === 0) {
-            this.isempty = 1
-          }
-        },
-        (error) => {
-          console.log(error)
-          this.isempty = 1
-          console.log('??')
-        }
-      )
-    } else {
+    getVideoListById() {
       HttpManager.getCollectList(`/collectList/${this.$route.params.myuid}`).then(
         (response) => {
           console.log('查询该用户收藏视频成功')
-          this.videoList = response
+          this.collects_list = response
           console.log(response)
         },
         (error) => {
@@ -150,8 +114,6 @@ export default {
       HttpManager.getVideoList(`/videoList/${this.$route.params.myuid}`).then(
         (response) => {
           this.contribution_list = response
-          console.log(this.contribution_list)
-
           if (this.contribution_list.length === 0) {
             console.log('BUGGGGG')
             this.isempty = 1
@@ -160,10 +122,21 @@ export default {
         (error) => {
           console.log(error)
           this.isempty = 1
-          console.log('??')
         }
       )
-    }
+    },
+  },
+  created() {
+    // 根据UID不同查不同的
+    this.$watch(
+      () => this.$route.params.myuid, //要检测的字段
+      (toParams, previousParams) => {
+        // 对路由变化做出响应...			//一般在这再次发起请求
+        this.getVideoListById()
+      }
+    )
+
+    this.getVideoListById()
   },
 }
 </script>

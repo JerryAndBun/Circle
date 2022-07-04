@@ -53,16 +53,19 @@
         height: 64px;
         display: flex;
         padding-top: 4px;
-
         .nickname {
             margin-top: 14px;
             margin-left: 14px;
             font-size: 20px;
             height: 30px;
-            width: 150px;
+            width: 200px;
             color: $main-pink;
             vertical-align: top;
             display: inline-block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space:no-wrap
+
         }
 
         .avatar {
@@ -80,8 +83,9 @@
             font-size: 12px;
             color: $unfocus;
             margin-top: 44px;
-            margin-left: -150px;
+            margin-left: -200px;
             display: inline-block;
+            justify-items: flex-start;
         }
 
     }

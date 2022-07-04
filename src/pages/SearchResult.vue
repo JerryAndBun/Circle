@@ -33,7 +33,8 @@
     </div>
     <div class="switchdiv">
       <keep-alive>
-        <router-view :userList="userList" :videList="videList"></router-view>
+        <router-view :userList="userList" :videList="videList">
+        </router-view>
       </keep-alive>
     </div>
   </div>
@@ -99,6 +100,12 @@ export default {
         this.$store.commit('info/setIsUser', this.myisuser)
         console.log('这里是视频搜索')
         console.log(`关键字是${this.searchtext}`)
+        HttpManager.getVideoList(`/searchVideo?keyword=${this.searchtext}`).then(
+          (response) => {
+            console.log(response), (this.videList = response)
+          },
+          (error) => console.log(error)
+        )
         // HttpManager.
       }
       if ((this.myisuser && this.firstuser) || this.authsearch || a) {

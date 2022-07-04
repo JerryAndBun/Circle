@@ -27,17 +27,18 @@
       .layout.float .left {
         float: left;
         width: 300px;
-        background: red;
+        background-color: red;
       }
 
       .layout.float .right {
         float: right;
         width: 300px;
-        background: blue;
+        background-color: blue;
       }
 
       .layout.float .center {
-        background: yellow;
+        background-color: yellow;
+        text-align: center;
       }
     </style>
     <article class="left-right-center">
@@ -54,25 +55,25 @@
   <section class="layout absolute">
     <style>
       .layout.absolute .left-center-right>div {
-        position: absolute;
+        position: absolute
       }
 
       .layout.absolute .left {
-        left: 0;
         width: 300px;
-        background: red;
+        left: 0px;
+        background-color: red;
       }
 
       .layout.absolute .center {
         left: 300px;
         right: 300px;
-        background: yellow;
+        background-color: yellow;
       }
 
       .layout.absolute .right {
-        right: 0;
         width: 300px;
-        background: blue;
+        right: 0px;
+        background-color: blue;
       }
     </style>
     <article class="left-center-right">
@@ -97,18 +98,18 @@
       }
 
       .layout.flexbox .left {
+        background-color: red;
         width: 300px;
-        background: red;
       }
 
       .layout.flexbox .center {
-        flex: 1;
-        background: yellow;
+        flex:1;
+        background-color: yellow;
       }
 
       .layout.flexbox .right {
+        background-color: blue;
         width: 300px;
-        background: blue;
       }
     </style>
     <article class="left-center-right">
@@ -136,16 +137,16 @@
 
       .layout.table .left {
         width: 300px;
-        background: red;
+        background-color: red;
       }
 
       .layout.table .center {
-        background: yellow;
+        background-color: yellow;
       }
 
       .layout.table .right {
         width: 300px;
-        background: blue;
+        background-color: blue;
       }
     </style>
     <article class="left-center-right">
@@ -153,6 +154,7 @@
       <div class="center">
         <h1>表格解决⽅式</h1>
         1.这是三栏布局的正中间部分
+        展示效果
         2.这是三栏布局的正中间部分
       </div>
       <div class="right"></div>
@@ -163,21 +165,20 @@
     <style>
       .layout.grid .left-center-right {
         display: grid;
-        width: 100%;
-        grid-template-rows: 100px;
         grid-template-columns: 300px auto 300px;
+        grid-template-rows: 100px;
       }
 
       .layout.grid .left {
-        background: red;
+        background-color: red;
       }
 
       .layout.grid .center {
-        background: yellow;
+        background-color: yellow;
       }
 
       .layout.grid .right {
-        background: blue;
+        background-color: blue;
       }
     </style>
     <article class="left-center-right">

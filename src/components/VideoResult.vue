@@ -6,12 +6,18 @@
 
 <script>
 import VideoPreview from '../components/VideoPreview.vue'
+import HttpManager from '@/api/index'
+import { mapGetters } from 'vuex'
 export default {
   props: ['videList'],
   components: {
     VideoPreview,
   },
+  computed: {
+    ...mapGetters('info', ['searchtext']),
+  },
   created() {
+    
     console.log(this.videList)
   },
 }

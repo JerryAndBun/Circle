@@ -28,6 +28,7 @@
     <div class="updatenickname">
       <span class="notes">我的昵称</span>
       <input
+        maxlength="15"
         ref="nicknnameinput"
         class="nicknnameinput"
         :value="`${itemList.nickname}`"

@@ -120,9 +120,9 @@
       </div>
       <div class="right_container">
         <div class="info_container">
-          <img class="auth_avatar" :src="`${baseurl}${auth_info.avatar}`"></img>
+          <img class="auth_avatar" :src="`${baseurl}${auth_info.avatar}`" @click="to_thi_userpage"></img>
           <div class="info_div">
-            <span class="auth_nickname">{{video_item.nickname}}</span>
+            <span class="auth_nickname" @click="to_thi_userpage">{{video_item.nickname}}</span>
             <span class="auth_signature">{{auth_info.signature}}</span>
             <div class="foucus_btn" ref="foucus_btn" :class="auth_info.isFocusOn?'focused':'unfocus'" @click="sendrequest">+&nbsp关注</div>
           </div>
@@ -233,6 +233,9 @@ export default {
       console.log('该事件执行');
       console.log();
       alert()
+    },
+    to_thi_userpage(){
+      this.$router.push(`/userpage/${this.video_item.uid}`)
     },
     // 关注取关函数
     sendrequest() {

@@ -56,9 +56,7 @@
           </div>
         </aside>
         <main class="content_area">
-          <keep-alive>
-            <router-view :isown="isown" :itemList="itemList"></router-view>
-          </keep-alive>
+          <router-view :isown="isown" :itemList="itemList"></router-view>
         </main>
         <aside class="topic_area">
           <div class="coversitiondiv"></div>
@@ -169,7 +167,29 @@ export default {
             this.$store.commit('user/setUid', response.uid)
           }
           this.itemList = response
-          console.log(this.itemList)
+          // 重新赋值路径
+          this.routerList = [
+            {
+              name: '动态',
+              url: `/userpage/${this.$route.params.myuid}/space`,
+              icon: 'iconfont icon-circle',
+            },
+            {
+              name: '视频',
+              url: `/userpage/${this.$route.params.myuid}/videolist`,
+              icon: 'iconfont icon-video',
+            },
+            {
+              name: '同好',
+              url: `/userpage/${this.$route.params.myuid}/fanslist`,
+              icon: 'iconfont icon-fans',
+            },
+            {
+              name: '设置',
+              url: `/userpage/${this.$route.params.myuid}/setting`,
+              icon: 'iconfont icon-setting',
+            },
+          ]
           if (this.itemList.isFocusOn && this.itemList.uid != this.uid) {
             this.focusstyle()
           }
@@ -180,34 +200,44 @@ export default {
         (error) => {}
       )
     },
-    changeisown() {
-      this.isown = true
-      this.routerList = [
-        {
-          name: '动态',
-          url: `/userpage/${this.$route.params.myuid}/space`,
-          icon: 'iconfont icon-circle',
-        },
-        {
-          name: '视频',
-          url: `/userpage/${this.$route.params.myuid}/videolist`,
-          icon: 'iconfont icon-video',
-        },
-        {
-          name: '同好',
-          url: `/userpage/${this.$route.params.myuid}/fanslist`,
-          icon: 'iconfont icon-fans',
-        },
-        {
+    changeisown(boolean) {
+      if (boolean) {
+        this.isown = boolean
+        this.routerList.push({
           name: '设置',
           url: `/userpage/${this.$route.params.myuid}/setting`,
           icon: 'iconfont icon-setting',
-        },
-      ]
-      this.$refs.tab_area.style.height = '240px'
+        })
+        this.$refs.tab_area.style.height = '240px'
+      } else {
+        this.isown = boolean
+        this.routerList = this.routerList.slice(0, 3)
+        this.$refs.tab_area.style.height = '180px'
+      }
+      // this.routerList = [
+      //   {
+      //     name: '动态',
+      //     url: `/userpage/${this.$route.params.myuid}/space`,
+      //     icon: 'iconfont icon-circle',
+      //   },
+      //   {
+      //     name: '视频',
+      //     url: `/userpage/${this.$route.params.myuid}/videolist`,
+      //     icon: 'iconfont icon-video',
+      //   },
+      //   {
+      //     name: '同好',
+      //     url: `/userpage/${this.$route.params.myuid}/fanslist`,
+      //     icon: 'iconfont icon-fans',
+      //   },
+      //   {
+      //     name: '设置',
+      //     url: `/userpage/${this.$route.params.myuid}/setting`,
+      //     icon: 'iconfont icon-setting',
+      //   },
+      // ]
     },
     talktohim() {
-      // alert(this.$route.params)
       this.$router.push(`/messagepage/${this.$route.params.myuid}`)
     },
   },
@@ -227,13 +257,14 @@ export default {
       () => this.$route.params.myuid,
       (toParams, previousParams) => {
         // 对路由变化做出响应...
-        this.requestinfo()
+        this.current = '0'
 
-        // 是已登录用户的
         if (toParams == this.uid) {
-          this.changeisown()
+          this.changeisown(true)
         } else {
+          this.changeisown(false)
         }
+        this.requestinfo()
       }
     )
     this.requestinfo()

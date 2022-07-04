@@ -2,14 +2,26 @@
   <div class="vp_content">
     <div class="vp_box" @click="to_this_video">
       <img :src="`${baseurl}${video_item.picPath}`" class="vp_pic" alt="" />
-      <!-- <router-link :to="`/video/${video_item.cv}`" class="front_cover">
-        <img :src="`${baseurl}${video_item.picPath}`" class="vp_pic" alt="">
-      </router-link> -->
     </div>
     <div class="vp_info_div">
       <h3 @click="to_this_video">{{ video_item.title }}</h3>
       <div class="vp_info">
-        <slot></slot>
+        <slot>
+          <!-- 后备插槽，没有指定插槽就使用这个，若指定了则使用指定了的 -->
+          <i class="iconfont icon-UP"></i>
+          <router-link
+            href="javascript:;"
+            class="nickname"
+            :to="{ path: `/userpage/${video_item.uid}` }"
+            >{{ video_item.nickname }}</router-link
+          >
+          <router-link
+            href="javascript:;"
+            class="nickname"
+            :to="{ path: `/userpage/${video_item.uid}` }"
+            >{{ video_item.createdAt }}</router-link
+          >
+        </slot>
       </div>
     </div>
   </div>
@@ -31,9 +43,7 @@ export default {
       this.$router.push(`/video/${this.video_item.cv}`)
     },
   },
-  created() {
-    console.log(this.video_item)
-  },
+  created() {},
 }
 </script>
 
