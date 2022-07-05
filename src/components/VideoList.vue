@@ -10,20 +10,29 @@
     <div class="backgroundDiv">
       <div class="myvideos_content" v-if="!isempty">
         <div class="myvideos" v-if="ispage1">
-          <VideoPreview v-for="(item, index) in contribution_list" :key="index" :video_item="item">
-            <i class="iconfont icon-bofangliang"></i>
-            <a href="javascript:;" class="nickname">{{ item.playNum }}播放</a>
-            <a href="javascript:;" for="nickname">{{ item.createdAt }}</a>
+          <VideoPreview
+            v-for="(video_item, index) in contribution_list"
+            :key="index"
+            :video_item="video_item"
+            :is_operateable="true"
+          >
+            <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
+            <div></div>
           </VideoPreview>
         </div>
         <!-- <PageWrapper  :pageNo="2" :pageSize="3" :total="91" :continues="3"></PageWrapper> -->
       </div>
       <div class="collections_content" v-if="!isempty">
         <div class="mycollects" v-if="ispage2">
-          <VideoPreview v-for="(item, index) in collects_list" :key="index" :video_item="item">
-            <i class="iconfont icon-bofangliang"></i>
-            <a href="javascript:;" class="nickname">{{ item.playNum }}播放</a>
-            <a href="javascript:;" for="nickname">{{ item.createdAt }}</a>
+          <VideoPreview
+            v-for="(video_item, index) in collects_list"
+            :key="index"
+            :video_item="video_item"
+            :is_operateable="true"
+            @uncollect="fillter_collects_list"
+          >
+            <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
+            <div></div>
           </VideoPreview>
         </div>
       </div>
@@ -49,6 +58,8 @@ export default {
       ispage1: 1,
       ispage2: 0,
       isempty: 0,
+      // 是否显示视频下拉的菜单
+      is_show_option_div: false,
       baseurl: BASE_URL,
       // cv:'a37ec456'
       videoList: '',
@@ -64,6 +75,18 @@ export default {
     ...mapGetters('user', ['uid']),
   },
   methods: {
+    // 取消收藏之后过滤数组，重新渲染
+    fillter_collects_list(val) {
+      this.getVideoListById()
+      // console.log('`````````````````````')
+      // console.log(val)
+      // this.collects_list.forEach((element) => {
+      //   if (element.cv == val) {
+
+      //   }
+      // })
+    },
+
     topage1() {
       //第一个按钮的点击事件
       // 投稿为空
@@ -105,6 +128,11 @@ export default {
         (response) => {
           console.log('查询该用户收藏视频成功')
           this.collects_list = response
+          if (this.collects_list.length === 0) {
+            this.isempty = 1
+          } else {
+            this.isempty = 0
+          }
           console.log(response)
         },
         (error) => {
@@ -117,6 +145,8 @@ export default {
           if (this.contribution_list.length === 0) {
             console.log('BUGGGGG')
             this.isempty = 1
+          } else {
+            this.isempty = 0
           }
         },
         (error) => {

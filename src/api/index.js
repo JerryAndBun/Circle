@@ -39,6 +39,8 @@ const HttpManager = {
   getSigelTalk: (url) => get(url),
   // 点击收藏视频
   postCollectByCv: (url) => post(url),
+  // 点击取消收藏视频
+  postUnCollectByCv: (url) => deletemethods(url),
   // 查询用户收藏的视频
   getCollectList: (url) => get(url),
   // 取消收藏

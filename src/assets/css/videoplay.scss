@@ -1,6 +1,14 @@
 @import '../css/var.scss';
 @import '../css/global.scss';
-
+.cir_toast_content {
+    position: fixed;
+    z-index: 1;
+    // width: 200px;
+    // height: 400px;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
 .allcontainer {
     max-width: 2540px;
     min-width: 1080px;
@@ -473,6 +481,7 @@
                     width: 270px;
                     height: 20px;
                     line-height: 20px;
+                    cursor: pointer;
                 }
 
                 .auth_signature {
@@ -495,6 +504,8 @@
                     text-align: center;
                     line-height: 30px;
                     border-radius: 5px;
+                    cursor: pointer;
+                    user-select: none;
                 }
 
                 .focused {

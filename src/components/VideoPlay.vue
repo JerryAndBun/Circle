@@ -1,6 +1,14 @@
 <template>
   <div>
     <Header></Header>
+    <div class="cir_toast_content">
+      <CirToast
+        v-for="(item, index) in toast_list"
+        :key="index"
+        :item="toast_info"
+        :type="toast_type"
+      ></CirToast>
+    </div>
     <div class="allcontainer" ref="videocontainer" id="videocontainer" >
       <div class="left_container">
         <div class="title_container">
@@ -13,6 +21,10 @@
             <div class="createAt minidiv">
               <i class=" iconfont icon-riqi "></i>
               {{video_item.createdAt}}
+            </div>
+            <div class="cvNum minidiv">
+              cv&nbsp:
+              {{video_item.cv}}
             </div>
             <div class="copyRight minidiv">
               <i class=" iconfont icon-jinzhi "></i>
@@ -88,13 +100,13 @@
         <div class="footer_bar">
           <div class="footer_mindiv">
             <!-- :class="is_liked?active:unactive" -->
-            <i class="iconfont icon-dianzan"  @click=""></i>{{video_item.collects}}
+            <i class="iconfont icon-dianzan" :class="is_liked?'active':'unactive'" @click=""></i>{{video_item.collects}}
           </div>
           <div class="footer_mindiv">
             <i class="iconfont icon-shoucang" :class="is_collected?'active':'unactive'" @click="collect_video"></i>{{video_item.collects}}
           </div>
           <div class="footer_mindiv">
-            <i class="iconfont icon-zhuanfa"></i>{{video_item.collects}}
+            <i class="iconfont icon-zhuanfa"></i>
           </div>
         </div>
         <div class="description_container"  ref="description_container">
@@ -124,7 +136,7 @@
           <div class="info_div">
             <span class="auth_nickname" @click="to_thi_userpage">{{video_item.nickname}}</span>
             <span class="auth_signature">{{auth_info.signature}}</span>
-            <div class="foucus_btn" ref="foucus_btn" :class="auth_info.isFocusOn?'focused':'unfocus'" @click="sendrequest">+&nbsp关注</div>
+            <div class="foucus_btn" ref="foucus_btn" :class="auth_info.isFocusOn?'focused':'unfocus'" @click="send_focus_request">+&nbsp关注</div>
           </div>
 
         </div>
@@ -149,11 +161,14 @@ import Footer from '@/components/Footer.vue'
 import CommentInput from '@/components/CommentInput.vue'
 import CommentDiv from '@/components/CommentDiv.vue'
 import VideoPreview from '@/components/VideoPreview.vue'
+import CirToast from '@/components/CirToast.vue'
 import {mapGetters} from 'vuex'
 import {BASE_URL} from '@/api/config'
 export default {
   data() {
     return {
+      toast_info:'',
+      toast_type:'',
       timeout_playchange:null,
       timeout_fulllscreechange:null,
       auth_info:'',
@@ -169,6 +184,8 @@ export default {
       is_more_hour:false,
       // 是否已收藏
       is_collected:false,
+      // 是否已喜欢
+      is_liked:false,
       // 是否在拖拽
       is_progress_draging:false,
       // 音量条是否在拖拽
@@ -203,6 +220,7 @@ export default {
     CommentInput,
     CommentDiv,
     VideoPreview,
+    CirToast,
   },
   watch:{
     video_play_Item:{
@@ -224,7 +242,8 @@ export default {
     width () {
       return this.$refs.progress.offsetWidth
     },
-    ...mapGetters("user", ["uid"])
+    ...mapGetters("user", ["uid"]),
+    ...mapGetters("info", ["toast_list"])
 
   },
   methods: {
@@ -238,8 +257,14 @@ export default {
       this.$router.push(`/userpage/${this.video_item.uid}`)
     },
     // 关注取关函数
-    sendrequest() {
+    send_focus_request() {
       // 已关注，执行取关操作
+      if(this.video_item.uid==this.uid){
+        this.$store.commit('info/toast_list',{type:'push'})
+        this.toast_type='fail'
+        this.toast_info='操作错误'
+        return
+      }
       if (this.auth_info.isFocusOn) {
         HttpManager.postUnFocusUser({
           focusid: this.auth_info.uid,
@@ -295,6 +320,8 @@ export default {
         console.log('查询视频URL地址成功');
         console.log(response);
         this.video_item=response
+        this.is_liked=response.isLike
+        this.is_collected=response.isCollect
         console.log(this.video_item);
         HttpManager.getUserInfo(`/userInfo/${this.video_item.uid}`).then(
           response=>{
@@ -535,6 +562,8 @@ export default {
     })
   },
   mounted() {
+    // 清除通知列表
+    this.$store.commit('info/toast_list', { type: 'empty', content: [] })
     this.hide_volume_panel()
     this.check_click_for_more()
     console.log(this.auth_info);

@@ -4,31 +4,33 @@ import { BASE_URL } from './config'
 
 axios.defaults.timeout = 5000 // 超时时间设置
 axios.defaults.withCredentials = true // true允许跨域时带上token
-axios.defaults.baseURL = BASE_URL;// 请求头带上token
+axios.defaults.baseURL = BASE_URL // 请求头带上token
 // 请求拦截器
 axios.interceptors.request.use(
   (config) => {
     // 每次请求前做一些操作
-    config.headers.UID = JSON.parse(window.localStorage.getItem('uid'))
+    // UID       记得改成     X_USER_ID
+    config.headers.X_USER_ID = JSON.parse(window.localStorage.getItem('uid'))
     config.headers.Authorization = JSON.parse(window.localStorage.getItem('token'))
     return config
-  }, (error) => {
+  },
+  (error) => {
     return Promise.reject(error)
   }
 )
 // 响应拦截器
 axios.interceptors.response.use(
-  response => {
+  (response) => {
     // 如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
     // 否则的话抛出错误
-    if (response.status === 200 || response.status===201) {
+    if (response.status === 200 || response.status === 201) {
       return Promise.resolve(response)
     } else {
       return Promise.reject(response)
     }
   },
   // 服务器状态码不是2开头的的情况
-  error => {
+  (error) => {
     if (error.response.status) {
       switch (error.response.status) {
         // 401: 未登录
@@ -36,8 +38,8 @@ axios.interceptors.response.use(
           router.replace({
             path: '/',
             query: {
-              redirect: router.currentRoute.fullPath
-            }
+              redirect: router.currentRoute.fullPath,
+            },
           })
           break
         case 403:
@@ -47,8 +49,8 @@ axios.interceptors.response.use(
             router.replace({
               path: '/',
               query: {
-                redirect: router.currentRoute.fullPath
-              }
+                redirect: router.currentRoute.fullPath,
+              },
             })
           }, 1000)
           break
@@ -66,33 +68,52 @@ axios.interceptors.response.use(
 /* 
 封装方法
 */
-export function post(url, params,config) {
+export function post(url, params, config) {
   return new Promise((resolve, reject) => {
-    axios.post(url, params,config).then(
-      response => { resolve(response) },
-      error => { reject(error) }
+    axios.post(url, params, config).then(
+      (response) => {
+        resolve(response)
+      },
+      (error) => {
+        reject(error)
+      }
     )
   })
 }
 
 export function get(url, params) {
   return new Promise((resolve, reject) => {
-    axios.get(url, params).then(
-      response => { resolve(response.data) }
-    ).catch(error => { reject(error) })
+    axios
+      .get(url, params)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 export function put(url, params) {
   return new Promise((resolve, reject) => {
-    axios.put(url, params).then(
-      response => { resolve(response.data) }
-    ).catch(error => { reject(error) })
+    axios
+      .put(url, params)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }
 export function deletemethods(url, params) {
   return new Promise((resolve, reject) => {
-    axios.delete(url, params).then(
-      response => { resolve(response.data) }
-    ).catch(error => { reject(error) })
+    axios
+      .delete(url, params)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
   })
 }

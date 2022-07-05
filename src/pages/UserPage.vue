@@ -1,6 +1,7 @@
 <template>
   <div class="box">
     <div class="cir_toast_content">
+      <!-- 外层包裹，保证固定定位的同时可以按高度一直往下排 -->
       <CirToast
         v-for="(item, index) in toast_list"
         :key="index"
