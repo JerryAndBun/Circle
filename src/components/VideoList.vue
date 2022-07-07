@@ -14,7 +14,9 @@
             v-for="(video_item, index) in contribution_list"
             :key="index"
             :video_item="video_item"
-            :is_operateable="true"
+            :menu="['删除投稿']"
+            is_operateable="true"
+            type="contribution"
           >
             <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
             <div></div>
@@ -28,8 +30,10 @@
             v-for="(video_item, index) in collects_list"
             :key="index"
             :video_item="video_item"
-            :is_operateable="true"
-            @uncollect="fillter_collects_list"
+            :menu="['取消收藏']"
+            is_operateable="true"
+            type="collect"
+            @operated="fillter_collects_list"
           >
             <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
             <div></div>
@@ -38,7 +42,7 @@
       </div>
       <div v-if="isempty" class="emptyinfo">
         <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
-        <div class="emptytext" id="emptytext" ref="emptytext">暂无投稿</div>
+        <div class="emptytext" id="emptytext" ref="emptytext">{{ emptytext }}</div>
       </div>
     </div>
   </div>
@@ -58,10 +62,10 @@ export default {
       ispage1: 1,
       ispage2: 0,
       isempty: 0,
+      emptytext: '暂无投稿',
       // 是否显示视频下拉的菜单
       is_show_option_div: false,
       baseurl: BASE_URL,
-      // cv:'a37ec456'
       videoList: '',
       contribution_list: '',
       collects_list: '',
@@ -74,33 +78,31 @@ export default {
   computed: {
     ...mapGetters('user', ['uid']),
   },
+  watch: {
+    isempty(newval, old) {
+      console.log(newval)
+    },
+  },
   methods: {
     // 取消收藏之后过滤数组，重新渲染
     fillter_collects_list(val) {
       this.getVideoListById()
-      // console.log('`````````````````````')
-      // console.log(val)
-      // this.collects_list.forEach((element) => {
-      //   if (element.cv == val) {
-
-      //   }
-      // })
     },
 
     topage1() {
       //第一个按钮的点击事件
       // 投稿为空
       if (this.contribution_list.length == 0) {
-        console.log('投稿为空')
         this.isempty = 1
+        this.emptytext = '暂无投稿'
       } else {
         this.isempty = 0
       }
-      if (!this.ispage1) {
-        if (this.isempty) {
-          this.$refs.emptytext.innerHTML = '暂无投稿'
-        }
+      if (this.ispage2) {
         this.$refs.line.style.transform = 'translateX(-64px)'
+        if (this.isempty) {
+          this.$nextTick(() => {})
+        }
         this.ispage1 = 1
         this.ispage2 = 0
       }
@@ -109,15 +111,14 @@ export default {
       //第二个按钮的点击事件
       if (this.collects_list.length == 0) {
         this.isempty = 1
+        this.emptytext = '暂无收藏'
       } else {
         this.isempty = 0
       }
       if (this.ispage1) {
         this.$refs.line.style.transform = 'translateX(64px)'
         if (this.isempty) {
-          this.$nextTick(() => {
-            this.$refs.emptytext.innerHTML = '暂无收藏'
-          })
+          this.$nextTick(() => {})
         }
         this.ispage1 = 0
         this.ispage2 = 1
@@ -128,11 +129,11 @@ export default {
         (response) => {
           console.log('查询该用户收藏视频成功')
           this.collects_list = response
-          if (this.collects_list.length === 0) {
-            this.isempty = 1
-          } else {
-            this.isempty = 0
-          }
+          // if (this.collects_list.length == 0) {
+          //   this.isempty = 1
+          // } else {
+          //   // this.isempty = 0
+          // }
           console.log(response)
         },
         (error) => {
@@ -142,12 +143,12 @@ export default {
       HttpManager.getVideoList(`/videoList/${this.$route.params.myuid}`).then(
         (response) => {
           this.contribution_list = response
-          if (this.contribution_list.length === 0) {
-            console.log('BUGGGGG')
-            this.isempty = 1
-          } else {
-            this.isempty = 0
-          }
+          // if (this.contribution_list.length === 0) {
+          //   console.log('投稿数为0')
+          //   this.isempty = 1
+          // } else {
+          //   // this.isempty = 0
+          // }
         },
         (error) => {
           console.log(error)
@@ -165,8 +166,10 @@ export default {
         this.getVideoListById()
       }
     )
-
     this.getVideoListById()
+  },
+  mounted() {
+    this.topage1()
   },
 }
 </script>
