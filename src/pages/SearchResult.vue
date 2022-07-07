@@ -33,8 +33,7 @@
     </div>
     <div class="switchdiv">
       <keep-alive>
-        <router-view :userList="userList" :videList="videList">
-        </router-view>
+        <router-view :userList="userList" :videList="videList"> </router-view>
       </keep-alive>
     </div>
   </div>
@@ -115,9 +114,7 @@ export default {
         this.$store.commit('info/setIsUser', this.myisuser)
         console.log('这里是用户搜索')
         console.log(`关键字是${this.searchtext}`)
-        HttpManager.getUserList(`/search/${this.uid}`, {
-          params: { keyword: this.searchtext },
-        }).then(
+        HttpManager.getUserList(`/searchUser?keyword=${this.searchtext}`).then(
           (response) => {
             this.userList = response
             console.log(this.userList)

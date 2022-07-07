@@ -2,21 +2,23 @@
   <div>
     <div>
       <div class="togle">
-        <div class="page1" @click="topage1">我的投稿</div>
-        <div class="page2" @click="topage2">我的收藏</div>
+        <div class="page1" @click="topage1">投稿列表</div>
+        <div class="page2" @click="topage2">收藏列表</div>
         <div class="line" ref="line"></div>
       </div>
     </div>
     <div class="backgroundDiv">
-      <div class="myvideos_content" v-if="!isempty">
+      <div class="myvideos_content" v-if="!con_isempty">
         <div class="myvideos" v-if="ispage1">
           <VideoPreview
             v-for="(video_item, index) in contribution_list"
             :key="index"
             :video_item="video_item"
             :menu="['删除投稿']"
+            :is_own="isown"
             is_operateable="true"
-            type="contribution"
+            type="uncontribution"
+            @operated="fillter_collects_list"
           >
             <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
             <div></div>
@@ -24,15 +26,16 @@
         </div>
         <!-- <PageWrapper  :pageNo="2" :pageSize="3" :total="91" :continues="3"></PageWrapper> -->
       </div>
-      <div class="collections_content" v-if="!isempty">
+      <div class="collections_content" v-if="!col_isempty">
         <div class="mycollects" v-if="ispage2">
           <VideoPreview
             v-for="(video_item, index) in collects_list"
             :key="index"
             :video_item="video_item"
             :menu="['取消收藏']"
+            :is_own="isown"
             is_operateable="true"
-            type="collect"
+            type="uncollect"
             @operated="fillter_collects_list"
           >
             <!-- 凑数的div，目的是挤掉默认的后备内容slot -->
@@ -40,9 +43,13 @@
           </VideoPreview>
         </div>
       </div>
-      <div v-if="isempty" class="emptyinfo">
+      <div v-if="con_isempty" class="emptyinfo">
         <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
-        <div class="emptytext" id="emptytext" ref="emptytext">{{ emptytext }}</div>
+        <div class="emptytext">暂无投稿</div>
+      </div>
+      <div v-if="col_isempty" class="emptyinfo">
+        <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
+        <div class="emptytext">暂无收藏</div>
       </div>
     </div>
   </div>
@@ -61,8 +68,8 @@ export default {
     return {
       ispage1: 1,
       ispage2: 0,
-      isempty: 0,
-      emptytext: '暂无投稿',
+      con_isempty: 0,
+      col_isempty: 0,
       // 是否显示视频下拉的菜单
       is_show_option_div: false,
       baseurl: BASE_URL,
@@ -79,13 +86,14 @@ export default {
     ...mapGetters('user', ['uid']),
   },
   watch: {
-    isempty(newval, old) {
+    col_isempty(newval, old) {
       console.log(newval)
     },
   },
   methods: {
     // 取消收藏之后过滤数组，重新渲染
     fillter_collects_list(val) {
+      console.log('我执行了')
       this.getVideoListById()
     },
 
@@ -93,33 +101,29 @@ export default {
       //第一个按钮的点击事件
       // 投稿为空
       if (this.contribution_list.length == 0) {
-        this.isempty = 1
-        this.emptytext = '暂无投稿'
+        this.con_isempty = 1
+        this.col_isempty = 0
       } else {
-        this.isempty = 0
+        this.con_isempty = 0
       }
       if (this.ispage2) {
         this.$refs.line.style.transform = 'translateX(-64px)'
-        if (this.isempty) {
-          this.$nextTick(() => {})
-        }
         this.ispage1 = 1
         this.ispage2 = 0
       }
+      console.log(this.con_isempty)
+      console.log(this.col_isempty)
     },
     topage2() {
       //第二个按钮的点击事件
       if (this.collects_list.length == 0) {
-        this.isempty = 1
-        this.emptytext = '暂无收藏'
+        this.col_isempty = 1
+        this.con_isempty = 0
       } else {
-        this.isempty = 0
+        this.col_isempty = 0
       }
       if (this.ispage1) {
         this.$refs.line.style.transform = 'translateX(64px)'
-        if (this.isempty) {
-          this.$nextTick(() => {})
-        }
         this.ispage1 = 0
         this.ispage2 = 1
       }
@@ -129,12 +133,12 @@ export default {
         (response) => {
           console.log('查询该用户收藏视频成功')
           this.collects_list = response
-          // if (this.collects_list.length == 0) {
-          //   this.isempty = 1
-          // } else {
-          //   // this.isempty = 0
-          // }
-          console.log(response)
+          console.log(response);
+          if (this.collects_list.length == 0) {
+            // this.col_isempty = 1
+          } else {
+            this.col_isempty = 0
+          }
         },
         (error) => {
           console.log('查询该用户收藏视频失败')
@@ -142,17 +146,18 @@ export default {
       )
       HttpManager.getVideoList(`/videoList/${this.$route.params.myuid}`).then(
         (response) => {
+          console.log('查询该用户投稿视频成功')
           this.contribution_list = response
-          // if (this.contribution_list.length === 0) {
-          //   console.log('投稿数为0')
-          //   this.isempty = 1
-          // } else {
-          //   // this.isempty = 0
-          // }
+          if (this.contribution_list.length === 0) {
+            console.log('投稿数为0')
+            this.con_isempty = 1
+          } else {
+            this.con_isempty = 0
+          }
         },
         (error) => {
           console.log(error)
-          this.isempty = 1
+          this.con_isempty = 1
         }
       )
     },
@@ -170,6 +175,11 @@ export default {
   },
   mounted() {
     this.topage1()
+    console.log('是我的吗')
+    console.log(this.isown)
+    if (this.isown) {
+    } else {
+    }
   },
 }
 </script>

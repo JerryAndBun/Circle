@@ -100,7 +100,7 @@
         <div class="footer_bar">
           <div class="footer_mindiv">
             <!-- :class="is_liked?active:unactive" -->
-            <i class="iconfont icon-dianzan" :class="is_liked?'active':'unactive'" @click=""></i>{{video_item.collects}}
+            <i class="iconfont icon-dianzan" :class="is_liked?'active':'unactive'" @click="like_video"></i>{{video_item.likes}}
           </div>
           <div class="footer_mindiv">
             <i class="iconfont icon-shoucang" :class="is_collected?'active':'unactive'" @click="collect_video"></i>{{video_item.collects}}
@@ -127,7 +127,7 @@
           <CommentInput></CommentInput>
         </div>
         <div class="comment_list_container">
-          <CommentDiv></CommentDiv>
+          <CommentDiv v-for="(item,index) in video_comments" :key="index" :item="item"></CommentDiv>
         </div>
       </div>
       <div class="right_container">
@@ -167,6 +167,134 @@ import {BASE_URL} from '@/api/config'
 export default {
   data() {
     return {
+      video_comments:[
+        {
+          // 代表评论的级数，这里是一级评论
+          level: 1,
+          // 评论的发布时间
+          createAt: '2022-07-06',
+          // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
+          c_id: 1,
+          // 该条评论的用户UID
+          uid: 1111,
+          // 该条评论的用户昵称
+          nickname: '罗荧',
+          // 该条评论的用户头像路径
+          avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+          // 评论内容
+          comment_content: '钟宇视频真不错，加油加油',
+          // 这条评论的点赞数
+          comment_likes: 36,
+          // 这一级评论的回复数，也就是二级评论的数量
+          reply_num: 20,
+          // 该评论下的所有二级评论
+          replys: [
+            {
+              // 代表评论的级数，这里是二级评论
+              level: 2,
+              //代表这条二级评论是回复一级评论的还是回复二级评论的,1代表是回复的一级评论，2代表是回复的二级评论
+              target_level: 1,
+              // 代表回复的评论的c_id。只有二级评论有这个属性，一级评论没有，因为一级评论直接回复（评论）的是视频
+              target_c_id: 123456,
+              // 评论的发布时间
+              createAt: '2022-07-06',
+              // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
+              c_id: 2,
+              // 该条评论的用户UID
+              uid: 2222,
+              // 该条评论的用户昵称
+              nickname: '钟先樑',
+              // 该条评论的用户头像路径
+              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+              // 评论内容
+              comment_content: '我也觉得钟宇的视频真不错',
+              // 这条评论的点赞数
+              comment_likes: 0,
+              // 二级评论的前端不需要看到回复数，只有点赞数
+            },
+            {
+              level: 2,
+              // 注意，这条二级评论是回复二级评论的，需要多加一些属性
+              target_level: 2,
+              target_c_id: 2,
+              // 被回复的用户
+              target_nickname: '钟先樑',
+              // 被回复的用户UID
+              target_uid: 2222,
+              createAt: '2022-07-06',
+              c_id: 3,
+              uid: 3333,
+              nickname: '苏承文',
+              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+              comment_content: '我不这么觉得，钟宇的视频不好看',
+              comment_likes: 0,
+            },
+          ],
+        },
+        {
+          // 代表评论的级数，这里是一级评论
+          level: 1,
+          // 评论的发布时间
+          createAt: '2022-07-06',
+          // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
+          c_id: 1,
+          // 该条评论的用户UID
+          uid: 1111,
+          // 该条评论的用户昵称
+          nickname: '罗荧',
+          // 该条评论的用户头像路径
+          avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+          // 评论内容
+          comment_content: '钟宇视频真不错，加油加油',
+          // 这条评论的点赞数
+          comment_likes: 36,
+          // 这一级评论的回复数，也就是二级评论的数量
+          reply_num: 20,
+          // 该评论下的所有二级评论
+          replys: [
+            {
+              // 代表评论的级数，这里是二级评论
+              level: 2,
+              //代表这条二级评论是回复一级评论的还是回复二级评论的,1代表是回复的一级评论，2代表是回复的二级评论
+              target_level: 1,
+              // 代表回复的评论的c_id。只有二级评论有这个属性，一级评论没有，因为一级评论直接回复（评论）的是视频
+              target_c_id: 123456,
+              // 评论的发布时间
+              createAt: '2022-07-06',
+              // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
+              c_id: 2,
+              // 该条评论的用户UID
+              uid: 2222,
+              // 该条评论的用户昵称
+              nickname: '钟先樑',
+              // 该条评论的用户头像路径
+              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+              // 评论内容
+              comment_content: '我也觉得钟宇的视频真不错',
+              // 这条评论的点赞数
+              comment_likes: 0,
+              // 二级评论的前端不需要看到回复数，只有点赞数
+            },
+            {
+              level: 2,
+              // 注意，这条二级评论是回复二级评论的，需要多加一些属性
+              target_level: 2,
+              target_c_id: 2,
+              // 被回复的用户
+              target_nickname: '钟先樑',
+              // 被回复的用户UID
+              target_uid: 2222,
+              createAt: '2022-07-06',
+              c_id: 3,
+              uid: 3333,
+              nickname: '苏承文',
+              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
+              comment_content: '我不这么觉得，钟宇的视频不好看',
+              comment_likes: 0,
+            },
+          ],
+        },
+      ],
       toast_info:'',
       toast_type:'',
       timeout_playchange:null,
@@ -360,14 +488,36 @@ export default {
       }
       return actualTop
     },
+    like_video(){
+      HttpManager.postLikeVideo(`/videoLike/${this.video_item.cv}`).then(
+        response=>{console.log('点赞视频成功');this.is_liked=true,this.video_item.likes++},
+        error =>{
+          console.log('点赞失败');
+          console.log(error);
+          if(error.data.message==='视频已点赞'){
+            HttpManager.deleteLikeVideo(`/unLikeVideo/${this.video_item.cv}`).then(
+              response=>{
+                console.log('取消点赞成功');
+                this.video_item.likes--
+                this.is_liked=false
+              },
+              error=>{
+                console.log('取消点赞失败');
+              }
+            )
+          }
+        }
+      )
+    },
     collect_video(){
       HttpManager.postCollectVideo(`/collect/${this.video_item.cv}`).then(
-        response=>{console.log('收藏该视频成功');this.is_collected=true},
+        response=>{console.log('收藏该视频成功');this.is_collected=true,this.video_item.collects++;},
         error=>{console.log('收藏该视频失败');
           if(error.data.message==='视频已收藏'){
             HttpManager.deleteCollectVideo(`/unCollect/${this.video_item.cv}`).then(
               response=>{
                 console.log('取消收藏成功');
+                this.video_item.collects--
                 this.is_collected=false
               },
               error=>{

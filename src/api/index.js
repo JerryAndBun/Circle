@@ -37,6 +37,10 @@ const HttpManager = {
   postMessage: (params) => post(`/message`, params),
   // 获取与目标用户的聊天记录
   getSigelTalk: (url) => get(url),
+  // 点击点赞视频
+  postLikeVideo: (url) => post(url),
+  // 取消点赞视频
+  deleteLikeVideo: (url) => deletemethods(url),
   // 点击收藏视频
   postCollectByCv: (url) => post(url),
   // 点击删除收藏视频
@@ -45,8 +49,6 @@ const HttpManager = {
   deleteVideoByCv: (url) => deletemethods(url),
   // 查询用户收藏的视频
   getCollectList: (url) => get(url),
-  // 取消收藏
-  // 上传视频
   // 通过cv号查询视频
   getVideoUrl: (url) => get(url),
   // 查询自己的投稿列表
