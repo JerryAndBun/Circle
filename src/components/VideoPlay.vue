@@ -123,18 +123,18 @@
           </ul>
         </div>
         <div class="comment_container">
-          <span class="tip_info">评论&nbsp{{}}</span>
-          <CommentInput></CommentInput>
+          <span class="tip_info">评论&nbsp{{video_comments.length}}</span>
+          <CommentInput @send='send_comment' :comment_level="1"></CommentInput>
         </div>
         <div class="comment_list_container">
-          <CommentDiv v-for="(item,index) in video_comments" :key="index" :item="item"></CommentDiv>
+          <CommentDiv v-for="(item,index) in video_comments" :key="index" :item="item" :is_all="is_all" @closeAll="change_is_all"></CommentDiv>
         </div>
       </div>
       <div class="right_container">
         <div class="info_container">
-          <img class="auth_avatar" :src="`${baseurl}${auth_info.avatar}`" @click="to_thi_userpage"></img>
+          <img class="auth_avatar" :src="`${baseurl}${auth_info.avatar}`" @click="to_this_userpage"></img>
           <div class="info_div">
-            <span class="auth_nickname" @click="to_thi_userpage">{{video_item.nickname}}</span>
+            <span class="auth_nickname" @click="to_this_userpage">{{video_item.nickname}}</span>
             <span class="auth_signature">{{auth_info.signature}}</span>
             <div class="foucus_btn" ref="foucus_btn" :class="auth_info.isFocusOn?'focused':'unfocus'" @click="send_focus_request">+&nbsp关注</div>
           </div>
@@ -167,139 +167,14 @@ import {BASE_URL} from '@/api/config'
 export default {
   data() {
     return {
-      video_comments:[
-        {
-          // 代表评论的级数，这里是一级评论
-          level: 1,
-          // 评论的发布时间
-          createAt: '2022-07-06',
-          // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
-          c_id: 1,
-          // 该条评论的用户UID
-          uid: 1111,
-          // 该条评论的用户昵称
-          nickname: '罗荧',
-          // 该条评论的用户头像路径
-          avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-          // 评论内容
-          comment_content: '钟宇视频真不错，加油加油',
-          // 这条评论的点赞数
-          comment_likes: 36,
-          // 这一级评论的回复数，也就是二级评论的数量
-          reply_num: 20,
-          // 该评论下的所有二级评论
-          replys: [
-            {
-              // 代表评论的级数，这里是二级评论
-              level: 2,
-              //代表这条二级评论是回复一级评论的还是回复二级评论的,1代表是回复的一级评论，2代表是回复的二级评论
-              target_level: 1,
-              // 代表回复的评论的c_id。只有二级评论有这个属性，一级评论没有，因为一级评论直接回复（评论）的是视频
-              target_c_id: 123456,
-              // 评论的发布时间
-              createAt: '2022-07-06',
-              // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
-              c_id: 2,
-              // 该条评论的用户UID
-              uid: 2222,
-              // 该条评论的用户昵称
-              nickname: '钟先樑',
-              // 该条评论的用户头像路径
-              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-              // 评论内容
-              comment_content: '我也觉得钟宇的视频真不错',
-              // 这条评论的点赞数
-              comment_likes: 0,
-              // 二级评论的前端不需要看到回复数，只有点赞数
-            },
-            {
-              level: 2,
-              // 注意，这条二级评论是回复二级评论的，需要多加一些属性
-              target_level: 2,
-              target_c_id: 2,
-              // 被回复的用户
-              target_nickname: '钟先樑',
-              // 被回复的用户UID
-              target_uid: 2222,
-              createAt: '2022-07-06',
-              c_id: 3,
-              uid: 3333,
-              nickname: '苏承文',
-              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-              comment_content: '我不这么觉得，钟宇的视频不好看',
-              comment_likes: 0,
-            },
-          ],
-        },
-        {
-          // 代表评论的级数，这里是一级评论
-          level: 1,
-          // 评论的发布时间
-          createAt: '2022-07-06',
-          // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
-          c_id: 1,
-          // 该条评论的用户UID
-          uid: 1111,
-          // 该条评论的用户昵称
-          nickname: '罗荧',
-          // 该条评论的用户头像路径
-          avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-          // 评论内容
-          comment_content: '钟宇视频真不错，加油加油',
-          // 这条评论的点赞数
-          comment_likes: 36,
-          // 这一级评论的回复数，也就是二级评论的数量
-          reply_num: 20,
-          // 该评论下的所有二级评论
-          replys: [
-            {
-              // 代表评论的级数，这里是二级评论
-              level: 2,
-              //代表这条二级评论是回复一级评论的还是回复二级评论的,1代表是回复的一级评论，2代表是回复的二级评论
-              target_level: 1,
-              // 代表回复的评论的c_id。只有二级评论有这个属性，一级评论没有，因为一级评论直接回复（评论）的是视频
-              target_c_id: 123456,
-              // 评论的发布时间
-              createAt: '2022-07-06',
-              // 该条评论的评论id,称为c_id，和UID一样都是独一无二的，用于回复的操作,
-              c_id: 2,
-              // 该条评论的用户UID
-              uid: 2222,
-              // 该条评论的用户昵称
-              nickname: '钟先樑',
-              // 该条评论的用户头像路径
-              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-              // 评论内容
-              comment_content: '我也觉得钟宇的视频真不错',
-              // 这条评论的点赞数
-              comment_likes: 0,
-              // 二级评论的前端不需要看到回复数，只有点赞数
-            },
-            {
-              level: 2,
-              // 注意，这条二级评论是回复二级评论的，需要多加一些属性
-              target_level: 2,
-              target_c_id: 2,
-              // 被回复的用户
-              target_nickname: '钟先樑',
-              // 被回复的用户UID
-              target_uid: 2222,
-              createAt: '2022-07-06',
-              c_id: 3,
-              uid: 3333,
-              nickname: '苏承文',
-              avatar_path: 'xxxxxxx/xxxxxxx/xxx',
-              comment_content: '我不这么觉得，钟宇的视频不好看',
-              comment_likes: 0,
-            },
-          ],
-        },
-      ],
+      video_comments:[],
       toast_info:'',
       toast_type:'',
       timeout_playchange:null,
       timeout_fulllscreechange:null,
       auth_info:'',
+      // 是否关闭所有的二级评论框,false为全部关闭，需要的再单独打开，实现只有一个回复框存在
+      is_all:false,
       // 音量值
       volume_value:100,
       // 推荐视频列表
@@ -371,7 +246,7 @@ export default {
       return this.$refs.progress.offsetWidth
     },
     ...mapGetters("user", ["uid"]),
-    ...mapGetters("info", ["toast_list"])
+    ...mapGetters("info", ["toast_list",'is_show_all_input'])
 
   },
   methods: {
@@ -381,7 +256,38 @@ export default {
       console.log();
       alert()
     },
-    to_thi_userpage(){
+    change_is_all(){
+      console.log('改变了isall');
+      this.is_all=false
+    },
+    send_comment(params){
+      // console.log(params);
+      if(params.comment_level==1){
+        //发送的是一级评论 
+        HttpManager.postVideoComment({
+          commentContent: params.content,
+          cv: this.video_item.cv,
+          level: params.comment_level,
+          targetCid: null,
+          targetLevel: null,
+          targetUid: null
+        }).then(
+          response=>{console.log(response);},
+          error=>{console.log(error);}
+        )
+      }else{
+        // 发送的是二级评论
+        HttpManager.postVideoComment(`/video/comment`,{
+          commentContent: params.content,
+          cv: this.video_item.cv,
+          level: params.comment_level,
+          targetCid: string,
+          targetLevel: 0,
+          targetUid: string
+        })
+      }
+    },
+    to_this_userpage(){
       this.$router.push(`/userpage/${this.video_item.uid}`)
     },
     // 关注取关函数
@@ -451,7 +357,10 @@ export default {
         this.is_liked=response.isLike
         this.is_collected=response.isCollect
         console.log(this.video_item);
-        HttpManager.getUserInfo(`/userInfo/${this.video_item.uid}`).then(
+      },(error)=>{
+        console.log('查询视频URL地址失败');
+      }).then(()=>{
+        return HttpManager.getUserInfo(`/userInfo/${this.video_item.uid}`).then(
           response=>{
             console.log(response);
             this.auth_info=response
@@ -468,8 +377,11 @@ export default {
             console.log(error);
           },
         )
-      },(error)=>{
-        console.log('查询视频URL地址失败');
+      }).then(()=>{
+        return HttpManager.getVideoComment(`/video/comments/${this.video_item.cv}`).then(
+          response =>{this.video_comments=response;console.log(response); console.log('查评论成功');},
+          error =>{console.log(error);console.log('查评论失败')}
+        )
       })
     },
     hide_volume_panel(){
@@ -710,6 +622,7 @@ export default {
     HttpManager.postAllVideo().then(response=>{
       this.recommond_list=response.data
     })
+    
   },
   mounted() {
     // 清除通知列表

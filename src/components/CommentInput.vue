@@ -1,6 +1,5 @@
  <template>
   <div contenteditable="false">
-    {{sendway}}
     <div class="publish">
       <div class="publish_input">
         <div class="text_area">
@@ -34,7 +33,7 @@
 // import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 export default {
-  props: ["sendway"],
+  props: ["comment_level"],
   components: {},
   computed: {
     ...mapGetters("user", ["uid"])
@@ -65,7 +64,7 @@ export default {
       let text_area_inner = document.getElementById("text_area_inner");
       this.content = text_area_inner.innerHTML;
       this.$emit("input", this.content);
-      this.$emit("send", { uid: this.uid, content: this.content });
+      this.$emit("send", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
       // 清空动态内容
       this.$refs.text_area_inner.innerHTML = "";
       // 关闭表情面板

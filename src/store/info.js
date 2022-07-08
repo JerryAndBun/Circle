@@ -9,8 +9,16 @@ const info = {
     isuser: false,
     tempuid: '',
     toast_list: [],
+    is_show_all_input:false
   },
   getters: {
+    is_show_all_input: (state) => {
+      let is_show_all_input = state.is_show_all_input
+      if (!is_show_all_input) {
+        is_show_all_input = JSON.parse(window.localStorage.getItem('is_show_all_input')) || null
+      }
+      return is_show_all_input
+    },
     toast_list: (state) => {
       let toast_list = state.toast_list
       if (!toast_list) {
@@ -41,6 +49,10 @@ const info = {
     },
   },
   mutations: {
+    setSearchText: (state, is_show_all_input) => {
+      state.is_show_all_input = is_show_all_input
+      window.localStorage.setItem('is_show_all_input', JSON.stringify(is_show_all_input))
+    },
     toast_list: (state, payload) => {
       // alert(Array.isArray(state.toast_list))
       if (payload.type == 'push') {

@@ -11,6 +11,9 @@ const HttpManager = {
   sendComment: (params) => post(`/comment`, params),
   // 请求发送验证码
   sendverifycode: (params) => post(`/verifyCode`, params),
+  //检测邮箱是否有效
+  postCheckEmail: (params) => post(`/check`, params),
+
   // 请求该用户的动态,路径之后直接接用户的UID
   getUserMoment: (url) => get(url),
   // 搜索用户
@@ -29,14 +32,18 @@ const HttpManager = {
   postUserSignature: (params) => post(`/signature`, params),
   // 修改用户昵称
   putUserNickname: (params) => put(`/userInfo`, params),
-  //检测邮箱是否有效
-  postCheckEmail: (params) => post(`/check`, params),
+  // 根据UID查询粉丝列表
+  getFansListByUid: (url) => get(url),
+  // 根据UID查询关注列表
+  getFocusListByUid: (url) => get(url),
+
   // 查询已登录用户与其他用用户的消息列表,自己的UID在请求头自带，固无需参数
   getUserMessage: () => get(`/message`),
   // 发送私信
   postMessage: (params) => post(`/message`, params),
   // 获取与目标用户的聊天记录
   getSigelTalk: (url) => get(url),
+
   // 点击点赞视频
   postLikeVideo: (url) => post(url),
   // 取消点赞视频
@@ -69,9 +76,10 @@ const HttpManager = {
   postCollectVideo: (url) => post(url),
   // 取消收藏
   deleteCollectVideo: (url) => deletemethods(url),
-  // 根据UID查询粉丝列表
-  getFansListByUid: (url) => get(url),
-  // 根据UID查询关注列表
-  getFocusListByUid: (url) => get(url),
+
+  // 根据cv号查这个视频的评论区
+  getVideoComment: (url) => get(url),
+  // 发表评论
+  postVideoComment: (params) => post(`/video/comment`,params),
 }
 export default HttpManager

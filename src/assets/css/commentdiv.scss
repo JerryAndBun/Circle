@@ -40,7 +40,7 @@
                 justify-items: flex-start;
                 margin-top: 6px;
                 .option {
-                    margin-right: 30px;
+                    margin-right: 18px;
                 }
     
                 :hover {
@@ -74,6 +74,12 @@
                     .reply_area{
                         .reply_nickname{
                             color: $main-blue;
+                            cursor: pointer;
+                            &:hover{
+                                transition: .4s all ease-in-out;
+                                color: rgb(98, 211, 255);
+                            }
+                            
                         }
                     }
                 }
@@ -89,5 +95,11 @@
                 }
             }
         }
+    }
+    /deep/.publish{
+        // 二级评论回复的框应该小一点
+        margin-left: 60px;
+        margin-top: 0px !important;
+        max-width: 572 !important;
     }
 }
