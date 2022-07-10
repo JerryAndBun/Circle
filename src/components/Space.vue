@@ -4,14 +4,13 @@
       <CommentInput
         v-if="isown"
         v-model="article"
-        ref="test"
         @cleararticle="cleararticle"
         @send="send"
       ></CommentInput>
     </div>
     <div class="momentList">
-      <div class="test" ref="test"></div>
       <Moment v-for="(item, index) in mommentList" :key="item.contentId" :item="item"></Moment>
+      
       <div class="none_moment">
         <img src="../assets/imgs/这里什么都没有.png" alt="" />
         <span>没有动态了哦</span>
@@ -47,9 +46,17 @@ export default {
       // let sendway = params[0];
       // let param = params[1];
       let param = params
-      HttpManager.sendMomment(param).then(
-        (response) => {
-          console.log('发送成功')
+      HttpManager.sendMomment(param)
+        .then(
+          (response) => {
+            console.log('发送成功')
+          },
+          (error) => {
+            // 请求错误
+            console.log('发送失败')
+          }
+        )
+        .then(
           HttpManager.getUserMoment(`/dynamicContentList`).then(
             (response) => {
               console.log('获取成功')
@@ -60,12 +67,7 @@ export default {
               console.log(error.response)
             }
           )
-        },
-        (error) => {
-          // 请求错误
-          console.log('发送失败')
-        }
-      )
+        )
       //    //发送请求完成之后请求刷新动态列表
     },
     requestmoment() {
@@ -107,6 +109,7 @@ export default {
   },
   created() {
     this.$watch(
+      // 主页所有者改变
       () => this.isown,
       (toParams, previousParams) => {
         // 对路由变化做出响应...

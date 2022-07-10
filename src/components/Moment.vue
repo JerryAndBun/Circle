@@ -1,4 +1,6 @@
 <template>
+<!-- 普通文字动态的模板 -->
+<div>
   <div class="momentdiv">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
@@ -6,18 +8,46 @@
       <div class="time">{{item.userInfo.createdAt}}</div>
     </div>
     <div class="content" ref="content"></div>
-    <div class="bottom">
+      <div class="bottom">
         <div class="likes" @click="test">
-          <i class="iconfont icon-dianzan1">{{}}</i>
-        </div>
+          <i class="iconfont icon-dianzan1"></i>{{}}</div>
         <div class="comment">
-          <i class="iconfont icon-pinglun">{{}}</i></div>
+          <i class="iconfont icon-pinglun"></i>12312</div>
         <div class="forward">
-          <i class="iconfont icon-zhuanfa1">{{}}</i></div>
-        </div>
-      <div class="spreate"></div>
-    </div>
+          <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+      </div>
+    <div class="spreate"></div>
   </div>
+<!-- 投稿视频的自动动态模板 -->
+  <div class="conMoment">
+    <div class="user">
+      <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
+      <div class="nickname">{{item.userInfo.nickname}}</div>
+      <div class="time">{{item.userInfo.createdAt}}</div>
+    </div>
+    <main class="conVideoContent">
+      <img src="" alt="" class="videoPic">
+      <aside class="videoInfo">
+        <div class="videoTitle">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</div>
+        <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
+        <div class="icons">
+          <i class="iconfont icon-bofangliang"></i>&nbsp{{321}}播放 &nbsp &nbsp
+          <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
+        </div>
+      </aside>
+    </main>
+    <div class="bottom">
+      <div class="likes" @click="test">
+        <i class="iconfont icon-dianzan1"></i>{{}}
+      </div>
+      <div class="comment">
+        <i class="iconfont icon-pinglun"></i>{{}}</div>
+      <div class="forward">
+        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+      </div>
+    <div class="spreate"></div>
+  </div>
+</div>
 </template>
 
 <script>

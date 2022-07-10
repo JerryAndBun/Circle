@@ -2,11 +2,19 @@
 .level1_comment{
     border-bottom: 1px solid $font-grey;
     padding-bottom: 20px;
+    .active {
+        color: $main-blue;
+    }
+
+    .unactive {
+        color: $unfocus
+    }
     .container {
         width: auto;
         min-height: 110px;
         align-items: center;
         display: flex;
+        
         .avatar {
             width: 60px;
             height: 60px;
@@ -71,7 +79,23 @@
                 .comment_area{
                     display: flex;
                     flex-direction: row;
+                    
+                    .comments_content{
+                        vertical-align: middle;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        /deep/ img {
+                            vertical-align: middle;
+                            display: inline-block;
+                            width: 20px;
+                            height: 20px;
+                            vertical-align: top;
+                            margin-right: 1px;
+                        }
+                    }
                     .reply_area{
+                        
                         .reply_nickname{
                             color: $main-blue;
                             cursor: pointer;
@@ -81,6 +105,7 @@
                             }
                             
                         }
+                        
                     }
                 }
                 .nickname{
@@ -89,6 +114,7 @@
                 }
                 .comments_content{
                     margin: 0px;
+                    
                 }
                 .comment_option{
                     margin-left: 5px;

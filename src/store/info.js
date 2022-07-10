@@ -15,7 +15,7 @@ const info = {
     is_show_all_input: (state) => {
       let is_show_all_input = state.is_show_all_input
       if (!is_show_all_input) {
-        is_show_all_input = JSON.parse(window.localStorage.getItem('is_show_all_input')) || null
+        is_show_all_input = JSON.parse(window.localStorage.getItem('is_show_all_input')) || false
       }
       return is_show_all_input
     },
@@ -49,7 +49,7 @@ const info = {
     },
   },
   mutations: {
-    setSearchText: (state, is_show_all_input) => {
+    is_show_all_input: (state, is_show_all_input) => {
       state.is_show_all_input = is_show_all_input
       window.localStorage.setItem('is_show_all_input', JSON.stringify(is_show_all_input))
     },

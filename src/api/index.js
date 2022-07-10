@@ -7,8 +7,6 @@ const HttpManager = {
   userRegister: (params) => post(`/signUp`, params),
   // 发送动态
   sendMomment: (params) => post(`/dynamicContent`, params),
-  // 发送评论
-  sendComment: (params) => post(`/comment`, params),
   // 请求发送验证码
   sendverifycode: (params) => post(`/verifyCode`, params),
   //检测邮箱是否有效
@@ -76,10 +74,14 @@ const HttpManager = {
   postCollectVideo: (url) => post(url),
   // 取消收藏
   deleteCollectVideo: (url) => deletemethods(url),
-
   // 根据cv号查这个视频的评论区
   getVideoComment: (url) => get(url),
   // 发表评论
-  postVideoComment: (params) => post(`/video/comment`,params),
+  postVideoComment: (params) => post(`/video/comment`, params),
+  // 给视频评论点赞
+  postLikeVideo: (params) => post(`/video/comment/like`, params),
+  // 给视频评论取消点赞
+  postUnLikeVideo: (params) => post(`/video/comment/unlike`, params),
+  
 }
 export default HttpManager

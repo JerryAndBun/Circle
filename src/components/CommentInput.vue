@@ -55,13 +55,14 @@ export default {
       this.historyArray.pop();
     },
     ffocus() {
-      let text_area_inner = document.getElementById("text_area_inner");
+      let text_area_inner = this.$refs.text_area_inner;
       if (document.activeElement !== text_area_inner) {
         text_area_inner.focus();
       }
     },
     sendMessage(e) {
-      let text_area_inner = document.getElementById("text_area_inner");
+      // let text_area_inner = document.getElementById("text_area_inner");
+      let text_area_inner = this.$refs.text_area_inner;
       this.content = text_area_inner.innerHTML;
       this.$emit("input", this.content);
       this.$emit("send", { uid: this.uid, content: this.content ,comment_level:this.comment_level});

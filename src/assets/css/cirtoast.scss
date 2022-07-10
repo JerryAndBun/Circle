@@ -1,7 +1,8 @@
 @import '../css/var.scss';
 
 .content {
-    width: 100px;
+    // width: 100px;
+    width: auto;
     height: 40px;
     background-color: #fff;
     border-radius: 10px;
@@ -13,7 +14,9 @@
     border: 1px solid $main-white;
 
     div {
-        width: 100px;
+        width: auto;
+        padding-left:10px ;
+        padding-right:10px ;
         height: 30px;
         margin: 0 auto;
 
