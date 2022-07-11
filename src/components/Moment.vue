@@ -47,13 +47,45 @@
       </div>
     <div class="spreate"></div>
   </div>
+  <!-- 转发别人普通文字动态的动态 -->
+  <div class="forwardMoment">
+    <div class="user">
+      <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
+      <div class="nickname">{{item.userInfo.nickname}}</div>
+      <div class="time">{{item.userInfo.createdAt}}</div>
+    </div>
+    <div class="reason">asdad</div>
+    <main class="forwardContent">
+      <div class="userDiv">
+        <img src="" alt="" class="userImg">
+        <div class="nickName">&nbsp昵称{{}}</div>
+      </div>
+      <div class="forwardInner">
+        489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456
+      </div>
+        <div class="openup">展开</div>
+    </main>
+    <div class="bottom">
+      <div class="likes" @click="test">
+        <i class="iconfont icon-dianzan1"></i>{{}}
+      </div>
+      <div class="comment">
+        <i class="iconfont icon-pinglun"></i>{{}}</div>
+      <div class="forward">
+        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+      </div>
+    <div class="spreate"></div>
+  </div>
 </div>
 </template>
 
 <script>
 import {BASE_URL} from '../api/config'
 import {mapGetters} from 'vuex'
+import UserPage from '@/pages/UserPage.vue';
+import VideoPlay from './VideoPlay.vue';
 export default {
+  components: { UserPage, VideoPlay },
   props: ['item'],
   data() {
     return {

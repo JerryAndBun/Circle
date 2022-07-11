@@ -6,7 +6,8 @@
           <div ref="text_area_inner" id="text_area_inner" contenteditable="plaintext-only" placeholder="有什么想说的？" 
           class="text_area_inner" 
           @click.prevent="handleSelection" 
-          @keyup.ctrl.enter="sendMessage">
+          @keyup.ctrl.enter="test"
+          @change="test">
             <!-- <img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAnFBMVEVHcEz/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE1drexdrexdrexdrexdrexdrexdrexdrexdrexdrexdrexdrez/zE1drexmRQCziSf1xEiku6ZwTQXryGF7s86MZxN5VgrGmTCDXg71ylfsu0OfeB3isz+pgCLZqjq8kSvhxmuaubBxsdiGtcTXxHWuvZ1nr+KCoEL9AAAAGXRSTlMAgGC/349QIJ/vr0DP7zC/EHBAn4+AzyDfCSO1awAAAiFJREFUeF7N2NeamzAQBeABBBJuu5t+RHGv21Le/91iE49JQEaAuMh/qYvzzciyLA81kH4YCFyJIPQl9RApgRqhIrKbTaczriWMcUcc2up6nGo9faSz8QiNRmNq8qDPHoikgpVqqOpJF568GC3EXkNjhV87tDORZPRRX72hpTgig5m+eUVbnnmn2Xe0pqjqg/7LD4ckLqhrSVC1gnqWBM/0kbE3dBBR6auuWKC9WNLNZ13xEx1M6OabrnhHF57hMLJX9Gnuk67JgR5n4IuuWaKTMRW0AToZDRUEOVRQOFRQTGfR0nGz+YuicsePn0+AWOiaBToSRBLIHQpiknxgV9ml5Q6d+RSiTCpzNqvkbLVBCcZVFlKAi/yfvo7b5Gp7BDOvsoAECou8qGqZL4DjPLmZc5JxtSQINZzDSU2rpXpQdu2ArTPzqjUoTSpS86o16NLCKn0upKtLG+ZVe9A8zcCQpfO5cbUe5OA/DxIYhKAAgwgoxCBC8jEInyQGIWmY3RZEpOCIL/8IrvjdFqPB/rAubo3D3voD2XQAslNyc8psP9kSrPmO22aWRwSNcAfn2JJG9McYZqek4tT40Lp7AvZJzd7y/JcxDA6Xy/Xl+erlcsEebC9tDwbrDSo2a+u/iAl6mxDj5vrhxliEniKq8NCLRzUKPSgyUM45TDnnMM95f1gUA24DBCYncBtplFyHLMx57MNcB1HMeTTmPqwbbHz4G4rBnlOXsiTjAAAAAElFTkSuQmCC>阿瑟大三大四的 -->
           </div>
         </div>
@@ -49,6 +50,12 @@ export default {
     };
   },
   methods: {
+    test(){
+      // console.log(this.$refs.text_area_inner.innerHTML);
+      var reg=new RegExp("\n","g"),
+      str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
+      console.log(str);
+    },
     changeList(i) {
       if (this.historyArray.includes(i)) return;
       this.historyArray.unshift(i);
@@ -61,9 +68,9 @@ export default {
       }
     },
     sendMessage(e) {
-      // let text_area_inner = document.getElementById("text_area_inner");
-      let text_area_inner = this.$refs.text_area_inner;
-      this.content = text_area_inner.innerHTML;
+      var reg=new RegExp("\n","g"),
+      str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
+      this.content = str;
       this.$emit("input", this.content);
       this.$emit("send", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
       // 清空动态内容

@@ -1,7 +1,8 @@
 @import '../css/var.scss';
 
 .momentdiv,
-.conMoment {
+.conMoment,
+.forwardMoment {
     border-radius: 10px;
     width: 800px;
     min-height: 153px;
@@ -10,7 +11,8 @@
     height: auto;
     word-break: break-all;
 
-    /deep/.content {
+    /deep/.content,
+    .reason {
         width: 700px;
         margin-left: 80px;
         margin-top: 20px;
@@ -34,7 +36,10 @@
         display: flex;
         justify-content: left;
         align-items: center;
-        .forward,.comment,.likes{
+
+        .forward,
+        .comment,
+        .likes {
             // font-weight: 500;
             max-width: 60px;
             width: auto;
@@ -43,12 +48,13 @@
             align-items: center;
             color: $unfocus;
             margin-right: 5px;
-            
+
             i {
                 color: $unfocus;
                 font-size: 18px;
             }
         }
+
         div {
             user-select: none;
             width: 48px;
@@ -56,8 +62,8 @@
             line-height: 48px;
         }
 
-        
-        .icon-pinglun{
+
+        .icon-pinglun {
             padding-top: 2px;
             font-size: 20px;
         }
@@ -115,6 +121,7 @@
 
 .conMoment {
     height: 310px;
+
     .conVideoContent {
         margin-top: 10px;
         margin-left: 82px;
@@ -134,20 +141,21 @@
             height: 160px;
             width: 367px;
             float: right;
-            .videoTitle{
-                padding:  8px;
+
+            .videoTitle {
+                padding: 8px;
                 font-size: 18px;
                 font-weight: 500;
-                word-break: break-all;
                 overflow: hidden;
-                text-overflow: ellipsis;
                 height: 40px;
-                // width: 200px;
+                word-break: break-all;
+                text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
             }
-            .videoDes{
+
+            .videoDes {
                 padding: 8px;
                 word-break: break-all;
                 overflow: hidden;
@@ -159,19 +167,72 @@
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical;
             }
-            .icons{
+
+            .icons {
                 display: flex;
                 margin: 8px;
                 font-size: 12px;
-                color:$unfocus;
+                color: $unfocus;
                 height: 20px;
                 line-height: 20px;
                 align-items: center;
-                .icon-pinglun{
+
+                .icon-pinglun {
                     padding-top: 2px;
                     font-size: 20px;
                 }
             }
+        }
+    }
+}
+
+.forwardMoment {
+    .forwardContent {
+        width: 650px;
+        min-height: 68px;
+        margin-top: 8px;
+        margin-left: 80px;
+        background-color: $bg-white;
+        max-height: 220px;
+        // overflow: hidden;
+        .userDiv {
+            display: flex;
+            align-items: center;
+            color: $main-blue;
+            margin-left: 8px;
+            padding-top: 8px;
+            .userImg {
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+
+            }
+
+            .nickName {
+                cursor: pointer;
+font-size: 15px;
+
+            }
+        }
+        .forwardInner{
+            margin: 12px 8px;
+            margin-top: 2px !important;
+            margin-bottom: 0px !important;
+            font-size: 14px;
+            line-height: 24px;
+            word-break: break-all;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+            max-height: 184px;
+        }
+        .openup{
+            font-size: 14px;
+            color: $main-blue;
+            margin-left: 8px;
+            padding-bottom: 4px;
         }
     }
 }
