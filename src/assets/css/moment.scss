@@ -193,14 +193,16 @@
         margin-top: 8px;
         margin-left: 80px;
         background-color: $bg-white;
-        max-height: 220px;
-        // overflow: hidden;
+        // max-height: 180px;
+
+
         .userDiv {
             display: flex;
             align-items: center;
             color: $main-blue;
             margin-left: 8px;
             padding-top: 8px;
+
             .userImg {
                 width: 30px;
                 height: 30px;
@@ -210,29 +212,37 @@
 
             .nickName {
                 cursor: pointer;
-font-size: 15px;
+                font-size: 15px;
 
             }
         }
-        .forwardInner{
-            margin: 12px 8px;
-            margin-top: 2px !important;
-            margin-bottom: 0px !important;
-            font-size: 14px;
-            line-height: 24px;
-            word-break: break-all;
+
+        .textContainer {
+            max-height: 150px;
             overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 6;
-            -webkit-box-orient: vertical;
-            max-height: 184px;
+
+            .forwardInner {
+                margin: 12px 8px;
+                margin-top: 2px !important;
+                margin-bottom: 0px !important;
+                font-size: 14px;
+                line-height: 24px;
+                overflow: hidden;
+                max-height: 144px;
+                word-break: break-all;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 6;
+                -webkit-box-orient: vertical;
+            }
         }
-        .openup{
+
+        .clickformore {
             font-size: 14px;
             color: $main-blue;
             margin-left: 8px;
             padding-bottom: 4px;
+            cursor: pointer;
         }
     }
 }
