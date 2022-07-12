@@ -275,9 +275,22 @@ export default {
           this.$store.commit("info/toast_list", { type: "push" });
           this.toast_info='评论成功'
           this.toast_type='success'
+          return HttpManager.getVideoComment(
+            `/video/comments/${this.video_item.cv}`
+          )
         },
         (error) => {
           console.log(error);
+        }
+      ).then(
+        (response) => {
+          this.video_comments = response;
+          console.log(response);
+          console.log("查评论成功");
+        },
+        (error) => {
+          console.log(error);
+          console.log("查评论失败");
         }
       );
     },

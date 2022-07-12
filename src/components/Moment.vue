@@ -1,13 +1,21 @@
 <template>
-<!-- 普通文字动态的模板 -->
 <div>
-  <div class="momentdiv">
+  <!-- 普通文字动态的模板 -->
+  <div class="momentdiv" v-if="type=='momentdiv'">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.userInfo.createdAt}}</div>
     </div>
-    <div class="content" ref="content"></div>
+    <div class="reasonDiv" id="reasonDiv">
+      <div class="reason" ref="reason">
+        <span class="reasonText" ref="reasonText">
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        </span>
+      </div>
+    </div>
+    <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
       <div class="bottom">
         <div class="likes" @click="test">
           <i class="iconfont icon-dianzan1"></i>{{}}</div>
@@ -18,8 +26,84 @@
       </div>
     <div class="spreate"></div>
   </div>
-<!-- 投稿视频的自动动态模板 -->
-  <div class="conMoment">
+  <!-- 转发别人普通文字动态的动态 -->
+  <div class="forwardMoment" v-if="type=='forwardMoment'">
+    <div class="user">
+      <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
+      <div class="nickname">{{item.userInfo.nickname}}</div>
+      <div class="time">{{item.userInfo.createdAt}}</div>
+    </div>
+    <div class="reasonDiv" id="reasonDiv">
+      <div class="reason" ref="reason">
+        <span class="reasonText" ref="reasonText">
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        </span>
+      </div>
+    </div>
+    <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
+    <main class="forwardContent">
+      <div class="userDiv">
+        <img src="" alt="" class="userImg">
+        <div class="nickName">&nbsp昵称{{}}</div>
+      </div>
+      <div class="textContainer" ref="textContainer" id="textContainer">
+        <div class="forwardInner" ref="forwardInner">
+          <span class="forwardText" ref="forwardText">
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          </span>
+        </div>
+      </div>
+      <div class="forwardClickformore" ref="forwardClickformore" @click="unfold('forward')" v-if="forwardClickformore">展开</div>
+    </main>
+    <div class="bottom">
+      <div class="likes" @click="test">
+        <i class="iconfont icon-dianzan1"></i>{{}}
+      </div>
+      <div class="comment">
+        <i class="iconfont icon-pinglun"></i>{{}}</div>
+      <div class="forward">
+        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+      </div>
+    <div class="spreate"></div>
+  </div>
+  <!-- 转发视频的动态 -->
+  <div class="forwardVideo" v-if="type=='forwardVideo'">
+    <div class="user">
+      <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
+      <div class="nickname">{{item.userInfo.nickname}}</div>
+      <div class="time">{{item.userInfo.createdAt}}</div>
+    </div>
+    <div class="reasonDiv" id="reasonDiv">
+      <div class="reason" ref="reason">
+        <span class="reasonText" ref="reasonText">
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        </span>
+      </div>
+    </div>
+    <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
+    <main class="forwardVideoContent">
+      <div class="userDiv">
+        <img src="" alt="" class="userImg">
+        <div class="nickName">&nbsp昵称{{}}</div>
+      </div>
+      <div class="videoWarp">
+        <img src="" alt="" class="videoPic">
+        <aside class="videoInfo">
+          <div class="videoTitle">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</div>
+          <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
+          <div class="icons">
+            <i class="iconfont icon-bofangliang"></i>&nbsp{{321}}播放 &nbsp &nbsp
+            <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <!-- 投稿视频的自动动态模板 -->
+  <div class="conMoment" v-if="type=='conMoment'">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
@@ -47,150 +131,161 @@
       </div>
     <div class="spreate"></div>
   </div>
-  <!-- 转发别人普通文字动态的动态 -->
-  <div class="forwardMoment" id="forwardContent">
-    <div class="user">
-      <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
-      <div class="nickname">{{item.userInfo.nickname}}</div>
-      <div class="time">{{item.userInfo.createdAt}}</div>
-    </div>
-    <div class="reason">asdad</div>
-    <main class="forwardContent">
-      <div class="userDiv">
-        <img src="" alt="" class="userImg">
-        <div class="nickName">&nbsp昵称{{}}</div>
-      </div>
-      <div class="textContainer" ref="textContainer" id="textContainer">
-        <div class="forwardInner" ref="forwardInner">
-          <span class="text" ref="text">6489456456489456456489456459456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456
-          6489456456489456456489456459456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456
-          6489456456489456456489456459456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456489456456
-          </span>
-        </div>
-      </div>
-      <div class="clickformore" ref="clickformore" @click="unfold" v-if="clickformore">展开</div>
-    </main>
-    <div class="bottom">
-      <div class="likes" @click="test">
-        <i class="iconfont icon-dianzan1"></i>{{}}
-      </div>
-      <div class="comment">
-        <i class="iconfont icon-pinglun"></i>{{}}</div>
-      <div class="forward">
-        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
-      </div>
-    <div class="spreate"></div>
-  </div>
 </div>
 </template>
 
 <script>
-import {BASE_URL} from '../api/config'
-import {mapGetters} from 'vuex'
-import UserPage from '@/pages/UserPage.vue';
-import VideoPlay from './VideoPlay.vue';
+import { BASE_URL } from "../api/config";
+import { mapGetters } from "vuex";
+import UserPage from "@/pages/UserPage.vue";
+import VideoPlay from "./VideoPlay.vue";
 export default {
   components: { UserPage, VideoPlay },
-  props: ['item'],
+  props: ["item"],
   data() {
     return {
-      myavatar:this.avatar,
-      baseurl:BASE_URL,
-      list:[],
-      clickformore: false,
-      isfold: true,
-    }
+      type:'forwardMoment',
+      myavatar: this.avatar,
+      baseurl: BASE_URL,
+      list: [],
+      forwardClickformore: false,
+      forwardIsfold: true,
+      reasonClickformore: false,
+      reasonIsfold: true,
+      ttt: `
+        1.asdasd
+        2.5s641654
+        3.456156
+        4.5465451665
+        4.5465451665
+        4.5465451665
+        4.5465451665
+        4.5465451665
+      `,
+    };
   },
-  computed:{
-    ...mapGetters('info',['toast_list'])
+  computed: {
+    ...mapGetters("info", ["toast_list"]),
   },
-  methods:{
-    test(){
-      this.$store.commit('info/toast_list',{type:'push'})
+  methods: {
+    test() {
+      this.$store.commit("info/toast_list", { type: "push" });
       console.log(this.toast_list);
     },
     check_click_for_more() {
       this.$nextTick(() => {
-        if (this.$refs.text.offsetHeight > 84) {
+        // 检查转发text的高度
+        if (this.$refs.forwardText.offsetHeight > 144) {
           // 需要检测的div的折叠时的高度，若大于，则折叠
           this.$nextTick(() => {
-            this.clickformore = true;
-            console.log('要折叠');
-            // overflow: hidden;
-            //     max-height: 144px;
-            //     word-break: break-all;
-            //     text-overflow: ellipsis;
-            //     display: -webkit-box;
-            //     -webkit-line-clamp: 6;
-            //     -webkit-box-orient: vertical;
-            // this.$refs.forwardInner.style.overflow='hidden'
-            // this.$refs.forwardInner.style.maxHeight='144px'
-            // this.$refs.forwardInner.style.wordBreak='break-all'
-            // this.$refs.forwardInner.style.textOverflow='ellipsis'
-            // this.$refs.forwardInner.style.display='-webkit-box'
-            // this.$refs.forwardInner.style.webkitLineClamp='6'
-            // this.$refs.forwardInner.style.webkitBoxOrient='vertical'
+            this.forwardClickformore = true;
+            // console.log('转发的要折叠');
           });
         } else {
           this.$nextTick(() => {
-          // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
-            this.clickformore = false;
-            console.log('不要折叠');
+            // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
+            this.forwardClickformore = false;
+            // console.log("转发的不要折叠");
+          });
+        }
+        if (this.$refs.reasonText.offsetHeight > 144) {
+          // 需要检测的div的折叠时的高度，若大于，则折叠
+          this.$nextTick(() => {
+            this.reasonClickformore = true;
+            // console.log('reason的要折叠');
+          });
+        } else {
+          this.$nextTick(() => {
+            // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
+            this.reasonClickformore = false;
+            // console.log("reason的不要折叠");
           });
         }
       });
     },
-    unfold() {
+    showHide(child,father,type,isfold){
+      
+    },
+    unfold(type) {
       // 折叠部分的父div
-      let father = document.getElementById("textContainer");
-      if (this.isfold) {
+      var father=null
+      var child=null
+      var isfold=null
+
+      if(type=='forward'){
+        father = document.getElementById("textContainer");
+        child=this.$refs.forwardInner
+        isfold=this.forwardIsfold
+      }
+      if(type=='reason'){
+        father = document.getElementById("reasonDiv");
+        child=this.$refs.reason
+        isfold=this.reasonIsfold
+      }
+      if(type=='content'){
+        father = document.getElementById("reasonDiv");
+        child=this.$refs.reason
+        isfold=this.reasonIsfold
+      }
+      if (isfold) {
+        console.log(`******************`);
         // 此处打开
         // 这些只是出现省略号的代码，看起来有点多
-        this.$refs.forwardInner.style.overflow='none'
-        this.$refs.forwardInner.style.maxHeight='none'
-        this.$refs.forwardInner.style.wordBreak='none'
-        this.$refs.forwardInner.style.textOverflow='none'
-        this.$refs.forwardInner.style.display='block'
-        this.$refs.forwardInner.style.webkitLineClamp='0'
-        this.$refs.forwardInner.style.webkitBoxOrient='none'
-
+        child.style.overflow = "none";
+        child.style.maxHeight = "none";
+        child.style.wordBreak = "none";
+        child.style.textOverflow = "none";
+        child.style.display = "block";
+        child.style.webkitLineClamp = "0";
+        child.style.webkitBoxOrient = "none";
         father.style.maxHeight = `none`;
         father.style.overflow = `none`;
-        this.isfold = false;
-        this.$refs.clickformore.innerHTML = "收起";
+        if(type=='forward'){
+          this.forwardIsfold = false;
+          this.$refs.forwardClickformore.innerHTML = "收起";
+        }else{
+          this.reasonIsfold=false
+          this.$refs.reasonClickformore.innerHTML = "收起";
+        }
       } else {
         // 此处折叠
         // 这些只是出现省略号的代码，看起来有点多
-        this.$refs.forwardInner.style.overflow='hidden'
-        this.$refs.forwardInner.style.maxHeight='144px'
-        this.$refs.forwardInner.style.wordBreak='break-all'
-        this.$refs.forwardInner.style.textOverflow='ellipsis'
-        this.$refs.forwardInner.style.display='-webkit-box'
-        this.$refs.forwardInner.style.webkitLineClamp='6'
-        this.$refs.forwardInner.style.webkitBoxOrient='vertical'
-
-        father.style.maxHeight= `150px`;
+        console.log(`------------------------`);
+        child.style.overflow = "hidden";
+        child.style.maxHeight = "144px";
+        child.style.wordBreak = "break-all";
+        child.style.textOverflow = "ellipsis";
+        child.style.display = "-webkit-box";
+        child.style.webkitLineClamp = "6";
+        child.style.webkitBoxOrient = "vertical";
+        father.style.maxHeight = `150px`;
         father.style.overflow = `hidden`;
-        this.isfold = true;
-        this.$refs.clickformore.innerHTML = "展开";
+        if(type=='forward'){
+          this.forwardIsfold = true;
+          this.$refs.forwardClickformore.innerHTML = "展开";
+        }else{
+          father.style.maxHeight = `160px`;
+
+          this.reasonIsfold = true;
+          this.$refs.reasonClickformore.innerHTML = "展开";
+        }
       }
     },
   },
 
   mounted() {
     this.check_click_for_more();
-    if(!this.myavatar){
-        this.myavatar=require('../assets/imgs/头像.jpg')
+    if (!this.myavatar) {
+      this.myavatar = require("../assets/imgs/头像.jpg");
     }
-    this.$refs.content.innerHTML=this.item.content
+    this.$refs.reasonText.innerHTML = this.item.content;
   },
   updated() {
     // this.check_click_for_more();
   },
 };
-
 </script>
 
 <style lang='scss' scoped>
-@import '../assets/css/moment.scss'
+@import "../assets/css/moment.scss";
 </style>

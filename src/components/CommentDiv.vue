@@ -8,7 +8,7 @@
         <div class="comment_option">
           <span class="created_at option">{{level_item.createdAt}}</span>
           {{level_item.commentLikes}}
-          <i class="iconfont icon-dianzan option" :class="level_item.liked?'active':'unactive'" @click="commentLikeRequest(level_item)" ></i>
+          <i class="iconfont icon-dianzan option" :class="level_item.isLike?'active':'unactive'" @click="commentLikeRequest(level_item)" ></i>
           <span class="repley option" @click="reply(level_item)">回复</span>
         </div>
       </div>
@@ -38,104 +38,109 @@
 </template>
 
 <script>
-import {BASE_URL} from '@/api/config'
-import CommentInput from '@/components/CommentInput.vue'
-import {mapGetters} from 'vuex'
-import HttpManager from '@/api/index'
+import { BASE_URL } from "@/api/config";
+import CommentInput from "@/components/CommentInput.vue";
+import { mapGetters } from "vuex";
+import HttpManager from "@/api/index";
 export default {
-  props:["level_item",'is_all','video_item'],
+  props: ["level_item", "is_all", "video_item"],
   data() {
     return {
-      baseurl:BASE_URL,
-      is_replying:false,
-      reply_item:''
-    }
+      baseurl: BASE_URL,
+      is_replying: false,
+      reply_item: "",
+    };
   },
-  components:{
-    CommentInput
+  components: {
+    CommentInput,
   },
-  computed:{
-  },
-  watch:{
-    is_all(val,old){
+  computed: {},
+  watch: {
+    is_all(val, old) {
       // 用于检测父组件，看父组件有没有指示，若变化则意味着全部输入框关闭，点击的输入框打开
-      if(val!=old){
-        this.is_replying=false
+      if (val != old) {
+        this.is_replying = false;
       }
-    }
+    },
   },
   methods: {
-    commentLikeRequest(item){
-      if(item.isLike)
-      // 已点赞，发取消点赞请求
-      {
-        HttpManager.postLikeVideo({cid:item.cid,level:item.level}).then(
-            response=>{console.log(response);
+    commentLikeRequest(item) {
+      console.log(item);
+      if (item.isLike) {
+        // 已点赞，发取消点赞请求
+        HttpManager.postLikeVideo({ cid: item.cid, level: item.level }).then(
+          (response) => {
+            console.log(response);
           },
-            error=>{console.log(error);}
-        )
-        item.isLike='1'
-      }
-      else{
-      // 未点赞，发送点赞请求
-        HttpManager.postUnLikeVideo({cid:item.cid,level:item.level}).then(
-            response=>{console.log(response);
-
-            },
-            error=>{console.log(error);}
-          )
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        // 未点赞，发送点赞请求
+        HttpManager.postUnLikeVideo({ cid: item.cid, level: item.level }).then(
+          (response) => {
+            console.log(response);
+            item.isLike = "1";
+            console.log(item);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
     },
-    to_userpage(item){
+    to_userpage(item) {
       this.$router.push({
-        path:`/userpage/${item.targetUid}`
-        }
-      )
+        path: `/userpage/${item.targetUid}`,
+      });
     },
-    reply(level_item){
-      this.reply_item=level_item
-      console.log('你要回复的item');
+    reply(level_item) {
+      this.reply_item = level_item;
+      console.log("你要回复的item");
       console.log(level_item);
-      this.$emit('toFather')
-      this.$nextTick(()=>{
-        this.is_replying=true
-      })
+      this.$emit("toFather");
+      this.$nextTick(() => {
+        this.is_replying = true;
+      });
     },
-    send_level2_comment(params){
+    send_level2_comment(params) {
       // console.log(params);
-      console.log('你回复的item');
+      console.log("你回复的item");
       console.log({
-        oneCommentCid:this.level_item.cid,
+        oneCommentCid: this.level_item.cid,
         commentContent: params.content,
         cv: this.video_item.cv,
         level: params.comment_level,
         targetCid: this.reply_item.cid,
         targetLevel: this.reply_item.level,
-        targetUid: this.reply_item.uid
+        targetUid: this.reply_item.uid,
       });
       HttpManager.postVideoComment({
-        oneCommentCid:this.level_item.cid,
+        oneCommentCid: this.level_item.cid,
         commentContent: params.content,
         cv: this.video_item.cv,
         level: params.comment_level,
         targetCid: this.reply_item.cid,
         targetLevel: this.reply_item.level,
-        targetUid: this.reply_item.uid
+        targetUid: this.reply_item.uid,
       }).then(
-        response=>{console.log(response);},
-        error=>{console.log(error);}
-      )
+        (response) => {
+          console.log(response);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
   mounted() {
     // this.comments_content.innerHTML=this.level_item.commentContent
   },
-  created(){
-
-  },
-}
+  created() {},
+};
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/css/commentdiv';
+@import "../assets/css/commentdiv";
 </style>

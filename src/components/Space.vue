@@ -10,7 +10,6 @@
     </div>
     <div class="momentList">
       <Moment v-for="(item, index) in mommentList" :key="item.contentId" :item="item"></Moment>
-      
       <div class="none_moment">
         <img src="../assets/imgs/这里什么都没有.png" alt="" />
         <span>没有动态了哦</span>
@@ -50,6 +49,7 @@ export default {
         .then(
           (response) => {
             console.log('发送成功')
+            return HttpManager.getUserMoment(`/dynamicContentList`)
           },
           (error) => {
             // 请求错误
@@ -57,16 +57,14 @@ export default {
           }
         )
         .then(
-          HttpManager.getUserMoment(`/dynamicContentList`).then(
-            (response) => {
-              console.log('获取成功')
-              this.mommentList = response
-            },
-            (error) => {
-              // 请求错误
-              console.log(error.response)
-            }
-          )
+          (response) => {
+            console.log('获取成功1111111111111')
+            this.mommentList = response
+          },
+          (error) => {
+            // 请求错误
+            console.log(error.response)
+          }
         )
       //    //发送请求完成之后请求刷新动态列表
     },

@@ -2,7 +2,8 @@
 
 .momentdiv,
 .conMoment,
-.forwardMoment {
+.forwardMoment,
+.forwardVideo {
     border-radius: 10px;
     width: 800px;
     min-height: 153px;
@@ -13,7 +14,7 @@
 
     /deep/.content,
     .reason {
-        width: 700px;
+        width: 670px;
         margin-left: 80px;
         margin-top: 20px;
 
@@ -119,17 +120,20 @@
     }
 }
 
-.conMoment {
-    height: 310px;
-
-    .conVideoContent {
+.conMoment,
+.forwardVideo {
+    // height: 310px;
+    .reason{
+        width: 670px;
+    }
+    .conVideoContent,
+    .forwardVideoContent {
         margin-top: 10px;
         margin-left: 82px;
         height: 160px;
         width: 650px;
-        // background-color: red;
+        border-radius: 5px;
         border: 1px $font-grey solid;
-
         .videoPic {
             width: 283px;
             height: 160px;
@@ -186,15 +190,17 @@
     }
 }
 
-.forwardMoment {
-    .forwardContent {
-        width: 650px;
+.forwardMoment,
+.forwardVideo {
+
+    .forwardContent,
+    .forwardVideoContent {
+        width: 670px;
         min-height: 68px;
         margin-top: 8px;
         margin-left: 80px;
+        // padding: 10px;
         background-color: $bg-white;
-        // max-height: 180px;
-
 
         .userDiv {
             display: flex;
@@ -220,7 +226,6 @@
         .textContainer {
             max-height: 150px;
             overflow: hidden;
-
             .forwardInner {
                 margin: 12px 8px;
                 margin-top: 2px !important;
@@ -237,12 +242,59 @@
             }
         }
 
-        .clickformore {
+        .forwardClickformore {
             font-size: 14px;
             color: $main-blue;
             margin-left: 8px;
             padding-bottom: 4px;
             cursor: pointer;
         }
+    }
+}
+
+.forwardVideo {
+    .forwardVideoContent {
+        // width: 650px;
+        // height: 162px;
+        height: 218px;
+        // margin-left: 80px;
+        // background-color: $bg-white;
+        .videoWarp {
+            border-radius: 5px;
+            border: 1px solid $font-grey;
+            width: 650px;
+            height: 160px;
+            margin: 0 auto;
+            margin-top: 8px !important;
+        }
+    }
+}
+// 为折叠而写的统一样式
+.momentdiv,
+.forwardMoment,
+.forwardVideo{
+    .reasonDiv{
+        max-height: none;
+        overflow: hidden;
+        .reason {
+            height: auto;
+            font-size: 14px;
+            line-height: 24px;
+            overflow: hidden;
+            max-height: 144px;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+        }
+    }
+    .reasonClickformore{
+        font-size: 14px;
+        margin-left: 80px;
+        margin-top: 4px;
+        color: $main-blue;
+        padding-bottom: 4px;
+        cursor: pointer;
     }
 }
