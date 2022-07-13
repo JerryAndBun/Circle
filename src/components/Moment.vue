@@ -144,7 +144,7 @@ export default {
   props: ["item"],
   data() {
     return {
-      type:'forwardMoment',
+      type:'conMoment',
       myavatar: this.avatar,
       baseurl: BASE_URL,
       list: [],

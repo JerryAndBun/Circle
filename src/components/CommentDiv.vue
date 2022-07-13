@@ -1,19 +1,20 @@
 <template>
   <div class="level1_comment">
     <div class="container">
-      <img class="avatar" :src="`${baseurl}${level_item.avatar}`"></img>
+      <img class="avatar" :src="`${baseurl}${level1Comment.avatar}`"></img>
       <div class="comments_container">
-        <div class="nickname">{{level_item.nickname}}</div>
-        <div class="comments_content" ref="comments_content" v-html="level_item.commentContent"></div>
+        <div class="nickname">{{level1Comment.nickname}}</div>
+        <div class="comments_content" ref="comments_content" v-html="level1Comment.commentContent"></div>
         <div class="comment_option">
-          <span class="created_at option">{{level_item.createdAt}}</span>
-          {{level_item.commentLikes}}
-          <i class="iconfont icon-dianzan option" :class="level_item.isLike?'active':'unactive'" @click="commentLikeRequest(level_item)" ></i>
-          <span class="repley option" @click="reply(level_item)">回复</span>
+          <span class="created_at option">{{level1Comment.createdAt}}</span>
+          {{level1Comment.commentLikes}}
+          <i class="iconfont icon-dianzan option" :class="level1Comment.isLike?'active':'unactive'" @click="commentLikeRequest(level1Comment),
+          level1Comment.isLike=!level1Comment.isLike" ></i>
+          <span class="repley option" @click="reply(level1Comment)">回复</span>
         </div>
       </div>
     </div>
-    <div class="level2_comment" v-for="(item,index) in level_item.replys">
+    <div class="level2_comment" v-for="(item,index) in level1Comment.replys">
       <div class="container">
         <img class="avatar" :src="`${baseurl}${item.avatar}`"></img>
         <div class="comments_container">
@@ -33,7 +34,7 @@
         </div>
       </div>
     </div>
-    <CommentInput v-if="is_replying" :comment_level="2" @send="send_level2_comment"></CommentInput>
+    <CommentInput v-if="is_replying" :comment_level="2" @sendComment="send_level2_comment"></CommentInput>
   </div>
 </template>
 
@@ -49,6 +50,9 @@ export default {
       baseurl: BASE_URL,
       is_replying: false,
       reply_item: "",
+      level1CommentLiked:false,
+      // 本地copy的一份一级评论
+      level1Comment:''
     };
   },
   components: {
@@ -62,27 +66,34 @@ export default {
         this.is_replying = false;
       }
     },
+    level_item(newval,old){
+      // console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      this.level1Comment=newval
+    }
   },
   methods: {
     commentLikeRequest(item) {
       console.log(item);
       if (item.isLike) {
         // 已点赞，发取消点赞请求
-        HttpManager.postLikeVideo({ cid: item.cid, level: item.level }).then(
+        HttpManager.postUnLikeVideo({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
+            // this.level1CommentLiked=false
+            this.level1Comment.commentLikes--
           },
           (error) => {
             console.log(error);
           }
         );
-      } else {
+      }
+      if (!item.isLike){
         // 未点赞，发送点赞请求
-        HttpManager.postUnLikeVideo({ cid: item.cid, level: item.level }).then(
+        HttpManager.postLikeVideo({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
-            item.isLike = "1";
-            console.log(item);
+            // this.level1CommentLiked=true
+            this.level1Comment.commentLikes++
           },
           (error) => {
             console.log(error);
@@ -108,7 +119,7 @@ export default {
       // console.log(params);
       console.log("你回复的item");
       console.log({
-        oneCommentCid: this.level_item.cid,
+        oneCommentCid: this.level1Comment.cid,
         commentContent: params.content,
         cv: this.video_item.cv,
         level: params.comment_level,
@@ -117,15 +128,16 @@ export default {
         targetUid: this.reply_item.uid,
       });
       HttpManager.postVideoComment({
-        oneCommentCid: this.level_item.cid,
         commentContent: params.content,
-        cv: this.video_item.cv,
+        oneCommentCid: this.level1Comment.cid,
+        commentObj: this.video_item.cv,
         level: params.comment_level,
         targetCid: this.reply_item.cid,
         targetLevel: this.reply_item.level,
         targetUid: this.reply_item.uid,
       }).then(
         (response) => {
+          this.$emit("replyed");
           console.log(response);
         },
         (error) => {
@@ -136,6 +148,8 @@ export default {
   },
   mounted() {
     // this.comments_content.innerHTML=this.level_item.commentContent
+    this.level1CommentLiked=this.level_item.isLike
+    this.level1Comment=this.level_item
   },
   created() {},
 };

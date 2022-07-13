@@ -75,6 +75,7 @@ export default {
           (response) => {
             console.log('获取已登录用户的动态成功')
             this.mommentList = response
+            console.log(response);
           },
           (error) => {
             // 请求错误

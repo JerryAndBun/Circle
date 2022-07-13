@@ -68,16 +68,20 @@ export default {
       }
     },
     sendMessage(e) {
+      // 保留换行
       var reg=new RegExp("\n","g"),
       str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
       this.content = str;
+      if(this.comment_level){
+        // 根据父组件传过来的props决定调用的是评论还是动态接口
+        // 说明是评论的输入框
+        this.$emit("sendComment", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
+      }
       this.$emit("input", this.content);
-      this.$emit("send", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
       // 清空动态内容
       this.$refs.text_area_inner.innerHTML = "";
       // 关闭表情面板
       this.isshowemoji = false;
-      // 根据父组件传过来的props决定调用的是评论还是动态接口
     },
     lineFeed(){
       let text_area_inner = document.getElementById("text_area_inner");

@@ -77,11 +77,11 @@ const HttpManager = {
   // 根据cv号查这个视频的评论区
   getVideoComment: (url) => get(url),
   // 发表评论
-  postVideoComment: (params) => post(`/video/comment`, params),
+  postVideoComment: (params) => post(`/comment`, params),
   // 给视频评论点赞
-  postLikeVideo: (params) => post(`/video/comment/like`, params),
+  postLikeVideo: (params) => post(`/comment/like`, params),
   // 给视频评论取消点赞
-  postUnLikeVideo: (params) => post(`/video/comment/unlike`, params),
+  postUnLikeVideo: (params) => post(`/comment/unlike`, params),
   
 }
 export default HttpManager

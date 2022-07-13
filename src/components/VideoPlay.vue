@@ -124,10 +124,17 @@
         </div>
         <div class="comment_container">
           <span class="tip_info">评论&nbsp{{video_comments.length}}</span>
-          <CommentInput @send='send_level1_comment' :comment_level="1"></CommentInput>
+          <CommentInput @sendComment='send_level1_comment' :comment_level="1"></CommentInput>
         </div>
         <div class="comment_list_container">
-          <CommentDiv v-for="(item,index) in video_comments" ref="CommentDiv" :key="index" :video_item="video_item" :level_item="item" :is_all="is_all" @toFather="test"></CommentDiv>
+          <CommentDiv v-for="(item,index) in video_comments" 
+          ref="CommentDiv" 
+          :key="index" 
+          :video_item="video_item" 
+          :level_item="item" :is_all="is_all" 
+          @toFather="test" 
+          @likeChanged="getComment"
+          @replyed="getComment"></CommentDiv>
         </div>
       </div>
       <div class="right_container">
@@ -253,6 +260,19 @@ export default {
       // 用于改变值，告诉所有子组件（回复框）全部关闭
       this.is_all = !this.is_all;
     },
+    getComment(){
+      HttpManager.getVideoComment(`/video/comments/${this.video_item.cv}`).then(
+        (response) => {
+          this.video_comments = response;
+          console.log(response);
+          console.log("查评论成功");
+        },
+        (error) => {
+          console.log(error);
+          console.log("查评论失败");
+        }
+      );
+    },
     change_is_all() {
       let ff = this.$refs.CommentDiv;
       ff.$emit("fromFather");
@@ -264,35 +284,25 @@ export default {
       //发送的是一级评论
       HttpManager.postVideoComment({
         commentContent: params.content,
-        cv: this.video_item.cv,
+        commentObj: this.video_item.cv,
         level: params.comment_level,
-        targetCid: null,
-        targetLevel: null,
-        targetUid: null,
-      }).then(
+        targetCid: "",
+        targetLevel: "",
+        targetUid: "",
+      })
+      .then(
         (response) => {
           console.log(response);
           this.$store.commit("info/toast_list", { type: "push" });
-          this.toast_info='评论成功'
-          this.toast_type='success'
-          return HttpManager.getVideoComment(
-            `/video/comments/${this.video_item.cv}`
-          )
+          this.toast_info = "评论成功";
+          this.toast_type = "success";
+          this.getComment()
         },
         (error) => {
           console.log(error);
         }
-      ).then(
-        (response) => {
-          this.video_comments = response;
-          console.log(response);
-          console.log("查评论成功");
-        },
-        (error) => {
-          console.log(error);
-          console.log("查评论失败");
-        }
-      );
+      )
+        
     },
     to_this_userpage() {
       this.$router.push(`/userpage/${this.video_item.uid}`);
