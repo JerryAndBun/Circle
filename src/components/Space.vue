@@ -5,7 +5,7 @@
         v-if="isown"
         v-model="article"
         @cleararticle="cleararticle"
-        @send="send"
+        @sendMoment="sendMoment"
       ></CommentInput>
     </div>
     <div class="momentList">
@@ -40,12 +40,8 @@ export default {
       // 清空缓存的动态内容
       this.article = ''
     },
-    send(params) {
-      // alert("动态");
-      // let sendway = params[0];
-      // let param = params[1];
-      let param = params
-      HttpManager.sendMomment(param)
+    sendMoment(params) {
+      HttpManager.sendMomment(params)
         .then(
           (response) => {
             console.log('发送成功')

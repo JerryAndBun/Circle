@@ -79,9 +79,9 @@ const HttpManager = {
   // 发表评论
   postVideoComment: (params) => post(`/comment`, params),
   // 给视频评论点赞
-  postLikeVideo: (params) => post(`/comment/like`, params),
+  postLikeVideoComment: (params) => post(`/comment/like`, params),
   // 给视频评论取消点赞
-  postUnLikeVideo: (params) => post(`/comment/unlike`, params),
+  postUnLikeVideoComment: (params) => post(`/comment/unlike`, params),
   
 }
 export default HttpManager

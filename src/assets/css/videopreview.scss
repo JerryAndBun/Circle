@@ -45,8 +45,9 @@
 
         h3 {
             cursor: pointer;
+            height: 42px;
             font-weight: 400;
-            font-size: 16px;
+            font-size: 15px;
             word-break: break-all;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -62,7 +63,6 @@
         }
 
         i {
-            margin-left: 4px;
             margin-right: 4px;
             vertical-align: middle;
             font-size: 16px;

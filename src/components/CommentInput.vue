@@ -76,6 +76,12 @@ export default {
         // 根据父组件传过来的props决定调用的是评论还是动态接口
         // 说明是评论的输入框
         this.$emit("sendComment", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
+      }else{
+        // 发送动态的输入框
+        //     SHARE_DYNAMIC_CONTENT("分享动态"),
+        //     SHARE_VIDEO("分享视频"),
+        //     NORMAL_DYNAMIC_CONTENT("普通动态");
+        this.$emit("sendMoment", { cv:'',uid: this.uid, reason: this.content ,type:'NORMAL_DYNAMIC_CONTENT'});
       }
       this.$emit("input", this.content);
       // 清空动态内容

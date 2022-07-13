@@ -1,7 +1,17 @@
 @import '../css/var.scss';
 .level1_comment{
-    border-bottom: 1px solid $font-grey;
-    padding-bottom: 20px;
+    // border-bottom: 1px solid $font-grey;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    &::after {
+        content: '';
+        width:90%;
+        height: 10px;
+        display: block;
+        margin-left: 60px;
+        // margin: 0 auto;
+        border-bottom: 1px solid $font-grey;
+    }
     .active {
         color: $main-blue;
     }
@@ -11,30 +21,45 @@
     }
     .container {
         width: auto;
-        min-height: 110px;
-        align-items: center;
+        min-height: 80px;
+        // align-items: center;
         display: flex;
+        padding-top: 12px;
         
         .avatar {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
+            margin-top: 4px;
             border-radius: 100%;
             background-color: green;
+            align-self: flex-start;
         }
     
         .comments_container {
             margin-left: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            // justify-content: center;
             // align-items: center;
             // height: 100px;
             width: auto;
     
             .comments_content {
                 font-size: 16px;
+                min-height: 21px;
+
                 margin-top: 10px;
                 margin-bottom: 5px;
+                max-width: 600px;
+                word-break: break-all;
+                /deep/ img {
+                    vertical-align: middle;
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    vertical-align: top;
+                    margin-right: 1px;
+                }
             }
             .nickname{
                 cursor: pointer;
@@ -61,8 +86,10 @@
     .level2_comment{
         margin-left: 60px;
         width: 673px;
+        // padding-top: 8px;
+        // padding-bottom: 12px;
         .container{
-            min-height: 65px;
+            min-height: 55px;
             
             .avatar{
                 width: 40px;
@@ -79,7 +106,9 @@
                 .comment_area{
                     display: flex;
                     flex-direction: row;
-                    
+                    span{
+                        height: 21px;
+                    }
                     .comments_content{
                         vertical-align: middle;
                         display: flex;

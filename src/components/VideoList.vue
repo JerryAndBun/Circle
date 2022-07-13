@@ -8,8 +8,8 @@
       </div>
     </div>
     <div class="backgroundDiv">
-      <div class="myvideos_content" v-if="!con_isempty">
-        <div class="myvideos" v-if="ispage1">
+      <div class="myvideos_content">
+        <div class="myvideos" v-if="ispage1 && !con_isempty">
           <VideoPreview
             v-for="(video_item, index) in contribution_list"
             :key="index"
@@ -24,10 +24,14 @@
             <div></div>
           </VideoPreview>
         </div>
+        <div v-if="con_isempty" class="emptyinfo">
+          <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
+          <div class="emptytext">暂无投稿</div>
+        </div>
         <!-- <PageWrapper  :pageNo="2" :pageSize="3" :total="91" :continues="3"></PageWrapper> -->
       </div>
-      <div class="collections_content" v-if="!col_isempty">
-        <div class="mycollects" v-if="ispage2">
+      <div class="collections_content">
+        <div class="mycollects" v-if="ispage2 && !col_isempty">
           <VideoPreview
             v-for="(video_item, index) in collects_list"
             :key="index"
@@ -42,14 +46,10 @@
             <div></div>
           </VideoPreview>
         </div>
-      </div>
-      <div v-if="con_isempty" class="emptyinfo">
-        <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
-        <div class="emptytext">暂无投稿</div>
-      </div>
-      <div v-if="col_isempty" class="emptyinfo">
-        <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
-        <div class="emptytext">暂无收藏</div>
+        <div v-if="col_isempty" class="emptyinfo">
+          <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
+          <div class="emptytext">暂无收藏</div>
+        </div>
       </div>
     </div>
   </div>
@@ -133,7 +133,7 @@ export default {
         (response) => {
           console.log('查询该用户收藏视频成功')
           this.collects_list = response
-          console.log(response);
+          console.log(response)
           if (this.collects_list.length == 0) {
             // this.col_isempty = 1
           } else {

@@ -76,7 +76,7 @@ export default {
       console.log(item);
       if (item.isLike) {
         // 已点赞，发取消点赞请求
-        HttpManager.postUnLikeVideo({ cid: item.cid, level: item.level }).then(
+        HttpManager.postUnLikeVideoComment({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
             // this.level1CommentLiked=false
@@ -89,7 +89,7 @@ export default {
       }
       if (!item.isLike){
         // 未点赞，发送点赞请求
-        HttpManager.postLikeVideo({ cid: item.cid, level: item.level }).then(
+        HttpManager.postLikeVideoComment({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
             // this.level1CommentLiked=true
@@ -138,6 +138,7 @@ export default {
       }).then(
         (response) => {
           this.$emit("replyed");
+          this.is_replying=false
           console.log(response);
         },
         (error) => {
