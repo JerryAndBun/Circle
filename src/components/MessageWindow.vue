@@ -16,7 +16,7 @@
         <div :class="item.uid == uid ? 'minediv' : 'yoursdiv'" v-html="item.content"></div>
       </div>
     </div>
-    <Commentinput @send="send"></Commentinput>
+    <Commentinput @sendMessage="sendMessage" :messageWindow="true"></Commentinput>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
     Commentinput,
   },
   methods: {
-    send(params) {
+    sendMessage(params) {
       console.log('send执行了')
       let newparams = { opUid: this.itemList.opUid, content: params.content }
       HttpManager.postMessage(newparams).then(

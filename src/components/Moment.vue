@@ -2,7 +2,7 @@
 <div>
   <!-- 普通文字动态的模板 -->
   <div class="momentdiv" v-if="item.type=='NORMAL_DYNAMIC_CONTENT'&&item.videoNoteDto==null">
-    <div class="user">
+    <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.createdAt}}</div>
@@ -27,7 +27,7 @@
   </div>
   <!-- 转发别人普通文字动态的动态 -->
   <div class="forwardMoment" v-if="item.type=='SHARE_DYNAMIC_CONTENT'">
-    <div class="user">
+    <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.userInfo.createdAt}}</div>
@@ -69,7 +69,7 @@
   </div>
   <!-- 转发视频的动态 -->
   <div class="forwardVideo" v-if="item.type=='SHARE_VIDEO'">
-    <div class="user">
+    <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.userInfo.createdAt}}</div>
@@ -103,13 +103,13 @@
   </div>
   <!-- 投稿视频的自动动态模板 -->
   <div class="conMoment" v-if="item.type=='NORMAL_DYNAMIC_CONTENT'&&item.videoNoteDto!=null">
-    <div class="user">
+    <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.createdAt}}</div>
     </div>
-    <main class="conVideoContent">
-      <img :src='`${baseurl}${item.videoNoteDto.picPath}`' alt="" class="videoPic">
+    <main class="conVideoContent" @click="toThisVideo">
+      <img :src='`${baseurl}${item.videoNoteDto.picPath}`' alt="" class="videoPic" >
       <aside class="videoInfo">
         <div class="videoTitle">{{item.videoNoteDto.title}}</div>
         <p class="videoDes">{{item.videoNoteDto.summary}}</p>
@@ -170,6 +170,16 @@ export default {
     test() {
       this.$store.commit("info/toast_list", { type: "push" });
       console.log(this.toast_list);
+    },
+    toThisUserpage(){
+      this.$router.push({
+        path:`/userpage/${this.item.userInfo.uid}`
+      })
+    },
+    toThisVideo(){
+      this.$router.push({
+        path:`/video/${this.item.videoNoteDto.cv}`
+      })
     },
     check_click_for_more() {
       this.$nextTick(() => {

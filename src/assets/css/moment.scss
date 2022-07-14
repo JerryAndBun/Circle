@@ -76,7 +76,7 @@
         height: 64px;
         display: flex;
         padding-top: 4px;
-
+        cursor: pointer;
         .nickname {
             margin-top: 14px;
             margin-left: 14px;
@@ -128,6 +128,7 @@
     }
     .conVideoContent,
     .forwardVideoContent {
+        cursor: pointer;
         margin-top: 10px;
         margin-left: 82px;
         height: 160px;
