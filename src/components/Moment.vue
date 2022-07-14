@@ -1,33 +1,32 @@
 <template>
 <div>
   <!-- 普通文字动态的模板 -->
-  <div class="momentdiv" v-if="type=='momentdiv'">
+  <div class="momentdiv" v-if="item.type=='NORMAL_DYNAMIC_CONTENT'&&item.videoNoteDto==null">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
-      <div class="time">{{item.userInfo.createdAt}}</div>
+      <div class="time">{{item.createdAt}}</div>
     </div>
     <div class="reasonDiv" id="reasonDiv">
       <div class="reason" ref="reason">
-        <span class="reasonText" ref="reasonText">
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        <span class="reasonText" ref="reasonText" v-html="item.reason">
+          <!-- {{item.reason}} -->
         </span>
       </div>
     </div>
     <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
       <div class="bottom">
         <div class="likes" @click="test">
-          <i class="iconfont icon-dianzan1"></i>{{}}</div>
+          <i class="iconfont icon-dianzan1"></i>{{item.likes}}</div>
         <div class="comment">
-          <i class="iconfont icon-pinglun"></i>12312</div>
+          <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
         <div class="forward">
-          <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+          <i class="iconfont icon-zhuanfa1"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
       </div>
     <div class="spreate"></div>
   </div>
   <!-- 转发别人普通文字动态的动态 -->
-  <div class="forwardMoment" v-if="type=='forwardMoment'">
+  <div class="forwardMoment" v-if="item.type=='SHARE_DYNAMIC_CONTENT'">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
@@ -69,7 +68,7 @@
     <div class="spreate"></div>
   </div>
   <!-- 转发视频的动态 -->
-  <div class="forwardVideo" v-if="type=='forwardVideo'">
+  <div class="forwardVideo" v-if="item.type=='SHARE_VIDEO'">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
@@ -103,31 +102,31 @@
     </main>
   </div>
   <!-- 投稿视频的自动动态模板 -->
-  <div class="conMoment" v-if="type=='conMoment'">
+  <div class="conMoment" v-if="item.type=='NORMAL_DYNAMIC_CONTENT'&&item.videoNoteDto!=null">
     <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
-      <div class="time">{{item.userInfo.createdAt}}</div>
+      <div class="time">{{item.createdAt}}</div>
     </div>
     <main class="conVideoContent">
-      <img src="" alt="" class="videoPic">
+      <img :src='`${baseurl}${item.videoNoteDto.picPath}`' alt="" class="videoPic">
       <aside class="videoInfo">
-        <div class="videoTitle">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</div>
-        <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
+        <div class="videoTitle">{{item.videoNoteDto.title}}</div>
+        <p class="videoDes">{{item.videoNoteDto.summary}}</p>
         <div class="icons">
-          <i class="iconfont icon-bofangliang"></i>&nbsp{{321}}播放 &nbsp &nbsp
-          <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
+          <i class="iconfont icon-bofangliang"></i>&nbsp{{item.videoNoteDto.playNum}}播放 &nbsp &nbsp
+          <i class="iconfont icon-pinglun"></i>&nbsp{{item.videoNoteDto.commentNum}}评论
         </div>
       </aside>
     </main>
     <div class="bottom">
       <div class="likes" @click="test">
-        <i class="iconfont icon-dianzan1"></i>{{}}
+        <i class="iconfont icon-dianzan1"></i>{{item.likes}}
       </div>
       <div class="comment">
-        <i class="iconfont icon-pinglun"></i>{{}}</div>
+        <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
       <div class="forward">
-        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
+        <i class="iconfont icon-zhuanfa1"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
       </div>
     <div class="spreate"></div>
   </div>
@@ -274,14 +273,21 @@ export default {
   },
 
   mounted() {
-    this.check_click_for_more();
+    // this.check_click_for_more();
     if (!this.myavatar) {
       this.myavatar = require("../assets/imgs/头像.jpg");
     }
-    this.$refs.reasonText.innerHTML = this.item.content;
+    this.type=this.item.type
+    // console.log(this.item);
+    console.log(this.item.videoNoteDto==null);
+    this.$nextTick(()=>{
+      // this.$refs.reasonText.innerHTML = this.item.reason;
+    })
+    // console.log(this.item.forwardVideoInfo);
   },
   updated() {
     // this.check_click_for_more();
+    
   },
 };
 </script>
