@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="level1_comment">
     <div class="container">
       <img class="avatar" :src="`${baseurl}${level1Comment.avatar}`"></img>
@@ -28,13 +29,14 @@
           <div class="comment_option">
           <span class="created_at option">{{item.createdAt}}</span>
             {{item.commentLikes}}
-          <i class="iconfont icon-dianzan option" :class="item.liked?'active':'unactive'" @click="commentLikeRequest(item)"></i>
+          <i class="iconfont icon-dianzan option" :class="item.isLike?'active':'unactive'" @click="commentLikeRequest(item)"></i>
           <span class="repley option" @click="reply(item)">回复</span>
           </div>
         </div>
       </div>
     </div>
     <CommentInput v-if="is_replying" :comment_level="2" @sendComment="send_level2_comment"></CommentInput>
+  </div>
   </div>
 </template>
 
@@ -51,7 +53,7 @@ export default {
       is_replying: false,
       reply_item: "",
       level1CommentLiked:false,
-      // 本地copy的一份一级评论
+      // 本地copy的一份所有一级评论
       level1Comment:''
     };
   },
@@ -79,8 +81,8 @@ export default {
         HttpManager.postUnLikeVideoComment({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
-            // this.level1CommentLiked=false
-            this.level1Comment.commentLikes--
+            item.commentLikes--
+            item.isLike=false
           },
           (error) => {
             console.log(error);
@@ -92,8 +94,8 @@ export default {
         HttpManager.postLikeVideoComment({ cid: item.cid, level: item.level }).then(
           (response) => {
             console.log(response);
-            // this.level1CommentLiked=true
-            this.level1Comment.commentLikes++
+            item.isLike=true
+            item.commentLikes++
           },
           (error) => {
             console.log(error);
@@ -113,6 +115,7 @@ export default {
       this.$emit("toFather");
       this.$nextTick(() => {
         this.is_replying = true;
+        console.log('当前输入框打开了');
       });
     },
     send_level2_comment(params) {
@@ -149,7 +152,7 @@ export default {
   },
   mounted() {
     // this.comments_content.innerHTML=this.level_item.commentContent
-    this.level1CommentLiked=this.level_item.isLike
+    // this.level1CommentLiked=this.level_item.isLike
     this.level1Comment=this.level_item
   },
   created() {},

@@ -127,11 +127,12 @@
           <CommentInput @sendComment='send_level1_comment' :comment_level="1"></CommentInput>
         </div>
         <div class="comment_list_container">
-          <CommentDiv v-for="(item,index) in video_comments" 
+          <CommentDiv v-for="(item,index) in video_comments"
           ref="CommentDiv" 
           :key="index" 
           :video_item="video_item" 
-          :level_item="item" :is_all="is_all" 
+          :level_item="item" 
+          :is_all="is_all"
           @toFather="test" 
           @likeChanged="getComment"
           @replyed="getComment"></CommentDiv>
