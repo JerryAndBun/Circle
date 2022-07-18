@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+    const obj = {
+      name: '张三丰',
+      age: 18,
+      hobby: '打太极'
+    }
+    Object.keys(obj).forEach(key => {
+      let value = obj[key]
+      Object.defineProperty(obj, key, {
+        get: function() {
+          console.log(`监听到获取${key},值是${value}`);
+        //   # 注意：如果不return值出去，默认是return undefined
+          return value
+         },
+        set: function(newValue) {
+          console.log(`监听到给${key}设置值,新值是${newValue}`);
+        //   # 如果设置新的值，必须要接受新值，然后重新赋值。
+          value = newValue
+        }
+      })
+    })
+    obj.name = '么么哒'
+    obj.age = 30
+    obj.hobby = '玩游戏'
+    console.log(obj.name)
+    console.log(obj.age)
+    console.log(obj.hobby)
+</script>
+</html>
