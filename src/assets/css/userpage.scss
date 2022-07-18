@@ -44,14 +44,25 @@
     background-size: 100%;
 }
 
+
+.cir_toast_content {
+    position: fixed;
+    z-index: 1;
+    // width: 200px;
+    // height: 400px;
+    top: 30%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+}
+
 .usermain {
     margin-top: 150px !important;
     width: 1200px;
-    opacity: .99;
     margin: 0 auto;
     border-radius: 15px;
     // min-height: 900px;
     height: auto;
+
     .useravatar {
         position: absolute;
         z-index: 2;

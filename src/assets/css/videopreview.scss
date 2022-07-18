@@ -34,6 +34,7 @@
     .vp_info_div {
         margin-top: 8px;
         // margin-left: 4px;
+        position: relative;
 
         width: 224px;
         vertical-align: middle;
@@ -43,7 +44,10 @@
         flex-direction: column;
 
         h3 {
+            cursor: pointer;
+            height: 42px;
             font-weight: 400;
+            font-size: 15px;
             word-break: break-all;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -59,7 +63,6 @@
         }
 
         i {
-            margin-left: 4px;
             margin-right: 4px;
             vertical-align: middle;
             font-size: 16px;
@@ -79,13 +82,50 @@
 
         .vp_info {
             // margin-top: 10px;
-
             a {
                 font-size: 12px;
                 text-decoration: none;
                 color: $unfocus;
             }
-
+            .option{
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                right: -6px;
+                font-size: 50px;
+                text-align: center;
+                line-height: 30px;
+                top: 0px;
+                cursor: pointer;
+                i{
+                    font-size: 26px;
+                }
+            }
+            .option_div{
+                transform-origin: center top;
+                margin-top: 10px;
+                user-select: none;
+                position: absolute;
+                text-align: center;
+                right: 0px;
+                width: 100px;
+                height: 102px;
+                font-size: 14px;
+                border-radius: 6px;
+                border: 1px solid $font-grey;
+                overflow: hidden;
+                ul{
+                   list-style: none;
+                    li{
+                        width: 100px;
+                        height: 34px;
+                        border-bottom: 1px solid $font-grey;
+                        line-height: 34px;
+                        background-color: $white;
+                        
+                    }
+                }
+            }
         }
     }
 }

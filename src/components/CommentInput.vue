@@ -1,6 +1,5 @@
  <template>
   <div contenteditable="false">
-    {{sendway}}
     <div class="publish">
       <div class="publish_input">
         <div class="text_area">
@@ -34,7 +33,10 @@
 // import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 export default {
-  props: ["sendway"],
+  // comment_level  分别代表评论区用的,传入1或2代表几级评论
+  // messageWindow  聊天用的,或者只是单纯的获取输入
+  // moment         动态用的，谁为true就代表当前作为谁的输入框，发对应的请求
+  props: ["comment_level",'messageWindow','moment'],
   components: {},
   computed: {
     ...mapGetters("user", ["uid"])
@@ -50,27 +52,52 @@ export default {
     };
   },
   methods: {
+    test(){
+      // console.log(this.$refs.text_area_inner.innerHTML);
+      var reg=new RegExp("\n","g"),
+      str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
+      console.log(str);
+    },
     changeList(i) {
       if (this.historyArray.includes(i)) return;
       this.historyArray.unshift(i);
       this.historyArray.pop();
     },
     ffocus() {
-      let text_area_inner = document.getElementById("text_area_inner");
+      let text_area_inner = this.$refs.text_area_inner;
       if (document.activeElement !== text_area_inner) {
         text_area_inner.focus();
       }
     },
     sendMessage(e) {
-      let text_area_inner = document.getElementById("text_area_inner");
-      this.content = text_area_inner.innerHTML;
+      // 保留换行
+      var reg=new RegExp("\n","g"),
+      str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
+      this.content = str;
+      // console.log(this.moment);
+      // console.log(this.messageWindow);
+      // console.log(this.comment_level);
+      if(this.comment_level){
+        // 根据父组件传过来的props决定调用的是评论还是动态接口
+        // 说明是评论的输入框
+        this.$emit("sendComment", { uid: this.uid, content: this.content ,comment_level:this.comment_level});
+      }
+      if(this.moment){
+        // 发送动态的输入框
+        //     SHARE_DYNAMIC_CONTENT("分享动态"),
+        //     SHARE_VIDEO("分享视频"),
+        //     NORMAL_DYNAMIC_CONTENT("普通动态");
+        this.$emit("sendMoment", { cv:'',uid: this.uid, reason: this.content ,type:'NORMAL_DYNAMIC_CONTENT'});
+      }
+      if(this.messageWindow){
+        // 发消息的输入框
+        this.$emit("sendMessage", { content:this.content});
+      }
       this.$emit("input", this.content);
-      this.$emit("send", { uid: this.uid, content: this.content });
       // 清空动态内容
       this.$refs.text_area_inner.innerHTML = "";
       // 关闭表情面板
       this.isshowemoji = false;
-      // 根据父组件传过来的props决定调用的是评论还是动态接口
     },
     lineFeed(){
       let text_area_inner = document.getElementById("text_area_inner");

@@ -1,38 +1,53 @@
 @import '../css/var.scss';
-.contentdiv{
+
+.contentdiv {
     width: 800px;
     height: 300px;
     background-color: $white;
     float: left;
-    .emaildiv,.passdiv{
+
+    .emaildiv,
+    .passdiv {
         display: flex;
         margin-top: 60px;
         justify-content: flex-start;
         width: 800px;
         align-items: center;
-        .infodiv{
+
+        .infodiv {
             margin-left: 30px;
             width: 400px;
-            .emailaddress,.password{
+
+            .emailaddress,
+            .password {
                 display: inline-block;
                 margin-right: 20px;
                 color: $unfocus;
             }
-            .email,.pass{
+
+            .email,
+            .pass {
                 display: inline-block;
                 width: 200px;
             }
-            .password{
+
+            .password {
                 margin-right: 50px;
             }
-            .pass{
-            }
+
+            .pass {}
         }
-        .changeemail,.changepass{
+
+        .changeemail,
+        .changepass {
             text-align: center;
-            line-height: 30px;
+            cursor: pointer;
+            color: $white;
+            line-height: 40px;
             width: 100px;
-            height: 30px;
+            height: 40px;
+            background-color: $main-blue;
+            border-radius: 10px;
         }
     }
 }

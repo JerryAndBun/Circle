@@ -121,9 +121,11 @@
         align-items: center;
         width: 800px;
         height: 40px;
-
         .nicknnameinput,
         .signatureinput {
+            //超出长度添加滚动条
+            overflow: auto;
+
             outline: none;
             border: 1px solid $unfocus;
             width: 200px;

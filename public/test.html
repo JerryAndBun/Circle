@@ -1,41 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-<script>
 
-    const obj = {
-      name: '张三丰',
-      age: 18,
-      hobby: '打太极'
+<head>
+  <meta charset="UTF-8">
+  <title>Layout</title>
+  <style>
+    html * {
+      padding: 0;
+      margin: 0;
     }
-    Object.keys(obj).forEach(key => {
-      let value = obj[key]
-      Object.defineProperty(obj, key, {
-        get: function() {
-          console.log(`监听到获取${key},值是${value}`);
-        //   # 注意：如果不return值出去，默认是return undefined
-          return value
-         },
-        set: function(newValue) {
-          console.log(`监听到给${key}设置值,新值是${newValue}`);
-        //   # 如果设置新的值，必须要接受新值，然后重新赋值。
-          value = newValue
-        }
-      })
-    })
-    obj.name = '么么哒'
-    obj.age = 30
-    obj.hobby = '玩游戏'
-    console.log(obj.name)
-    console.log(obj.age)
-    console.log(obj.hobby)
-</script>
+
+    .layout {
+      margin-top: 20px;
+    }
+
+    .layout article div {
+      min-height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 浮动解决⽅式 -->
+  <section class="layout float">
+    <style>
+      .layout.float .left {
+        float: left;
+        width: 300px;
+        background-color: red;
+      }
+
+      .layout.float .right {
+        float: right;
+        width: 300px;
+        background-color: blue;
+      }
+
+      .layout.float .center {
+        background-color: yellow;
+        text-align: center;
+      }
+    </style>
+    <article class="left-right-center">
+      <div class="left"></div>
+      <div class="right"></div>
+      <div class="center">
+        <h1>浮动解决⽅式</h1>
+        1.这是三栏布局的正中间部分
+        2.这是三栏布局的正中间部分
+      </div>
+    </article>
+  </section>
+  <!-- 绝对定位解决⽅式 -->
+  <section class="layout absolute">
+    <style>
+      .layout.absolute .left-center-right>div {
+        position: absolute
+      }
+
+      .layout.absolute .left {
+        width: 300px;
+        left: 0px;
+        background-color: red;
+      }
+
+      .layout.absolute .center {
+        left: 300px;
+        right: 300px;
+        background-color: yellow;
+      }
+
+      .layout.absolute .right {
+        width: 300px;
+        right: 0px;
+        background-color: blue;
+      }
+    </style>
+    <article class="left-center-right">
+      <div class="left"></div>
+      <div class="center">
+        <h1>绝对定位解决⽅式</h1>
+        1.这是三栏布局的正中间部分
+        2.这是三栏布局的正中间部分
+      </div>
+      <div class="right"></div>
+    </article>
+  </section>
+  <!-- flexbox解决⽅式 -->
+  <section class="layout flexbox">
+    <style>
+      .layout.flexbox {
+        margin-top: 140px;
+      }
+
+      .layout.flexbox .left-center-right {
+        display: flex;
+      }
+
+      .layout.flexbox .left {
+        background-color: red;
+        width: 300px;
+      }
+
+      .layout.flexbox .center {
+        flex:1;
+        background-color: yellow;
+      }
+
+      .layout.flexbox .right {
+        background-color: blue;
+        width: 300px;
+      }
+    </style>
+    <article class="left-center-right">
+      <div class="left"></div>
+      <div class="center">
+        <h1>flexbox解决⽅式</h1>
+        1.这是三栏布局的正中间部分
+        2.这是三栏布局的正中间部分
+      </div>
+      <div class="right"></div>
+    </article>
+  </section>
+  <!-- 表格布局 -->
+  <section class="layout table">
+    <style>
+      .layout.table .left-center-right {
+        width: 100%;
+        display: table;
+        height: 100px;
+      }
+
+      .layout.table .left-center-right>div {
+        display: table-cell;
+      }
+
+      .layout.table .left {
+        width: 300px;
+        background-color: red;
+      }
+
+      .layout.table .center {
+        background-color: yellow;
+      }
+
+      .layout.table .right {
+        width: 300px;
+        background-color: blue;
+      }
+    </style>
+    <article class="left-center-right">
+      <div class="left"></div>
+      <div class="center">
+        <h1>表格解决⽅式</h1>
+        1.这是三栏布局的正中间部分
+        展示效果
+        2.这是三栏布局的正中间部分
+      </div>
+      <div class="right"></div>
+    </article>
+  </section>
+  <!-- ⽹格布局 -->
+  <section class="layout grid">
+    <style>
+      .layout.grid .left-center-right {
+        display: grid;
+        grid-template-columns: 300px auto 300px;
+        grid-template-rows: 100px;
+      }
+
+      .layout.grid .left {
+        background-color: red;
+      }
+
+      .layout.grid .center {
+        background-color: yellow;
+      }
+
+      .layout.grid .right {
+        background-color: blue;
+      }
+    </style>
+    <article class="left-center-right">
+      <div class="left"></div>
+      <div class="center">
+        <h1>⽹格解决⽅式</h1>
+        1.这是三栏布局的正中间部分
+        2.这是三栏布局的正中间部分
+      </div>
+      <div class="right"></div>
+    </article>
+  </section>
+</body>
+
 </html>

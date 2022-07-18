@@ -1,46 +1,159 @@
 @import '../css/var.scss';
+.level1_comment {
+  // border-bottom: 1px solid $font-grey;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  &::before {
+    content: '';
+    width: 90%;
+    height: 10px;
+    display: block;
+    margin-left: 60px;
+    // margin: 0 auto;
+    border-top: 1px solid $font-grey;
+  }
+  .active {
+    color: $main-blue;
+  }
 
-.container {
+  .unactive {
+    color: $unfocus;
+  }
+  .container {
     width: auto;
-    min-height: 110px;
-    align-items: center;
+    min-height: 80px;
+    // align-items: center;
     display: flex;
-    border-bottom: 1px solid $font-grey;
+    padding-top: 12px;
 
     .avatar {
-        width: 70px;
-        height: 70px;
-        border-radius: 100%;
-        background-color: green;
+      width: 48px;
+      height: 48px;
+      margin-top: 4px;
+      border-radius: 100%;
+      background-color: green;
+      align-self: flex-start;
     }
 
     .comments_container {
-        margin-left: 20px;
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      // align-items: center;
+      // height: 100px;
+      width: auto;
+
+      .comments_content {
+        font-size: 16px;
+        min-height: 21px;
+
+        margin-top: 10px;
+        margin-bottom: 5px;
+        max-width: 600px;
+        word-break: break-all;
+        /deep/ img {
+          vertical-align: middle;
+          display: inline-block;
+          width: 20px;
+          height: 20px;
+          vertical-align: top;
+          margin-right: 1px;
+        }
+      }
+      .nickname {
+        cursor: pointer;
+        font-size: 13px;
+        color: $main-pink;
+        line-height: 21px;
+      }
+      .comment_option {
+        font-size: 12px;
+        color: $unfocus;
+        justify-items: flex-start;
+        margin-top: 6px;
+        .option {
+          margin-right: 18px;
+        }
+
+        :hover {
+          cursor: pointer;
+          color: $main-blue;
+        }
+      }
+    }
+  }
+  .level2_comment {
+    margin-left: 60px;
+    width: 673px;
+    // padding-top: 8px;
+    // padding-bottom: 12px;
+    .container {
+      min-height: 55px;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+      .comments_container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         // align-items: center;
-        height: 100px;
-        width: auto;
+        margin-left: 5px;
+        // align-content: start;
+        align-content: flex-start;
 
+        .comment_area {
+          display: flex;
+          flex-direction: row;
+          span {
+            height: 21px;
+          }
+          .comments_content {
+            vertical-align: middle;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /deep/ img {
+              vertical-align: middle;
+              display: inline-block;
+              width: 20px;
+              height: 20px;
+              vertical-align: top;
+              margin-right: 1px;
+            }
+          }
+          .reply_area {
+            .reply_nickname {
+              color: $main-blue;
+              cursor: pointer;
+              &:hover {
+                transition: 0.4s all ease-in-out;
+                color: rgb(98, 211, 255);
+              }
+            }
+          }
+        }
+        .nickname {
+          margin-right: 5px;
+          margin-left: 5px;
+        }
         .comments_content {
-            margin-top: 5px;
-            margin-bottom: 5px;
+          margin: 0px;
         }
-
         .comment_option {
-            font-size: 12px;
-            color: $font-grey;
-
-            .option {
-                margin-left: 10px;
-                margin-right: 10px;
-            }
-
-            :hover {
-                cursor: pointer;
-                color: $main-blue;
-            }
+          margin-left: 5px;
         }
+      }
     }
+  }
+  /deep/.publish {
+    
+    .publish_input {
+      // 二级评论回复的框应该小一点
+      padding-left: 60px !important;
+      margin-top: 0px !important;
+      max-width: 572 !important;
+    }
+  }
 }
