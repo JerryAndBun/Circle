@@ -2,6 +2,7 @@
   <div>
     <div class="theuser">{{ item.opNickname }}</div>
     <div class="chat_page" ref="chat_page">
+      <!-- 动态添加class，代表这条消息是对方发的还是我自己发的 -->
       <div
         v-for="(item, index) in itemList.content"
         :class="[(whichone = item.uid == uid ? 'minemessagecontent' : 'yoursmessagecontent')]"

@@ -4,303 +4,339 @@
 .conMoment,
 .forwardMoment,
 .forwardVideo {
-    border-radius: 10px;
-    width: 800px;
-    min-height: 153px;
-    background-color: $white;
-    margin-bottom: 10px;
+  border-radius: 10px;
+  width: 800px;
+  min-height: 153px;
+  background-color: $white;
+  margin-bottom: 10px;
+  height: auto;
+  word-break: break-all;
+
+  /deep/.content,
+  .reason {
+    width: 670px;
+    margin-left: 80px;
+    margin-top: 20px;
+
+    img {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      vertical-align: top;
+      margin-right: 1px;
+    }
+  }
+
+  .bottom {
+    width: 700px;
+    height: 48px;
+    margin-left: 80px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+
+    .forward,
+    .comment,
+    .likes {
+      // font-weight: 500;
+      max-width: 60px;
+      width: auto;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      color: $unfocus;
+      margin-right: 45px;
+
+      i {
+        color: $unfocus;
+        font-size: 18px;
+        margin-right: 4px;
+      }
+    }
+
+    div {
+      user-select: none;
+      width: 48px;
+      height: 48px;
+      line-height: 48px;
+    }
+
+    .icon-pinglun {
+      padding-top: 2px;
+      font-size: 20px !important;
+    }
+  }
+
+  .commentArea {
+    border-top: 1px solid #e5e9ef;
+    margin-left: 60px;
+    width: 652px;
     height: auto;
-    word-break: break-all;
-
-    /deep/.content,
-    .reason {
-        width: 670px;
-        margin-left: 80px;
-        margin-top: 20px;
-
-        img {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            vertical-align: top;
-            margin-right: 1px;
-        }
-
+    .commentTag {
+      font-size: 18px;
+      margin: 10px;
+      margin-bottom: -10px !important;
     }
-
-    .bottom {
-        width: 700px;
-        height: 48px;
-        margin-left: 80px;
-        margin-top: 10px;
-        padding-bottom: 10px;
-        display: flex;
-        justify-content: left;
-        align-items: center;
-
-        .forward,
-        .comment,
-        .likes {
-            // font-weight: 500;
-            max-width: 60px;
-            width: auto;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            color: $unfocus;
-            margin-right: 5px;
-
-            i {
-                color: $unfocus;
-                font-size: 18px;
-            }
-        }
-
-        div {
-            user-select: none;
-            width: 48px;
-            height: 48px;
-            line-height: 48px;
-        }
-
-
-        .icon-pinglun {
-            padding-top: 2px;
-            font-size: 20px !important;
-        }
-
+    /deep/ .commentInput {
+      width: 600px;
     }
+    // 使输入框长度随父元素
+    /deep/ .publish {
+      width: auto;
+      margin-top: 20px;
+      padding: 10px;
 
-    .user {
-        width: 800px;
-        height: 64px;
-        display: flex;
-        padding-top: 4px;
-        cursor: pointer;
-        .nickname {
-            margin-top: 14px;
-            margin-left: 14px;
-            font-size: 20px;
-            height: 30px;
-            width: 200px;
-            color: $main-pink;
-            vertical-align: top;
-            display: inline-block;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: no-wrap
-        }
-
-        .avatar {
-            width: 54px;
-            height: 54px;
-            border-radius: 100%;
-            margin-left: 14px;
-            margin-top: 10px;
-            display: inline-block;
-            size: 100px;
-        }
-
-        .time {
-            height: 18px;
-            font-size: 12px;
-            color: $unfocus;
-            margin-top: 44px;
-            margin-left: -200px;
-            display: inline-block;
-            justify-items: flex-start;
-        }
-
-    }
-
-    .spreate {
+      .publish_input {
         width: auto;
-        height: 10px;
-        background-color: $main-white;
+
+        .text_area {
+          width: auto;
+
+          .text_area_inner {
+            width: auto;
+          }
+        }
+
+        .suggest {
+          // float: right;
+          display: none;
+        }
+      }
     }
+  }
+
+  .user {
+    width: 800px;
+    height: 64px;
+    display: flex;
+    padding-top: 4px;
+    .nickname {
+      margin-top: 14px;
+      margin-left: 14px;
+      font-size: 20px;
+      height: 30px;
+      //   width: 200px;
+      color: $main-pink;
+      vertical-align: top;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: no-wrap;
+      cursor: pointer;
+    }
+
+    .avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 100%;
+      margin-left: 14px;
+      margin-top: 10px;
+      display: inline-block;
+      size: 100px;
+    }
+
+    .time {
+      height: 18px;
+      font-size: 12px;
+      color: $unfocus;
+      margin-top: 44px;
+      margin-left: -124px;
+      display: inline-block;
+      justify-items: flex-start;
+    }
+  }
+  /deep/.commentDiv {
+    // margin-left: 80px;
+  }
+  .spreate {
+    width: auto;
+    height: 10px;
+    background-color: $bg-white;
+  }
 }
 
 .conMoment,
 .forwardVideo {
-    // height: 310px;
-    .reason{
-        width: 670px;
+  // height: 310px;
+  .reason {
+    width: 670px;
+  }
+  .conVideoContent,
+  .forwardVideoContent {
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-left: 82px;
+    height: 160px;
+    width: 650px;
+    border-radius: 5px;
+    border: 1px $font-grey solid;
+    .videoPic {
+      width: 283px;
+      height: 160px;
+      // background-color: yellow;
+      display: inline-block;
     }
-    .conVideoContent,
-    .forwardVideoContent {
-        cursor: pointer;
-        margin-top: 10px;
-        margin-left: 82px;
-        height: 160px;
-        width: 650px;
-        border-radius: 5px;
-        border: 1px $font-grey solid;
-        .videoPic {
-            width: 283px;
-            height: 160px;
-            // background-color: yellow;
-            display: inline-block;
+
+    .videoInfo {
+      height: 160px;
+      width: 367px;
+      float: right;
+
+      .videoTitle {
+        padding: 8px;
+        padding-bottom: 0px !important;
+        height: auto;
+        max-height: 56px;
+        font-size: 18px;
+        font-weight: 500;
+        overflow: hidden;
+        // height: 40px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .videoDes {
+        padding: 8px;
+        word-break: break-all;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        // min-height: 64px;
+        height: 72px;
+        color: $unfocus;
+        // width: 200px;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
+
+      .icons {
+        display: flex;
+        margin: 8px;
+        margin-top: 16px !important;
+        font-size: 12px;
+        color: $unfocus;
+        height: 20px;
+        line-height: 20px;
+        align-items: center;
+
+        .icon-pinglun {
+          padding-top: 2px;
+          font-size: 20px;
         }
-
-        .videoInfo {
-            height: 160px;
-            width: 367px;
-            float: right;
-
-            .videoTitle {
-                padding: 8px;
-                padding-bottom: 0px !important;
-                height: auto;
-                max-height: 56px;
-                font-size: 18px;
-                font-weight: 500;
-                overflow: hidden;
-                // height: 40px;
-                word-break: break-all;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-            }
-
-            .videoDes {
-                padding: 8px;
-                word-break: break-all;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                // min-height: 64px;
-                height: 72px;
-                color: $unfocus;
-                // width: 200px;
-                display: -webkit-box;
-                -webkit-line-clamp: 4;
-                -webkit-box-orient: vertical;
-            }
-
-            .icons {
-                display: flex;
-                margin: 8px;
-                margin-top: 16px !important;
-                font-size: 12px;
-                color: $unfocus;
-                height: 20px;
-                line-height: 20px;
-                align-items: center;
-
-                .icon-pinglun {
-                    padding-top: 2px;
-                    font-size: 20px;
-                }
-            }
-        }
+      }
     }
+  }
 }
 
 .forwardMoment,
 .forwardVideo {
+  .forwardContent,
+  .forwardVideoContent {
+    width: 670px;
+    min-height: 68px;
+    margin-top: 8px;
+    margin-left: 80px;
+    // padding: 10px;
+    background-color: $bg-white;
 
-    .forwardContent,
-    .forwardVideoContent {
-        width: 670px;
-        min-height: 68px;
-        margin-top: 8px;
-        margin-left: 80px;
-        // padding: 10px;
-        background-color: $bg-white;
+    .userDiv {
+      display: flex;
+      align-items: center;
+      color: $main-blue;
+      margin-left: 8px;
+      padding-top: 8px;
 
-        .userDiv {
-            display: flex;
-            align-items: center;
-            color: $main-blue;
-            margin-left: 8px;
-            padding-top: 8px;
+      .userImg {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
 
-            .userImg {
-                width: 30px;
-                height: 30px;
-                cursor: pointer;
-
-            }
-
-            .nickName {
-                cursor: pointer;
-                font-size: 15px;
-
-            }
-        }
-
-        .textContainer {
-            max-height: 150px;
-            overflow: hidden;
-            .forwardInner {
-                margin: 12px 8px;
-                margin-top: 2px !important;
-                margin-bottom: 0px !important;
-                font-size: 14px;
-                line-height: 24px;
-                overflow: hidden;
-                max-height: 144px;
-                word-break: break-all;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-line-clamp: 6;
-                -webkit-box-orient: vertical;
-            }
-        }
-
-        .forwardClickformore {
-            font-size: 14px;
-            color: $main-blue;
-            margin-left: 8px;
-            padding-bottom: 4px;
-            cursor: pointer;
-        }
+      .nickName {
+        cursor: pointer;
+        font-size: 15px;
+      }
     }
+
+    .textContainer {
+      max-height: 150px;
+      overflow: hidden;
+      .forwardInner {
+        margin: 12px 8px;
+        margin-top: 2px !important;
+        margin-bottom: 0px !important;
+        font-size: 14px;
+        line-height: 24px;
+        overflow: hidden;
+        max-height: 144px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 6;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    .forwardClickformore {
+      font-size: 14px;
+      color: $main-blue;
+      margin-left: 8px;
+      padding-bottom: 4px;
+      cursor: pointer;
+    }
+  }
 }
 
 .forwardVideo {
-    .forwardVideoContent {
-        // width: 650px;
-        // height: 162px;
-        height: 218px;
-        // margin-left: 80px;
-        // background-color: $bg-white;
-        .videoWarp {
-            border-radius: 5px;
-            border: 1px solid $font-grey;
-            width: 650px;
-            height: 160px;
-            margin: 0 auto;
-            margin-top: 8px !important;
-        }
+  .forwardVideoContent {
+    // width: 650px;
+    // height: 162px;
+    height: 218px;
+    // margin-left: 80px;
+    // background-color: $bg-white;
+    .videoWarp {
+      border-radius: 5px;
+      border: 1px solid $font-grey;
+      width: 650px;
+      height: 160px;
+      margin: 0 auto;
+      margin-top: 8px !important;
     }
+  }
 }
 // 为折叠而写的统一样式
 .momentdiv,
 .forwardMoment,
-.forwardVideo{
-    .reasonDiv{
-        max-height: none;
-        overflow: hidden;
-        .reason {
-            height: auto;
-            font-size: 14px;
-            line-height: 24px;
-            overflow: hidden;
-            max-height: 144px;
-            word-break: break-all;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 6;
-            -webkit-box-orient: vertical;
-        }
+.forwardVideo {
+  .reasonDiv {
+    max-height: none;
+    overflow: hidden;
+    .reason {
+      height: auto;
+      font-size: 14px;
+      line-height: 24px;
+      overflow: hidden;
+      max-height: 144px;
+      word-break: break-all;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
     }
-    .reasonClickformore{
-        font-size: 14px;
-        margin-left: 80px;
-        margin-top: 4px;
-        color: $main-blue;
-        padding-bottom: 4px;
-        cursor: pointer;
-    }
+  }
+  .reasonClickformore {
+    font-size: 14px;
+    margin-left: 80px;
+    margin-top: 4px;
+    color: $main-blue;
+    padding-bottom: 4px;
+    cursor: pointer;
+  }
 }

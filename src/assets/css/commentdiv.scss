@@ -3,14 +3,14 @@
     // border-bottom: 1px solid $font-grey;
     padding-top: 12px;
     padding-bottom: 12px;
-    &::after {
+    &::before {
         content: '';
         width:90%;
         height: 10px;
         display: block;
         margin-left: 60px;
         // margin: 0 auto;
-        border-bottom: 1px solid $font-grey;
+        border-top: 1px solid $font-grey;
     }
     .active {
         color: $main-blue;

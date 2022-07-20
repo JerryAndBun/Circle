@@ -15,14 +15,19 @@
       </div>
     </div>
     <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
-      <div class="bottom">
-        <div class="likes" @click="test">
-          <i class="iconfont icon-dianzan1"></i>{{item.likes}}</div>
-        <div class="comment">
-          <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
-        <div class="forward">
-          <i class="iconfont icon-zhuanfa1"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
-      </div>
+    <div class="bottom">
+      <div class="likes" @click="test">
+        <i class="iconfont icon-dianzan1"></i>{{item.likes}}</div>
+      <div class="comment">
+        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{item.comments}}</div>
+      <div class="forward">
+        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
+    </div>
+    <div class="commentArea" v-if="isCommentDiv">
+      <div class="commentTag">评论</div>
+      <CommentInput class="commentInput"></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+    </div>
     <div class="spreate"></div>
   </div>
   <!-- 转发别人普通文字动态的动态 -->
@@ -61,10 +66,15 @@
         <i class="iconfont icon-dianzan1"></i>{{}}
       </div>
       <div class="comment">
-        <i class="iconfont icon-pinglun"></i>{{}}</div>
+        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{}}</div>
       <div class="forward">
-        <i class="iconfont icon-zhuanfa1"></i>{{}}</div>
-      </div>
+        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{}}</div>
+    </div>
+    <div class="commentArea" v-if="isCommentDiv">
+      <div class="commentTag">评论</div>
+      <CommentInput class="commentInput"></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+    </div>
     <div class="spreate"></div>
   </div>
   <!-- 转发视频的动态 -->
@@ -95,17 +105,32 @@
           <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
           <div class="icons">
             <i class="iconfont icon-bofangliang"></i>&nbsp{{321}}播放 &nbsp &nbsp
-            <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
+            <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>&nbsp{{321}}评论
           </div>
         </aside>
       </div>
     </main>
+    <div class="bottom">
+      <div class="likes" @click="test">
+        <i class="iconfont icon-dianzan1"></i>{{}}
+      </div>
+      <div class="comment">
+        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{}}</div>
+      <div class="forward">
+        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{}}</div>
+    </div>
+    <div class="commentArea" v-if="isCommentDiv">
+      <div class="commentTag">评论</div>
+      <CommentInput class="commentInput"></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+    </div>
+    <div class="spreate"></div>
   </div>
   <!-- 投稿视频的自动动态模板 -->
   <div class="conMoment" v-if="item.type=='NORMAL_DYNAMIC_CONTENT'&&item.videoNoteDto!=null">
-    <div class="user" @click="toThisUserpage">
+    <div class="user">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
-      <div class="nickname">{{item.userInfo.nickname}}</div>
+      <div class="nickname" @click="toThisUserpage">{{item.userInfo.nickname}}</div>
       <div class="time">{{item.createdAt}}</div>
     </div>
     <main class="conVideoContent" @click="toThisVideo">
@@ -115,7 +140,7 @@
         <p class="videoDes">{{item.videoNoteDto.summary}}</p>
         <div class="icons">
           <i class="iconfont icon-bofangliang"></i>&nbsp{{item.videoNoteDto.playNum}}播放 &nbsp &nbsp
-          <i class="iconfont icon-pinglun"></i>&nbsp{{item.videoNoteDto.commentNum}}评论
+          <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>&nbsp{{item.videoNoteDto.commentNum}}评论
         </div>
       </aside>
     </main>
@@ -124,10 +149,15 @@
         <i class="iconfont icon-dianzan1"></i>{{item.likes}}
       </div>
       <div class="comment">
-        <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
+        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{item.comments}}</div>
       <div class="forward">
-        <i class="iconfont icon-zhuanfa1"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
+        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
       </div>
+    <div class="commentArea" v-if="isCommentDiv">
+      <div class="commentTag">评论</div>
+      <CommentInput class="commentInput"></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+    </div>
     <div class="spreate"></div>
   </div>
 </div>
@@ -138,14 +168,17 @@ import { BASE_URL } from "../api/config";
 import { mapGetters } from "vuex";
 import UserPage from "@/pages/UserPage.vue";
 import VideoPlay from "./VideoPlay.vue";
+import CommentDiv from '@/components/CommentDiv.vue'
+import CommentInput from './CommentInput.vue';
 export default {
-  components: { UserPage, VideoPlay },
+  components: { UserPage, VideoPlay,CommentDiv, CommentInput },
   props: ["item"],
   data() {
     return {
       type:'conMoment',
       myavatar: this.avatar,
       baseurl: BASE_URL,
+      isCommentDiv:false,
       list: [],
       forwardClickformore: false,
       forwardIsfold: true,
@@ -170,6 +203,9 @@ export default {
     test() {
       this.$store.commit("info/toast_list", { type: "push" });
       console.log(this.toast_list);
+    },
+    forwardThisMoment(){
+
     },
     toThisUserpage(){
       this.$router.push({
@@ -288,7 +324,7 @@ export default {
       this.myavatar = require("../assets/imgs/头像.jpg");
     }
     this.type=this.item.type
-    // console.log(this.item);
+    console.log(this.item);
     console.log(this.item.videoNoteDto==null);
     this.$nextTick(()=>{
       // this.$refs.reasonText.innerHTML = this.item.reason;
