@@ -1,13 +1,14 @@
 /* 对这个组件的一些说明 这个组件依靠父组件v-for
-vuex里的toast_list来循环渲染toast,但是toast_list不需要什么值,他只需要length来循环就行
-父组件传入item与type代表要显示的消息与类型 父组件需要显示时,往vuex里的toast_list
-commit一个{type='push'}对象，用来增加长度 然后修改item与type即可 */
+vuex里的toast_list来循环渲染toast,但是toast_list需要length来循环 哪里需要显示弹窗，直接
+this.$store.commit("info/toast_list", { action: "push" ,message:'点赞成功',type:'success'});
+即可,action不写push的话会清空通知列表 */
+
 <template>
   <transition name="slide-fade">
     <div class="content" ref="content" v-if="is_show">
       <div class="toast" ref="toast">
         <i class="iconfont" :class="type == 'success' ? 'icon-chenggong' : 'icon-shibai'"></i
-        >{{ item }}
+        >{{ message }}
       </div>
     </div>
   </transition>
@@ -16,8 +17,8 @@ commit一个{type='push'}对象，用来增加长度 然后修改item与type即�
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  // item为显示的消息，type为成功或错误的类型
-  props: ['item', 'type'],
+  // message为显示的消息，type为成功或错误的类型
+  props: ['message', 'type'],
   // computed
   data() {
     return {

@@ -1,12 +1,17 @@
 <template>
   <div class="box">
+    <Dialog
+      v-if="isForwardWindow"
+      :forwardItem="videoItem"
+      @close="isForwardWindow = false"
+    ></Dialog>
     <div class="cir_toast_content">
       <!-- 外层包裹，保证固定定位的同时可以按高度一直往下排 -->
       <CirToast
         v-for="(item, index) in toast_list"
         :key="index"
-        item="点赞成功"
-        type="success"
+        :message="item.message"
+        :type="item.type"
       ></CirToast>
     </div>
     <Header></Header>
@@ -57,7 +62,7 @@
           </div>
         </aside>
         <main class="content_area">
-          <router-view :isown="isown" :itemList="itemList"></router-view>
+          <router-view :isown="isown" :itemList="itemList" @open="openForwardWindow"></router-view>
         </main>
         <aside class="topic_area">
           <div class="coversitiondiv"></div>
@@ -72,6 +77,7 @@
 import Header from '../components/Header.vue'
 import Footer from '@/components/Footer.vue'
 import CirToast from '@/components/CirToast.vue'
+import Dialog from '@/components/Dialog.vue'
 import HttpManager from '../api/index'
 import { mapGetters } from 'vuex'
 import { BASE_URL } from '../api/config'
@@ -101,9 +107,12 @@ export default {
         },
       ],
       isown: true,
+      isForwardWindow: false,
       current: '0',
       baseurl: BASE_URL,
       itemList: '',
+      // 保存转发视频的视频数据
+      videoItem: '',
     }
   },
   computed: {
@@ -111,6 +120,10 @@ export default {
     ...mapGetters('info', ['toast_list']),
   },
   methods: {
+    openForwardWindow(params) {
+      this.isForwardWindow = true
+      this.videoItem = params
+    },
     follow() {
       if (this.$refs.followa.innerHTML == '已关注') {
         // 已关注，取关操作
@@ -246,6 +259,7 @@ export default {
     Header,
     Footer,
     CirToast,
+    Dialog,
   },
 
   created() {

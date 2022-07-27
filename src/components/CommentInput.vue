@@ -33,7 +33,9 @@
 // import HttpManager from "../api/index";
 import { mapGetters } from "vuex";
 export default {
-  // 分别代表评论区用的      聊天用的         动态用的，谁为true就代表当前作为谁的输入框，发对应的请求
+  // comment_level  分别代表评论区用的,传入1或2代表几级评论
+  // messageWindow  聊天用的,或者只是单纯的获取输入
+  // moment         动态用的，谁为true就代表当前作为谁的输入框，发对应的请求
   props: ["comment_level",'messageWindow','moment'],
   components: {},
   computed: {
@@ -72,9 +74,9 @@ export default {
       var reg=new RegExp("\n","g"),
       str= this.$refs.text_area_inner.innerHTML.replace(reg,"<br>");
       this.content = str;
-      console.log(this.moment);
-      console.log(this.messageWindow);
-      console.log(this.comment_level);
+      // console.log(this.moment);
+      // console.log(this.messageWindow);
+      // console.log(this.comment_level);
       if(this.comment_level){
         // 根据父组件传过来的props决定调用的是评论还是动态接口
         // 说明是评论的输入框

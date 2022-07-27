@@ -1,5 +1,4 @@
 @import '../css/var.scss';
-
 .momentdiv,
 .conMoment,
 .forwardMoment,
@@ -41,6 +40,7 @@
     .comment,
     .likes {
       // font-weight: 500;
+      cursor: pointer;
       max-width: 60px;
       width: auto;
       font-size: 12px;
@@ -71,7 +71,7 @@
 
   .commentArea {
     border-top: 1px solid #e5e9ef;
-    margin-left: 60px;
+    margin-left: 82px;
     width: 652px;
     height: auto;
     .commentTag {
@@ -80,7 +80,7 @@
       margin-bottom: -10px !important;
     }
     /deep/ .commentInput {
-      width: 600px;
+      width: 652px;
     }
     // 使输入框长度随父元素
     /deep/ .publish {

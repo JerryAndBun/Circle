@@ -10,7 +10,12 @@
       ></CommentInput>
     </div>
     <div class="momentList">
-      <Moment v-for="(item, index) in mommentList" :key="item.contentId" :item="item"></Moment>
+      <Moment
+        v-for="(item, index) in mommentList"
+        :key="item.contentId"
+        :item="item"
+        @open="openForwardWindow"
+      ></Moment>
       <div class="none_moment">
         <img src="../assets/imgs/这里什么都没有.png" alt="" />
         <span>没有动态了哦</span>
@@ -23,6 +28,7 @@
 import CommentInput from '@/components/CommentInput.vue'
 import Moment from '@/components/Moment.vue'
 import CirToast from '@/components/CirToast.vue'
+import Dialog from '@/components/Dialog.vue'
 import HttpManager from '@/api/index'
 import { mapGetters } from 'vuex'
 
@@ -34,9 +40,13 @@ export default {
       mommentList: '',
       tool: 1,
       list: [],
+      isForwardWindow: true,
     }
   },
   methods: {
+    openForwardWindow(params) {
+      this.$emit('open',params)
+    },
     cleararticle() {
       // 清空缓存的动态内容
       this.article = ''
@@ -98,6 +108,7 @@ export default {
     CommentInput,
     Moment,
     CirToast,
+    Dialog,
   },
   computed: {
     ...mapGetters('user', ['uid']),

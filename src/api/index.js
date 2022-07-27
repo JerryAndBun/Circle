@@ -12,8 +12,6 @@ const HttpManager = {
   //检测邮箱是否有效
   postCheckEmail: (params) => post(`/check`, params),
 
-  // 请求该用户的动态,路径之后直接接用户的UID
-  getUserMoment: (url) => get(url),
   // 搜索用户
   getUserList: (url, params) => get(url, params),
   // 搜索视频
@@ -78,10 +76,16 @@ const HttpManager = {
   getVideoComment: (url) => get(url),
   // 发表评论
   postVideoComment: (params) => post(`/comment`, params),
-  // 给视频评论点赞
+  // 给评论点赞
   postLikeVideoComment: (params) => post(`/comment/like`, params),
-  // 给视频评论取消点赞
+  // 给评论取消点赞
   postUnLikeVideoComment: (params) => post(`/comment/unlike`, params),
-  
+
+  // 请求该用户的动态,路径之后直接接用户的UID
+  getUserMoment: (url) => get(url),
+  // 转发动态
+  postForwardMoment: (params) => post(`/forwardDynamicContent`, params),
+  // 根据sID号获取动态内容的评论 查询动态的所有评论
+  getAllMomentComment: (url) => get(url),
 }
 export default HttpManager

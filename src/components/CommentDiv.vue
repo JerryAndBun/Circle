@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <CommentInput v-if="is_replying" :comment_level="2" @sendComment="send_level2_comment"></CommentInput>
+    <CommentInput class="commentInput" v-if="is_replying" :comment_level="2" @sendComment="send_level2_comment"></CommentInput>
   </div>
   </div>
 </template>
@@ -46,7 +46,12 @@ import CommentInput from "@/components/CommentInput.vue";
 import { mapGetters } from "vuex";
 import HttpManager from "@/api/index";
 export default {
-  props: ["level_item", "is_all", "video_item"],
+  // 这段时间得到命名规则有改变，所有看起来有点怪 =-=
+  // level_item 代表该级评论的相关数据
+  // is_all     代表该一级评论下的二级回复只存在一个输入框
+  // video_item 代表该级评论是视频的评论，视频相关数据
+  // momentItem 代表该级评论是动态的评论，动态相关数据
+  props: ["level_item", "is_all", "video_item",'momentItem'],
   data() {
     return {
       baseurl: BASE_URL,
@@ -119,41 +124,69 @@ export default {
       });
     },
     send_level2_comment(params) {
-      // console.log(params);
+      console.log(params);
       console.log("你回复的item");
-      console.log({
-        oneCommentCid: this.level1Comment.cid,
-        commentContent: params.content,
-        cv: this.video_item.cv,
-        level: params.comment_level,
-        targetCid: this.reply_item.cid,
-        targetLevel: this.reply_item.level,
-        targetUid: this.reply_item.uid,
-      });
-      HttpManager.postVideoComment({
-        commentContent: params.content,
-        oneCommentCid: this.level1Comment.cid,
-        commentObj: this.video_item.cv,
-        level: params.comment_level,
-        targetCid: this.reply_item.cid,
-        targetLevel: this.reply_item.level,
-        targetUid: this.reply_item.uid,
-      }).then(
-        (response) => {
-          this.$emit("replyed");
-          this.is_replying=false
-          console.log(response);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      // console.log({
+      //   oneCommentCid: this.level1Comment.cid,
+      //   commentContent: params.content,
+      //   cv: this.video_item.cv,
+      //   level: params.comment_level,
+      //   targetCid: this.reply_item.cid,
+      //   targetLevel: this.reply_item.level,
+      //   targetUid: this.reply_item.uid,
+      // });
+      // 是回复动态的二级评论
+      if(this.momentItem){
+        console.log(this.momentItem);
+        HttpManager.postVideoComment({
+          commentContent: params.content,
+          oneCommentCid: this.level1Comment.cid,
+          commentObj: this.momentItem.sid,
+          level: params.comment_level,
+          targetCid: this.reply_item.cid,
+          targetLevel: this.reply_item.level,
+          targetUid: this.reply_item.uid,
+        }).then(
+          (response) => {
+            this.$emit("replyed");
+            this.is_replying=false
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+      // 是回复视频的二级评论
+      if(this.video_item){
+        HttpManager.postVideoComment({
+          commentContent: params.content,
+          oneCommentCid: this.level1Comment.cid,
+          commentObj: this.video_item.cv,
+          level: params.comment_level,
+          targetCid: this.reply_item.cid,
+          targetLevel: this.reply_item.level,
+          targetUid: this.reply_item.uid,
+        }).then(
+          (response) => {
+            this.$emit("replyed");
+            this.is_replying=false
+            console.log(response);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+
     },
   },
   mounted() {
     // this.comments_content.innerHTML=this.level_item.commentContent
     // this.level1CommentLiked=this.level_item.isLike
+    console.log(this.level_item);
     this.level1Comment=this.level_item
+    console.log(this.level1Comment);
   },
   created() {},
 };

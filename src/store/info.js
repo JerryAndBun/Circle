@@ -55,8 +55,8 @@ const info = {
     },
     toast_list: (state, payload) => {
       // alert(Array.isArray(state.toast_list))
-      if (payload.type == 'push') {
-        state.toast_list.push(payload.content)
+      if (payload.action == 'push') {
+        state.toast_list.push(payload)
         window.localStorage.setItem('toast_list', JSON.stringify(state.toast_list))
       } else {
         state.toast_list = []

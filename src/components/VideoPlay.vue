@@ -5,8 +5,8 @@
       <CirToast
         v-for="(item, index) in toast_list"
         :key="index"
-        :item="toast_info"
-        :type="toast_type"
+        :message="item.message"
+        :type="item.type"
       ></CirToast>
     </div>
     <div class="allcontainer" ref="videocontainer" id="videocontainer" >
@@ -294,13 +294,12 @@ export default {
       .then(
         (response) => {
           console.log(response);
-          this.$store.commit("info/toast_list", { type: "push" });
-          this.toast_info = "评论成功";
-          this.toast_type = "success";
+          this.$store.commit("info/toast_list", { action: "push" ,message:'评论成功',type:'success'});
           this.getComment()
         },
         (error) => {
           console.log(error);
+          this.$store.commit("info/toast_list", { action: "push" ,message:'评论失败',type:'fail'});
         }
       )
         
@@ -312,9 +311,7 @@ export default {
     send_focus_request() {
       // 已关注，执行取关操作
       if (this.video_item.uid == this.uid) {
-        this.$store.commit("info/toast_list", { type: "push" });
-        this.toast_type = "fail";
-        this.toast_info = "不能关注自己";
+        this.$store.commit("info/toast_list", { action: "push",message:'不能关注自己',type:'fail' });
         return;
       }
       if (this.auth_info.isFocusOn) {
@@ -711,7 +708,7 @@ export default {
   },
   mounted() {
     // 清除通知列表
-    this.$store.commit("info/toast_list", { type: "empty", content: [] });
+    this.$store.commit("info/toast_list", { action: "empty", content: [] });
     this.hide_volume_panel();
     this.check_click_for_more();
     console.log(this.auth_info);

@@ -16,17 +16,24 @@
     </div>
     <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
     <div class="bottom">
-      <div class="likes" @click="test">
+      <div class="likes" @click="momentLikeRequest">
         <i class="iconfont icon-dianzan1"></i>{{item.likes}}</div>
-      <div class="comment">
-        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{item.comments}}</div>
-      <div class="forward">
-        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
+      <div class="comment" @click="getMomentComment">
+        <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
+      <div class="forward" @click="openForwardWindow">
+        <i class="iconfont icon-zhuanfa1" ></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
     </div>
     <div class="commentArea" v-if="isCommentDiv">
-      <div class="commentTag">评论</div>
-      <CommentInput class="commentInput"></CommentInput>
-      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+      <div class="commentTag">评论&nbsp{{item.comments}}</div>
+      <CommentInput :comment_level="1" class="commentInput" @sendComment='momentCommentRequest'></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv" v-for="(comment, index) in momentComment" 
+      :key="index" 
+      :level_item="comment" 
+      :momentItem="item"
+      :is_all="isAll"
+      @toFather="isAll=!isAll" 
+      @likeChanged="getComment"
+      @replyed="getComment"></CommentDiv>
     </div>
     <div class="spreate"></div>
   </div>
@@ -62,18 +69,25 @@
       <div class="forwardClickformore" ref="forwardClickformore" @click="unfold('forward')" v-if="forwardClickformore">展开</div>
     </main>
     <div class="bottom">
-      <div class="likes" @click="test">
+      <div class="likes" @click="momentLikeRequest">
         <i class="iconfont icon-dianzan1"></i>{{}}
       </div>
-      <div class="comment">
-        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{}}</div>
-      <div class="forward">
-        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{}}</div>
+      <div class="comment" @click="getMomentComment">
+        <i class="iconfont icon-pinglun"></i>{{}}</div>
+      <div class="forward" @click="openForwardWindow">
+        <i class="iconfont icon-zhuanfa1" ></i>{{}}</div>
     </div>
     <div class="commentArea" v-if="isCommentDiv">
-      <div class="commentTag">评论</div>
-      <CommentInput class="commentInput"></CommentInput>
-      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+      <div class="commentTag">评论&nbsp{{item.comments}}</div>
+      <CommentInput :comment_level="1" class="commentInput" @sendComment='momentCommentRequest'></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv" v-for="(comment, index) in momentComment" 
+      :key="index" 
+      :level_item="comment" 
+      :momentItem="item"
+      :is_all="isAll"
+      @toFather="isAll=!isAll" 
+      @likeChanged="getComment"
+      @replyed="getComment"></CommentDiv>
     </div>
     <div class="spreate"></div>
   </div>
@@ -104,25 +118,37 @@
           <div class="videoTitle">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</div>
           <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
           <div class="icons">
-            <i class="iconfont icon-bofangliang"></i>&nbsp{{321}}播放 &nbsp &nbsp
-            <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>&nbsp{{321}}评论
+            <i class="iconfont icon-bofangliang" @click="isCommentDiv=!isCommentDiv"></i> &nbsp {{321}}播放 &nbsp &nbsp
+            <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
           </div>
         </aside>
       </div>
     </main>
     <div class="bottom">
-      <div class="likes" @click="test">
+      <div class="likes" @click="momentLikeRequest">
         <i class="iconfont icon-dianzan1"></i>{{}}
       </div>
-      <div class="comment">
-        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{}}</div>
-      <div class="forward">
-        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{}}</div>
+      <div class="comment" @click="getMomentComment">
+        <i class="iconfont icon-pinglun"></i>{{}}
+      </div>
+      <div class="forward" @click="openForwardWindow">
+        <i class="iconfont icon-zhuanfa1" ></i>{{}}
+      </div>
     </div>
     <div class="commentArea" v-if="isCommentDiv">
-      <div class="commentTag">评论</div>
-      <CommentInput class="commentInput"></CommentInput>
-      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+      <div class="commentTag">评论&nbsp{{item.comments}}</div>
+      <CommentInput :comment_level="1" class="commentInput" @sendComment='momentCommentRequest'></CommentInput >
+      <CommentDiv class="commentDiv" ref="commentDiv" v-for="(comment, index) in momentComment" 
+      :key="index" 
+      :level_item="comment" 
+      :momentItem="item"
+      :is_all="isAll"
+      @toFather="isAll=!isAll" 
+      @likeChanged="getComment"
+      @replyed="getComment"></CommentDiv>
+    </div>
+    <div class="forwardArea">
+      
     </div>
     <div class="spreate"></div>
   </div>
@@ -139,24 +165,31 @@
         <div class="videoTitle">{{item.videoNoteDto.title}}</div>
         <p class="videoDes">{{item.videoNoteDto.summary}}</p>
         <div class="icons">
-          <i class="iconfont icon-bofangliang"></i>&nbsp{{item.videoNoteDto.playNum}}播放 &nbsp &nbsp
-          <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>&nbsp{{item.videoNoteDto.commentNum}}评论
+          <i class="iconfont icon-bofangliang" @click="isCommentDiv=!isCommentDiv"></i>&nbsp{{item.videoNoteDto.playNum}}播放 &nbsp &nbsp
+          <i class="iconfont icon-pinglun"></i>&nbsp{{item.videoNoteDto.commentNum}}评论
         </div>
       </aside>
     </main>
     <div class="bottom">
-      <div class="likes" @click="test">
+      <div class="likes" @click="momentLikeRequest">
         <i class="iconfont icon-dianzan1"></i>{{item.likes}}
       </div>
-      <div class="comment">
-        <i class="iconfont icon-pinglun" @click="isCommentDiv=!isCommentDiv"></i>{{item.comments}}</div>
-      <div class="forward">
-        <i class="iconfont icon-zhuanfa1" @click="forwardThisMoment"></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
+      <div class="comment" @click="getMomentComment">
+        <i class="iconfont icon-pinglun"></i>{{item.comments}}</div>
+      <div class="forward" @click="openForwardWindow">
+        <i class="iconfont icon-zhuanfa1" ></i>{{item.forwardVideoInfo== null ? 0:item.forwardVideoInfo.length}}</div>
       </div>
     <div class="commentArea" v-if="isCommentDiv">
-      <div class="commentTag">评论</div>
-      <CommentInput class="commentInput"></CommentInput>
-      <CommentDiv class="commentDiv" ref="commentDiv"></CommentDiv>
+      <div class="commentTag">评论&nbsp{{item.comments}}</div>
+      <CommentInput :comment_level="1" class="commentInput" @sendComment='momentCommentRequest'></CommentInput>
+      <CommentDiv class="commentDiv" ref="commentDiv" v-for="(comment, index) in momentComment" 
+      :key="index" 
+      :level_item="comment" 
+      :momentItem="item"
+      :is_all="isAll"
+      @toFather="isAll=!isAll" 
+      @likeChanged="getComment"
+      @replyed="getComment"></CommentDiv>
     </div>
     <div class="spreate"></div>
   </div>
@@ -168,54 +201,85 @@ import { BASE_URL } from "../api/config";
 import { mapGetters } from "vuex";
 import UserPage from "@/pages/UserPage.vue";
 import VideoPlay from "./VideoPlay.vue";
-import CommentDiv from '@/components/CommentDiv.vue'
-import CommentInput from './CommentInput.vue';
+import CommentDiv from "@/components/CommentDiv.vue";
+import CommentInput from "./CommentInput.vue";
+import Dialog from "./Dialog.vue";
+
+import HttpManager from "@/api";
 export default {
-  components: { UserPage, VideoPlay,CommentDiv, CommentInput },
+  components: { UserPage, VideoPlay, CommentDiv, CommentInput},
   props: ["item"],
   data() {
     return {
-      type:'conMoment',
+      type: "conMoment",
       myavatar: this.avatar,
       baseurl: BASE_URL,
-      isCommentDiv:false,
       list: [],
+      forwardReason:'',
+      momentComment:'',
+      // 各种开关
+      isAll:false,
+      isCommentDiv: false,
+      isForwardDiv:false,
       forwardClickformore: false,
       forwardIsfold: true,
       reasonClickformore: false,
       reasonIsfold: true,
-      ttt: `
-        1.asdasd
-        2.5s641654
-        3.456156
-        4.5465451665
-        4.5465451665
-        4.5465451665
-        4.5465451665
-        4.5465451665
-      `,
     };
   },
   computed: {
     ...mapGetters("info", ["toast_list"]),
   },
   methods: {
-    test() {
-      this.$store.commit("info/toast_list", { type: "push" });
-      console.log(this.toast_list);
+    // 打开分享的窗口
+    openForwardWindow(){
+      this.$emit('open',this.item)
     },
-    forwardThisMoment(){
-
+    // 给动态评论一级评论
+    momentCommentRequest(params){
+      console.log(params);
+      HttpManager.postVideoComment({
+        commentContent: params.content,
+        commentObj: this.item.sid,
+        level: params.comment_level,
+        oneCommentCid: "",
+        targetCid: "",
+        targetLevel: "",
+        targetUid: ""
+      }).then(res=>{console.log(res);})
     },
-    toThisUserpage(){
+    // 给动态点赞的请求
+    momentLikeRequest() {
+      // 用于显示弹窗，点赞成功
+      this.$store.commit("info/toast_list", { action: "push" ,message:'点赞成功',type:'success'});
+      console.log(this.item);
+      // HttpManager.postLikeVideoComment({
+      //   cid:'',
+      //   level:''
+      // })
+      // console.log(this.toast_list);
+    },
+    getComment(){
+      HttpManager.getAllMomentComment(`/dynamicContent/comments/${this.item.sid}`).then(
+        res=>{console.log('查动态的评论成功');console.log(res); this.momentComment=res},
+        err=>{console.log('查动态的评论失败');}
+      )
+    },
+    // 点击查询该动态的所有评论，并且开关评论区
+    getMomentComment(){
+      this.isCommentDiv=!this.isCommentDiv
+      this.isForwardDiv=false
+      this.getComment()
+    },
+    toThisUserpage() {
       this.$router.push({
-        path:`/userpage/${this.item.userInfo.uid}`
-      })
+        path: `/userpage/${this.item.userInfo.uid}`,
+      });
     },
-    toThisVideo(){
+    toThisVideo() {
       this.$router.push({
-        path:`/video/${this.item.videoNoteDto.cv}`
-      })
+        path: `/video/${this.item.videoNoteDto.cv}`,
+      });
     },
     check_click_for_more() {
       this.$nextTick(() => {
@@ -248,29 +312,27 @@ export default {
         }
       });
     },
-    showHide(child,father,type,isfold){
-      
-    },
+    showHide(child, father, type, isfold) {},
     unfold(type) {
       // 折叠部分的父div
-      var father=null
-      var child=null
-      var isfold=null
+      var father = null;
+      var child = null;
+      var isfold = null;
 
-      if(type=='forward'){
+      if (type == "forward") {
         father = document.getElementById("textContainer");
-        child=this.$refs.forwardInner
-        isfold=this.forwardIsfold
+        child = this.$refs.forwardInner;
+        isfold = this.forwardIsfold;
       }
-      if(type=='reason'){
+      if (type == "reason") {
         father = document.getElementById("reasonDiv");
-        child=this.$refs.reason
-        isfold=this.reasonIsfold
+        child = this.$refs.reason;
+        isfold = this.reasonIsfold;
       }
-      if(type=='content'){
+      if (type == "content") {
         father = document.getElementById("reasonDiv");
-        child=this.$refs.reason
-        isfold=this.reasonIsfold
+        child = this.$refs.reason;
+        isfold = this.reasonIsfold;
       }
       if (isfold) {
         console.log(`******************`);
@@ -285,11 +347,11 @@ export default {
         child.style.webkitBoxOrient = "none";
         father.style.maxHeight = `none`;
         father.style.overflow = `none`;
-        if(type=='forward'){
+        if (type == "forward") {
           this.forwardIsfold = false;
           this.$refs.forwardClickformore.innerHTML = "收起";
-        }else{
-          this.reasonIsfold=false
+        } else {
+          this.reasonIsfold = false;
           this.$refs.reasonClickformore.innerHTML = "收起";
         }
       } else {
@@ -305,12 +367,11 @@ export default {
         child.style.webkitBoxOrient = "vertical";
         father.style.maxHeight = `150px`;
         father.style.overflow = `hidden`;
-        if(type=='forward'){
+        if (type == "forward") {
           this.forwardIsfold = true;
           this.$refs.forwardClickformore.innerHTML = "展开";
-        }else{
+        } else {
           father.style.maxHeight = `160px`;
-
           this.reasonIsfold = true;
           this.$refs.reasonClickformore.innerHTML = "展开";
         }
@@ -320,20 +381,20 @@ export default {
 
   mounted() {
     // this.check_click_for_more();
+    this.getComment()
     if (!this.myavatar) {
       this.myavatar = require("../assets/imgs/头像.jpg");
     }
-    this.type=this.item.type
+    this.type = this.item.type;
     console.log(this.item);
-    console.log(this.item.videoNoteDto==null);
-    this.$nextTick(()=>{
+    console.log(this.item.videoNoteDto == null);
+    this.$nextTick(() => {
       // this.$refs.reasonText.innerHTML = this.item.reason;
-    })
+    });
     // console.log(this.item.forwardVideoInfo);
   },
   updated() {
     // this.check_click_for_more();
-    
   },
 };
 </script>
