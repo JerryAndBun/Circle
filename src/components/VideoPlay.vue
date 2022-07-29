@@ -1,5 +1,10 @@
 <template>
   <div>
+    <Dialog
+      v-if="isForwardWindow"
+      :forwardItem="videoItem"
+      @close="isForwardWindow = false"
+    ></Dialog>
     <Header></Header>
     <div class="cir_toast_content">
       <CirToast
@@ -105,7 +110,7 @@
           <div class="footer_mindiv">
             <i class="iconfont icon-shoucang" :class="is_collected?'active':'unactive'" @click="collect_video"></i>{{video_item.collects}}
           </div>
-          <div class="footer_mindiv">
+          <div class="footer_mindiv" @click="isForwardWindow=true">
             <i class="iconfont icon-zhuanfa"></i>
           </div>
         </div>
@@ -169,6 +174,7 @@ import CommentInput from "@/components/CommentInput.vue";
 import CommentDiv from "@/components/CommentDiv.vue";
 import VideoPreview from "@/components/VideoPreview.vue";
 import CirToast from "@/components/CirToast.vue";
+import Dialog from "@/components/Dialog.vue";
 import { mapGetters } from "vuex";
 import { BASE_URL } from "@/api/config";
 export default {
@@ -180,6 +186,12 @@ export default {
       timeout_playchange: null,
       timeout_fulllscreechange: null,
       auth_info: "",
+      isForwardWindow: false,
+      // 用于转发的数据项
+      videoItem:{
+        videoNoteDto:{},
+        userInfo:{},
+      },
       // 是否关闭所有的二级评论框,false为全部关闭，需要的再单独打开，实现只有一个回复框存在
       is_all: 0,
       // 音量值
@@ -230,6 +242,7 @@ export default {
     CommentDiv,
     VideoPreview,
     CirToast,
+    Dialog,
   },
   watch: {
     video_play_Item: {
@@ -370,7 +383,8 @@ export default {
             this.video_item = response;
             this.is_liked = response.isLike;
             this.is_collected = response.isCollect;
-            console.log(this.video_item);
+            this.videoItem.videoNoteDto=response
+            console.log(this.videoItem);
           },
           (error) => {
             console.log("查询视频URL地址失败");
@@ -383,6 +397,7 @@ export default {
             (response) => {
               console.log(response);
               this.auth_info = response;
+              this.videoItem.userInfo=response
               if (this.auth_info.isFocusOn) {
                 // 已关注
                 this.$refs.foucus_btn.innerHTML = "已关注";

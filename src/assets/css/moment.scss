@@ -11,12 +11,22 @@
   height: auto;
   word-break: break-all;
 
-  /deep/.content,
-  .reason {
+  // .reasonDiv,
+  // .textContainer img {
+  //   display: inline-block;
+  //   width: 20px;
+  //   height: 20px;
+  //   vertical-align: top;
+  //   margin-right: 1px;
+  // }
+  /deep/ .reason,
+  .forwardInner {
     width: 670px;
     margin-left: 80px;
     margin-top: 20px;
-
+    span{
+      line-height: 12px;
+    }
     img {
       display: inline-block;
       width: 20px;

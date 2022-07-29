@@ -61,17 +61,13 @@ export default {
     },
     forwardMoment(message) {
       console.log(this.forwardItem)
-      let cv = ''
-      let destUid = ''
-      let dynamicContentEnum = ''
-      let nickname = ''
-      let reason = ''
-      let sid = ''
+      // 解构赋值
+      let [cv, destUid, dynamicContentEnum, nickname, reason, sid] = ''
+      // 如果有视频信息则赋值
       if (this.forwardItem.videoNoteDto) {
         cv = this.forwardItem.videoNoteDto.cv
-      } else {
-        sid = this.forwardItem.sid
       }
+      sid = this.forwardItem.sid
       let params = {
         cv: cv,
         destUid: this.forwardItem.userInfo.uid,

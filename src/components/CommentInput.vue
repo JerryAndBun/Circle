@@ -4,9 +4,9 @@
       <div class="publish_input">
         <div class="text_area">
           <div ref="text_area_inner" id="text_area_inner" contenteditable="plaintext-only" placeholder="有什么想说的？" 
-          class="text_area_inner" 
-          @click.prevent="handleSelection" 
-          @keyup.ctrl.enter="sendMessage">
+            class="text_area_inner" 
+            @click.prevent="handleSelection" 
+            @keyup.ctrl.enter="sendMessage">
             <!-- <img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAMAAABiM0N1AAAAnFBMVEVHcEz/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE3/zE1drexdrexdrexdrexdrexdrexdrexdrexdrexdrexdrexdrez/zE1drexmRQCziSf1xEiku6ZwTQXryGF7s86MZxN5VgrGmTCDXg71ylfsu0OfeB3isz+pgCLZqjq8kSvhxmuaubBxsdiGtcTXxHWuvZ1nr+KCoEL9AAAAGXRSTlMAgGC/349QIJ/vr0DP7zC/EHBAn4+AzyDfCSO1awAAAiFJREFUeF7N2NeamzAQBeABBBJuu5t+RHGv21Le/91iE49JQEaAuMh/qYvzzciyLA81kH4YCFyJIPQl9RApgRqhIrKbTaczriWMcUcc2up6nGo9faSz8QiNRmNq8qDPHoikgpVqqOpJF568GC3EXkNjhV87tDORZPRRX72hpTgig5m+eUVbnnmn2Xe0pqjqg/7LD4ckLqhrSVC1gnqWBM/0kbE3dBBR6auuWKC9WNLNZ13xEx1M6OabrnhHF57hMLJX9Gnuk67JgR5n4IuuWaKTMRW0AToZDRUEOVRQOFRQTGfR0nGz+YuicsePn0+AWOiaBToSRBLIHQpiknxgV9ml5Q6d+RSiTCpzNqvkbLVBCcZVFlKAi/yfvo7b5Gp7BDOvsoAECou8qGqZL4DjPLmZc5JxtSQINZzDSU2rpXpQdu2ArTPzqjUoTSpS86o16NLCKn0upKtLG+ZVe9A8zcCQpfO5cbUe5OA/DxIYhKAAgwgoxCBC8jEInyQGIWmY3RZEpOCIL/8IrvjdFqPB/rAubo3D3voD2XQAslNyc8psP9kSrPmO22aWRwSNcAfn2JJG9McYZqek4tT40Lp7AvZJzd7y/JcxDA6Xy/Xl+erlcsEebC9tDwbrDSo2a+u/iAl6mxDj5vrhxliEniKq8NCLRzUKPSgyUM45TDnnMM95f1gUA24DBCYncBtplFyHLMx57MNcB1HMeTTmPqwbbHz4G4rBnlOXsiTjAAAAAElFTkSuQmCC>阿瑟大三大四的 -->
           </div>
         </div>
@@ -109,29 +109,26 @@ export default {
 
     },
     addemoji(i, e) {
-      // 第一种插入方式，不会记录焦点位置
-      // let url = require(`../assets/emoji/${i}.png`);
-      // let imgtag = document.createElement("img");
-      // imgtag.src = url;
-      // imgtag.width = 20;
-      // imgtag.height = 20;
-      // imgtag.className = "emoji-item";
+      // 该方法出自https://blog.csdn.net/weixin_42232156/article/details/121627920
       let a = require(`../assets/emoji/${i}.png`);
-      console.log(a);
-      const parseDom = this.parseDom(`<img src=${a}>`);
-      // 在光标处插入dom
-      this.range.insertNode(parseDom);
-      // 光标开始和光标结束重叠
-      this.range.collapse(true);
-      this.isshowemoji=!this.isshowemoji
-      // // this.$refs.text_area_inner.append(imgtag);
-      // let input = document.getElementById("text_area_inner");
-      // input.append(imgtag);
-      // 第二种插入方式，会记录焦点位置,但是废弃
-      // let url = require(`../assets/emoji/${i}.png`);
-      // let imgt = `<img src=${url} class = "emoji-item">`;
-      // document.execCommand("insertHTML", false, imgt);
-      // alert(document.execCommand("insertHTML",true, imgt))
+      const parseDom =`<img src=${a}>`
+      let range, node;
+      if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        range.collapse(false);//光标移至最后
+        node = range.createContextualFragment(parseDom);
+        let c = node.lastChild;
+        range.insertNode(node);
+        if (c) {
+          range.setEndAfter(c);
+          range.setStartAfter(c);
+        }
+        let j = window.getSelection();
+        j.removeAllRanges();
+        j.addRange(range);
+      } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().pasteHTML(parseDom);
+      }
     },
     handleSelection() {
       this.selection = getSelection();
