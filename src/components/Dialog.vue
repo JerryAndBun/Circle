@@ -38,6 +38,7 @@
 
 <script>
 import CommentInput from '../components/CommentInput.vue'
+import HttpManager from '../api/index'
 import { BASE_URL } from '../api/config'
 export default {
   props: ['forwardItem'],
@@ -61,29 +62,41 @@ export default {
     },
     forwardMoment(message) {
       console.log(this.forwardItem)
+      // 如果在视频页面进行转发，则填'分享视频'，如果是转发动态则填'分享动态'
       // 解构赋值
-      let [cv, destUid, dynamicContentEnum, nickname, reason, sid] = ''
+      let [cv, destUid, dynamicContentEnum, nickname, reason, sid] = ['', '', '', '', '', '']
+      console.log(cv, destUid, dynamicContentEnum, nickname, reason, sid)
       // 如果有视频信息则赋值
       if (this.forwardItem.videoNoteDto) {
         cv = this.forwardItem.videoNoteDto.cv
       }
-      sid = this.forwardItem.sid
+      // 如果是动态类型
+      if (this.forwardItem.type) {
+        sid = this.forwardItem.sid
+        dynamicContentEnum = 'SHARE_DYNAMIC_CONTENT'
+      } else {
+        dynamicContentEnum = 'SHARE_VIDEO'
+      }
       let params = {
         cv: cv,
         destUid: this.forwardItem.userInfo.uid,
-        dynamicContentEnum: 'NORMAL_DYNAMIC_CONTENT',
+        dynamicContentEnum: dynamicContentEnum,
         nickname: this.forwardItem.userInfo.nickname,
-        reason: message,
+        reason: message.content,
         sid: sid,
       }
-      if (this.forwardItem == 'NORMAL_DYNAMIC_CONTENT') {
-        if (this.forwardItem.videoNoteDto != null) {
-          // 转发的视频
-          HttpManager.postForwardMoment(params)
+      console.log('你发送过去的转发数据', params)
+      HttpManager.postForwardMoment(params).then(
+        (res) => {
+          if (res.status == 200) {
+            // 转发成功，关闭窗口
+            this.closeWindow()
+          }
+        },
+        (err) => {
+          console.log(err)
         }
-        // 转发的普通动态
-        HttpManager.postForwardMoment(params)
-      }
+      )
     },
   },
   mounted() {

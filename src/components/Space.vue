@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     openForwardWindow(params) {
-      this.$emit('open',params)
+      this.$emit('open', params)
     },
     cleararticle() {
       // 清空缓存的动态内容
@@ -65,7 +65,8 @@ export default {
         )
         .then(
           (response) => {
-            console.log('获取成功1111111111111')
+            console.log('动态列表获取成功')
+            console.log(response)
             this.mommentList = response
           },
           (error) => {

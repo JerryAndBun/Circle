@@ -10,21 +10,12 @@
   margin-bottom: 10px;
   height: auto;
   word-break: break-all;
-
-  // .reasonDiv,
-  // .textContainer img {
-  //   display: inline-block;
-  //   width: 20px;
-  //   height: 20px;
-  //   vertical-align: top;
-  //   margin-right: 1px;
-  // }
   /deep/ .reason,
   .forwardInner {
     width: 670px;
     margin-left: 80px;
     margin-top: 20px;
-    span{
+    span {
       line-height: 12px;
     }
     img {
@@ -152,7 +143,7 @@
       font-size: 12px;
       color: $unfocus;
       margin-top: 44px;
-      margin-left: -124px;
+      margin-left: -40px;
       display: inline-block;
       justify-items: flex-start;
     }
@@ -169,7 +160,6 @@
 
 .conMoment,
 .forwardVideo {
-  // height: 310px;
   .reason {
     width: 670px;
   }
@@ -186,7 +176,6 @@
     .videoPic {
       width: 283px;
       height: 160px;
-      // background-color: yellow;
       display: inline-block;
     }
 
@@ -306,11 +295,7 @@
 
 .forwardVideo {
   .forwardVideoContent {
-    // width: 650px;
-    // height: 162px;
     height: 218px;
-    // margin-left: 80px;
-    // background-color: $bg-white;
     .videoWarp {
       border-radius: 5px;
       border: 1px solid $font-grey;
