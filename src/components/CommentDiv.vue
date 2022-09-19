@@ -2,7 +2,7 @@
 <div>
   <div class="level1_comment">
     <div class="container">
-      <img class="avatar" :src="`${baseurl}${level1Comment.avatar}`"></img>
+      <img class="avatar" :src="`${baseurl}${level1Comment.avatar}`">
       <div class="comments_container">
         <div class="nickname">{{level1Comment.nickname}}</div>
         <div class="comments_content" ref="comments_content" v-html="level1Comment.commentContent"></div>
@@ -17,7 +17,7 @@
     </div>
     <div class="level2_comment" v-for="(item,index) in level1Comment.replys">
       <div class="container">
-        <img class="avatar" :src="`${baseurl}${item.avatar}`"></img>
+        <img class="avatar" :src="`${baseurl}${item.avatar}`">
         <div class="comments_container">
           <div class="comment_area">
             <div class="nickname">{{item.nickname}}</div>

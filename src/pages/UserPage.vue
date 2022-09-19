@@ -1,18 +1,10 @@
 <template>
   <div class="box">
-    <Dialog
-      v-if="isForwardWindow"
-      :forwardItem="videoItem"
-      @close="isForwardWindow = false"
-    ></Dialog>
+    <Dialog v-if="isForwardWindow" :forwardItem="videoItem" @close="isForwardWindow = false"></Dialog>
     <div class="cir_toast_content">
       <!-- 外层包裹，保证固定定位的同时可以按高度一直往下排 -->
-      <CirToast
-        v-for="(item, index) in toast_list"
-        :key="index"
-        :message="item.message"
-        :type="item.type"
-      ></CirToast>
+      <!-- 这里是冒泡消息栏 -->
+      <CirToast v-for="(item, index) in toast_list" :key="index" :message="item.message" :type="item.type"></CirToast>
     </div>
     <Header></Header>
     <div class="bg"></div>
@@ -49,15 +41,11 @@
       </div>
       <div class="home_area">
         <aside class="tab_area" ref="tab_area">
-          <div
-            v-for="(item, index) in routerList"
-            :key="index"
-            :class="index == current ? 'active' : 'unactive'"
+          <div v-for="(item, index) in routerList" :key="index" :class="index == current ? 'active' : 'unactive'"
             @click="
               setNum(index)
               jump(item.url)
-            "
-          >
+            ">
             <i :class="item.icon"></i>{{ item.name }}
           </div>
         </aside>
@@ -134,7 +122,7 @@ export default {
           (response) => {
             console.log('取关成功')
           },
-          (error) => {}
+          (error) => { }
         )
         this.unfocusstyle()
       } else {
@@ -146,7 +134,7 @@ export default {
           (response) => {
             console.log('关注成功')
           },
-          (error) => {}
+          (error) => { }
         )
         this.focusstyle()
       }
@@ -165,7 +153,7 @@ export default {
       this.current = index
     },
     jump(url) {
-      this.$router.push(url).catch((err) => {})
+      this.$router.push(url).catch((err) => { })
     },
     requestinfo() {
       HttpManager.getUserInfo(`/userInfo/${this.$route.params.myuid}`).then(
@@ -211,7 +199,7 @@ export default {
             this.unfocusstyle()
           }
         },
-        (error) => {}
+        (error) => { }
       )
     },
     changeisown(boolean) {
@@ -283,7 +271,7 @@ export default {
       }
     )
     this.requestinfo()
-    this.$router.push(`/userpage/${this.$route.params.myuid}/space`).catch((err) => {})
+    this.$router.push(`/userpage/${this.$route.params.myuid}/space`).catch((err) => { })
   },
   mounted() {
     // 初始化清空通知列表

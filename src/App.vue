@@ -7,7 +7,6 @@
 </template>
 
 <script>
-// import "@/Myjs/acfun.js"; //全局逻辑
 
 export default {
   name: "App"

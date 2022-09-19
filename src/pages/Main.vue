@@ -34,11 +34,6 @@
             >{{ item.createdAt }}</router-link
           >
         </VideoPreview>
-      <!-- <VideoPreview v-for="(item,index) in 6" :key="index" :video_item="item">
-        <i class="iconfont icon-UP"></i>
-        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.nickname}}</router-link>
-        <router-link href="javascript:;" class="nickname" :to="{path:`/userpage/${item.uid}`}">{{item.createdAt}}</router-link>
-      </VideoPreview> -->
     </div>
     <div class="test"></div>
   </div>
@@ -81,10 +76,6 @@ export default {
     },
   },
   methods: {
-    load() {
-      console.log('123')
-      alert('?')
-    },
   },
   beforeRouteEnter(from, to, next) {
     if (localStorage.getItem('islogin')) {
@@ -99,8 +90,6 @@ export default {
       return (() => {
         window.fullHeight = document.documentElement.clientHeight
         window.fullWidth = document.documentElement.clientWidth
-        // console.log(window.fullHeight);
-        // console.log(window.fullWidth);
         that.windowHeight = window.fullHeight // 高
         that.windowWidth = window.fullWidth // 宽
       })()

@@ -26,7 +26,6 @@
           <router-link href="" to="/login" class="logintextlink" v-if="!islogin">登录/注册</router-link>
           <transition name="jump">
             <img class="avatar" ref="avatar" :src="`${baseurl}${avatar}`" v-if="islogin" @click="touserpage">
-            </img>
           </transition>
           <transition name="fade">
             <div class="userbox" ref="userbox" v-if="islogin">
