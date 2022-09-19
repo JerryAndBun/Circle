@@ -42,13 +42,11 @@
     <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
-      <div class="time">{{item.userInfo.createdAt}}</div>
+      <div class="time">{{item.createdAt}}</div>
     </div>
     <div class="reasonDiv" id="reasonDiv">
       <div class="reason" ref="reason">
-        <span class="reasonText" ref="reasonText">
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        <span class="reasonText" ref="reasonText" v-html="item.reason">
         </span>
       </div>
     </div>
@@ -61,8 +59,7 @@
       <div class="textContainer" ref="textContainer" id="textContainer">
         <div class="forwardInner" ref="forwardInner">
           <span class="forwardText" ref="forwardText">
-            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
           </span>
         </div>
       </div>
@@ -96,27 +93,26 @@
     <div class="user" @click="toThisUserpage">
       <img class="avatar" :src='`${baseurl}${item.userInfo.avatar}`'></img>
       <div class="nickname">{{item.userInfo.nickname}}</div>
-      <div class="time">{{item.userInfo.createdAt}}</div>
+      <div class="time">{{item.createdAt}}</div>
     </div>
     <div class="reasonDiv" id="reasonDiv">
       <div class="reason" ref="reason">
         <span class="reasonText" ref="reasonText">
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+          {{item.reason}}
         </span>
       </div>
     </div>
     <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
     <main class="forwardVideoContent">
       <div class="userDiv">
-        <img src="" alt="" class="userImg">
+        <img :src='`${baseurl}${item.avatar}`' alt="" class="userImg">
         <div class="nickName">&nbsp昵称{{}}</div>
       </div>
       <div class="videoWarp">
         <img src="" alt="" class="videoPic">
         <aside class="videoInfo">
-          <div class="videoTitle">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</div>
-          <p class="videoDes">asdasasdasddasdasdasddasasdasasdasddasdasdasddasdasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasddasdasddasdasasdasddasdasdasddasdasdasddasdasdasddasdddasdasdasdasddasdddasd</p>
+          <div class="videoTitle">{{item.videoNoteDto.title}}</div>
+          <p class="videoDes">{{item.videoNoteDto.summary}}</p>
           <div class="icons">
             <i class="iconfont icon-bofangliang" @click="isCommentDiv=!isCommentDiv"></i> &nbsp {{321}}播放 &nbsp &nbsp
             <i class="iconfont icon-pinglun"></i>&nbsp{{321}}评论
@@ -284,31 +280,37 @@ export default {
     check_click_for_more() {
       this.$nextTick(() => {
         // 检查转发text的高度
-        if (this.$refs.forwardText.offsetHeight > 144) {
-          // 需要检测的div的折叠时的高度，若大于，则折叠
-          this.$nextTick(() => {
-            this.forwardClickformore = true;
-            // console.log('转发的要折叠');
-          });
-        } else {
-          this.$nextTick(() => {
-            // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
-            this.forwardClickformore = false;
-            // console.log("转发的不要折叠");
-          });
+        if(this.$refs.forwardText){
+          if (this.$refs.forwardText.offsetHeight > 144) {
+            // 需要检测的div的折叠时的高度，若大于，则折叠
+            this.$nextTick(() => {
+              this.forwardClickformore = true;
+              console.log('转发的要折叠');
+            });
+          } else {
+            this.$nextTick(() => {
+              // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
+              this.forwardClickformore = false;
+              console.log("转发的不要折叠");
+            });
+          }
         }
-        if (this.$refs.reasonText.offsetHeight > 144) {
-          // 需要检测的div的折叠时的高度，若大于，则折叠
-          this.$nextTick(() => {
-            this.reasonClickformore = true;
-            // console.log('reason的要折叠');
-          });
-        } else {
-          this.$nextTick(() => {
-            // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
-            this.reasonClickformore = false;
-            // console.log("reason的不要折叠");
-          });
+        // 我也不知道为什么外面套个if，里面的this.$refs.reasonText.offsetHeight就不会报错了
+        // 直接写this.$refs.reasonText.offsetHeight会报错说找不到
+        if(this.$refs.reasonText){
+          if (this.$refs.reasonText.offsetHeight > 144) {
+            // 需要检测的div的折叠时的高度，若大于，则折叠
+            this.$nextTick(() => {
+              this.reasonClickformore = true;
+              console.log('reason的要折叠');
+            });
+          } else {
+            this.$nextTick(() => {
+              // 需要检测的div的折叠时的高度，若小于，则默认高度，无需折叠
+              this.reasonClickformore = false;
+              console.log("reason的不要折叠");
+            });
+          }
         }
       });
     },
@@ -380,7 +382,6 @@ export default {
   },
 
   mounted() {
-    // this.check_click_for_more();
     this.getComment()
     if (!this.myavatar) {
       this.myavatar = require("../assets/imgs/头像.jpg");
@@ -388,13 +389,11 @@ export default {
     this.type = this.item.type;
     console.log(this.item);
     console.log(this.item.videoNoteDto == null);
-    this.$nextTick(() => {
-      // this.$refs.reasonText.innerHTML = this.item.reason;
-    });
-    // console.log(this.item.forwardVideoInfo);
+    // 检查是否需要折叠
+    this.check_click_for_more(); 
   },
   updated() {
-    // this.check_click_for_more();
+    this.check_click_for_more();
   },
 };
 </script>
