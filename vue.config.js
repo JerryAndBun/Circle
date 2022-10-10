@@ -3,6 +3,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
   devServer: {
+    host: '100.71.15.31',
+    port:'8080'
     // proxy: 'http://luoying.free.idcfengye.com',
     // proxy:'http://100.71.26.14:8081',
     // proxy:'http://192.168.0.107:8081',

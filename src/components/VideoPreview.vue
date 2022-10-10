@@ -87,7 +87,6 @@ export default {
         HttpManager.postCollectByCv(`/collect/${this.video_item.cv}`).then(
           (response) => {
             console.log('收藏他的成功')
-            // this.$emit('operated', 'deletevideo')
           },
           (error) => console.log(error)
         )
@@ -113,6 +112,10 @@ export default {
     if (this.is_show_option_div) {
       console.log('aaaaaaaaa')
     }
+    console.log('******xia');
+    console.log(this.video_item);
+    console.log('******shang');
+
     this.this_type = this.type
     this.this_menu = this.menu
     if (this.is_own) {

@@ -19,23 +19,34 @@
           <div class="banner_mask"></div>
         </div>
       </div>
-        <VideoPreview v-for="(item, index) in video_list" :key="index" :video_item="item">
-          <i class="iconfont icon-UP"></i>
-          <router-link
-            href="javascript:;"
-            class="nickname"
-            :to="{ path: `/userpage/${item.uid}` }"
-            >{{ item.nickname }}</router-link
-          >
-          <router-link
-            href="javascript:;"
-            class="nickname"
-            :to="{ path: `/userpage/${item.uid}` }"
-            >{{ item.createdAt }}</router-link
-          >
-        </VideoPreview>
+      <VideoPreview v-for="(item, index) in video_list" :key="index" :video_item="item">
+        <i class="iconfont icon-UP"></i>
+        <router-link href="javascript:;" class="nickname" :to="{ path: `/userpage/${item.uid}` }">{{
+          item.nickname
+        }}</router-link>
+        <router-link href="javascript:;" class="nickname" :to="{ path: `/userpage/${item.uid}` }">{{
+          item.createdAt
+        }}</router-link>
+      </VideoPreview>
     </div>
-    <div class="test"></div>
+    <!-- 充数的 -->
+    <div class="below">
+      <VideoPreview v-for="(item, index) in 20" :key="index" :video_item="video_list[0]">
+        <i class="iconfont icon-UP"></i>
+        <router-link
+          href="javascript:;"
+          class="nickname"
+          :to="{ path: `/userpage/${video_list[0].uid}` }"
+          >{{ video_list[0].nickname }}</router-link
+        >
+        <router-link
+          href="javascript:;"
+          class="nickname"
+          :to="{ path: `/userpage/${video_list[0].uid}` }"
+          >{{ video_list[0].createdAt }}</router-link
+        >
+      </VideoPreview>
+    </div>
   </div>
 </template>
 <script>
@@ -75,8 +86,7 @@ export default {
       return this.$refs.mySwiper.swiper
     },
   },
-  methods: {
-  },
+  methods: {},
   beforeRouteEnter(from, to, next) {
     if (localStorage.getItem('islogin')) {
     }

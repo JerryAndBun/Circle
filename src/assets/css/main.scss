@@ -3,20 +3,20 @@
 @import '../css/banner.scss';
 
 html {
-    background-color: $rice;
+  background-color: $rice;
 }
 
 .streamer {
-    position: absolute;
-    margin: 0 auto;
-    width: 100%;
-    height: 180px;
-    // background-;
-    background-image: url(../assets/imgs/banners/banner.webp);
-    background-size: auto 100%;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: top;
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  height: 180px;
+  // background-;
+  background-image: url(../assets/imgs/banners/banner.webp);
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: top;
 }
 
 // @media screen and (max-width:1200px) {
@@ -33,74 +33,80 @@ html {
 // }
 
 .top_area {
-    display: grid;
-    position: absolute;
-    grid-gap: 14px 14px;
-    grid-template-columns: repeat(5, 1fr);
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1242px;
-    top: 270px;
-    height: 420px;
+  display: grid;
+  position: absolute;
+  grid-gap: 14px 14px;
+  grid-template-columns: repeat(5, 1fr);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1242px;
+  top: 270px;
+  height: 420px;
 
-    .banner_container {
-        height: 370px;
-        width: 540px;
-        grid-column: 1/3;
-        grid-row: 1/3;
-        .mySwiper{
-            height: 300px;
-        }
-        .footer {
-            /deep/.swiper-pagination {
-                z-index: 5 !important;
-                display: inline-block;
-                position: absolute;
-                bottom: 90px;
-                width: 150px !important;
-
-                //未激活样式
-                .swiper-pagination-bullet {
-                    width: 10px;
-                    height: 10px;
-                    margin-left: 10px;
-                    border-radius: 5px;
-                    background-color: $rice;
-                    opacity: 1;
-                }
-
-
-                //激活样式
-                .swiper-pagination-bullet-active {
-                    background-color: $main-blue;
-                    width: 15px;
-                    height: 10px;
-                }
-            }
-
-            .banner_mask {
-                position: absolute;
-                z-index: 3;
-                display: inline-block;
-                height: 342px;
-                width: 540px;
-                border-radius: $radious;
-                overflow: hidden;
-                background-image: linear-gradient(0, #2f3238 25%, transparent 45%);
-            }
-        }
-
+  .banner_container {
+    height: 370px;
+    width: 540px;
+    grid-column: 1/3;
+    grid-row: 1/3;
+    .mySwiper {
+      height: 300px;
     }
-
-
-    .recommond_video {
-        // position: relative;
+    .footer {
+      /deep/.swiper-pagination {
+        z-index: 5 !important;
         display: inline-block;
-        width: 660px;
-        height: 270px;
+        position: absolute;
+        bottom: 90px;
+        width: 150px !important;
+
+        //未激活样式
+        .swiper-pagination-bullet {
+          width: 10px;
+          height: 10px;
+          margin-left: 10px;
+          border-radius: 5px;
+          background-color: $rice;
+          opacity: 1;
+        }
+
+        //激活样式
+        .swiper-pagination-bullet-active {
+          background-color: $main-blue;
+          width: 15px;
+          height: 10px;
+        }
+      }
+
+      .banner_mask {
+        position: absolute;
+        z-index: 3;
+        display: inline-block;
+        height: 342px;
+        width: 540px;
+        border-radius: $radious;
+        overflow: hidden;
+        background-image: linear-gradient(0, #2f3238 25%, transparent 45%);
+      }
     }
+  }
 
-
+  .recommond_video {
+    // position: relative;
+    display: inline-block;
+    width: 660px;
+    height: 270px;
+  }
+}
+.below {
+  display: grid;
+  position: absolute;
+  grid-gap: 14px 14px;
+  grid-template-columns: repeat(5, 1fr);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1242px;
+  top: 750px;
+  height: 420px;
 }
 
 // .test {
