@@ -18,7 +18,9 @@
             @blur="loseemail"
           />
         </div>
-        <div class="alertdiv" ref="alertdiv1"><i class="iconfont icon-gantanhao"></i>邮箱错误</div>
+        <div class="alertdiv" ref="alertdiv1">
+          <i class="iconfont icon-gantanhao"></i>邮箱错误
+        </div>
         <div class="infobox">
           <i class="iconfont icon-yonghu"></i>
           <input
@@ -116,33 +118,42 @@ export default {
     // 发送验证码请求
     sendverifycode() {
       this.issendverifycode = true
+      this.loseemail()
+      this.losenickname()
+      this.losepass()
+      console.log(this.isagreement, this.islegalemail, this.islegalnickname, this.islegalpassword)
+      if (
+        !this.isagreement ||
+        // !this.islegalemail ||
+        !this.islegalnickname ||
+        !this.islegalpassword
+      ) {
+        alert('请完善信息')
+        return
+      }
       if (this.issendverifycode && !this.timeout) {
-        // this.$refs.verifycode.innerHTML = `${this.timeout}秒后重新获取验证码`;
-        // console.log("开始倒计时");
         // 设置倒计时
         this.timeout = 60
         this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`
         this.$refs.verifycode.style.color = `#999`
         this.counter = setInterval(() => {
-          // console.log(this.timeout);
           this.timeout--
           this.$refs.verifycode.innerHTML = `${this.timeout}秒后重试`
-          if (!this.timeout) {
-            clearInterval(counter)
+          if (this.timeout == 0) {
+            clearInterval(this.counter)
+            this.counter = null
+            console.log(this.$refs.verifycode.innerHTML)
             this.$refs.verifycode.innerHTML = `获取验证码`
             this.$refs.verifycode.style.color = `rgb(15,155,241)`
             this.issendverifycode = false
             this.$refs.verifycode.style.cursor = 'pointer'
           }
         }, 1000)
-        // setTimeout(() => {}, 3000);
-      } else {
-        return
       }
       this.$refs.verifycode.style.cursor = 'not-allowed'
       let params = {
-        email: this.email,
-        type: 'REGISTER',
+        "email": this.email,
+        "type": 'REGISTER',
       }
       HttpManager.sendverifycode(params).then(
         (response) => {
@@ -151,22 +162,25 @@ export default {
           }
         },
         (error) => {
-          if (error.response.data.status == 400) {
-            alert(error.response.data.message)
-          }
+          alert('获取数据失败')
         }
       )
     },
     requestRegister() {
       // 发送请求前验证数据合法性
-      // this.colorchange();
-      // this.loseemail();
-      // this.losenickname();
-      // this.losepass();
-      // if (!this.isagreement || !this.islegalemail || !this.islegalnickname || !this.islegalpassword) {
-      //   alert("不合法");
-      //   return;
-      // }
+      // this.colorchange()
+      this.loseemail()
+      this.losenickname()
+      this.losepass()
+      if (
+        !this.isagreement ||
+        !this.islegalemail ||
+        !this.islegalnickname ||
+        !this.islegalpassword
+      ) {
+        alert('不合法')
+        return
+      }
       var tti
       HttpManager.userRegister({
         email: this.email,
@@ -225,9 +239,6 @@ export default {
       this.$refs.alertdiv1.style.visibility = 'hidden'
     },
     loseemail() {
-      // const accountreg = /^\w{5,15}@\w{2,3}\.com$/g;
-      // console.log("163的是" + accountreg.test("JerryAnDBun@163.com"));
-      // console.log(this.email);
       let avilibleemail = false
       HttpManager.postCheckEmail({
         email: this.email,
@@ -239,16 +250,13 @@ export default {
             avilibleemail = true
           }
           if (avilibleemail) {
-            // console.log("1");
             this.hiddenerror()
           } else {
             this.showerror()
-            this.$refs.alertdiv1.innerHTML = '邮箱已注册或不可用'
           }
         },
         (error) => {}
       )
-      // let avilibleemail =
     },
     losenickname() {
       if (this.nickname.length < 3 || this.nickname.length > 15) {

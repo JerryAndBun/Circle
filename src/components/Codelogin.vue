@@ -213,8 +213,6 @@ export default {
         (error) => {
           console.log(error);
           console.log(error.response);
-          // console.log(error.response.data.message);
-          
           if (error.response.data.message == "邮箱未注册") {
             this.$refs.alertdiv.style.visibility = "visible";
             this.$refs.alertspan.innerHTML = "邮箱未注册";
@@ -224,10 +222,6 @@ export default {
             this.$refs.alertspan.innerHTML = "发送请求错误，请检查网络连接";
             return
           }
-          // if(){
-
-          // }
-          
         }
       );
     }

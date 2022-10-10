@@ -11,7 +11,6 @@ const HttpManager = {
   sendverifycode: (params) => post(`/verifyCode`, params),
   //检测邮箱是否有效
   postCheckEmail: (params) => post(`/check`, params),
-
   // 搜索用户
   getUserList: (url, params) => get(url, params),
   // 搜索视频

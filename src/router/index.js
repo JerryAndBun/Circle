@@ -101,6 +101,8 @@ const routes = new vueRouter({
       component: () => import('../components/VideoPlay.vue'),
       children: [{ path: ':cv', component: () => import('../components/VideoPlay.vue') }],
     },
+
+    { path: '*', component: () => import('../pages/404.vue') },
   ],
 })
 export default routes
