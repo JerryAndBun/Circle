@@ -47,6 +47,10 @@ export default {
   methods: {
     sendrequest() {
       // 已关注，执行取关操作
+      if (this.itemList.uid == this.uid) {
+        alert('不能关注自己')
+        return
+      }
       if (this.itemList.isFocusOn) {
         HttpManager.postUnFocusUser({
           focusid: this.itemList.uid,

@@ -54,7 +54,6 @@ const info = {
       window.localStorage.setItem('is_show_all_input', JSON.stringify(is_show_all_input))
     },
     toast_list: (state, payload) => {
-      // alert(Array.isArray(state.toast_list))
       if (payload.action == 'push') {
         state.toast_list.push(payload)
         window.localStorage.setItem('toast_list', JSON.stringify(state.toast_list))

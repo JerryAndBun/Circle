@@ -4,6 +4,7 @@
       v-if="isForwardWindow"
       :forwardItem="videoItem"
       @close="isForwardWindow = false"
+      @forwardSuccess='forwardSuccess'
     ></Dialog>
     <Header></Header>
     <div class="cir_toast_content">
@@ -273,6 +274,10 @@ export default {
       console.log("该事件执行");
       // 用于改变值，告诉所有子组件（回复框）全部关闭
       this.is_all = !this.is_all;
+    },
+    forwardSuccess(){
+      this.$store.commit("info/toast_list", { action: "push",message:'转发成功',type:'success' });
+        return;
     },
     getComment(){
       HttpManager.getVideoComment(`/video/comments/${this.video_item.cv}`).then(

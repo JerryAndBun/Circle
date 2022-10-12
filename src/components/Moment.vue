@@ -54,7 +54,7 @@
     <main class="forwardContent">
       <div class="userDiv">
         <img src="" alt="" class="userImg">
-        <div class="nickName">&nbsp昵称{{}}</div>
+        <div class="nickName" v-for="(element,index) in item.forwardVideoInfo.forwardUserInfoList">&nbsp昵称{{element.nickname}}</div>
       </div>
       <div class="textContainer" ref="textContainer" id="textContainer">
         <div class="forwardInner" ref="forwardInner">
@@ -105,11 +105,12 @@
     <div class="reasonClickformore" ref="reasonClickformore" @click="unfold('reason')" v-if="reasonClickformore">展开</div>
     <main class="forwardVideoContent">
       <div class="userDiv">
-        <img :src='`${baseurl}${item.avatar}`' alt="" class="userImg">
-        <div class="nickName">&nbsp昵称{{}}</div>
+        <!-- 这个作者的头像目前没有办法获取，后端没给 -->
+        <img :src='`${baseurl}${item.videoNoteDto.avatar}`' alt="" class="userImg">
+        <div class="nickName">&nbsp{{item.videoNoteDto.nickname}}</div>
       </div>
       <div class="videoWarp">
-        <img src="" alt="" class="videoPic">
+        <img :src="`${baseurl}${item.videoNoteDto.picPath}`" alt="" class="videoPic">
         <aside class="videoInfo">
           <div class="videoTitle">{{item.videoNoteDto.title}}</div>
           <p class="videoDes">{{item.videoNoteDto.summary}}</p>
@@ -199,7 +200,6 @@ import UserPage from "@/pages/UserPage.vue";
 import VideoPlay from "./VideoPlay.vue";
 import CommentDiv from "@/components/CommentDiv.vue";
 import CommentInput from "./CommentInput.vue";
-import Dialog from "./Dialog.vue";
 
 import HttpManager from "@/api";
 export default {
@@ -229,6 +229,7 @@ export default {
   methods: {
     // 打开分享的窗口
     openForwardWindow(){
+      // 通知UserPage页面打开对话框
       this.$emit('open',this.item)
     },
     // 给动态评论一级评论
@@ -242,7 +243,8 @@ export default {
         targetCid: "",
         targetLevel: "",
         targetUid: ""
-      }).then(res=>{console.log(res);})
+      }).then(res=>{console.log(res);
+      this.getComment()})
     },
     // 给动态点赞的请求
     momentLikeRequest() {
@@ -387,6 +389,7 @@ export default {
       this.myavatar = require("../assets/imgs/头像.jpg");
     }
     this.type = this.item.type;
+
     console.log(this.item);
     console.log(this.item.videoNoteDto == null);
     // 检查是否需要折叠

@@ -1,7 +1,9 @@
 /* 对这个组件的一些说明 这个组件依靠父组件v-for
 vuex里的toast_list来循环渲染toast,但是toast_list需要length来循环 哪里需要显示弹窗，直接
 this.$store.commit("info/toast_list", { action: "push" ,message:'点赞成功',type:'success'});
-即可,action不写push的话会清空通知列表 */
+type是选择要显示的icon,success是绿色小箭头,其他则是红色小箭头 即可,action不写push的话会清空通知列表
+然后每push进去一个,toast回渲染一次 然后自己消失,后面再push进来会在那基础之上加渲染一个toast,不会全部又在渲染一遍
+*/
 
 <template>
   <transition name="slide-fade">
@@ -31,8 +33,9 @@ export default {
     console.log('123123123')
     console.log(this.type)
     // this.$refs.content.style.transform='translateY(-20px)'
-    setTimeout(() => {
+    let time = setTimeout(() => {
       this.is_show = false
+      clearTimeout(time)
       // this.$refs.content.style.transform='translateY(20px)'
     }, 3500)
   },

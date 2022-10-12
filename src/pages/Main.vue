@@ -30,7 +30,8 @@
       </VideoPreview>
     </div>
     <!-- 充数的 -->
-    <div class="below">
+    <
+    <div class="below" v-if="video_list">
       <VideoPreview v-for="(item, index) in 20" :key="index" :video_item="video_list[0]">
         <i class="iconfont icon-UP"></i>
         <router-link

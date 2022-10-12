@@ -91,6 +91,8 @@ export default {
           if (res.status == 200) {
             // 转发成功，关闭窗口
             this.closeWindow()
+            // 转发成功，通知父组件更新动态列表
+            this.$emit('forwardSuccess')
           }
         },
         (err) => {
