@@ -10,7 +10,6 @@ import './assets/font_3193278_doewezsiyxk/iconfont.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 new Vue({
-
   render: h => h(App),
   router,
   store,

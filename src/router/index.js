@@ -3,7 +3,7 @@ import vueRouter from 'vue-router'
 
 vue.use(vueRouter)
 const routes = new vueRouter({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
