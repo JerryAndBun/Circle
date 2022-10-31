@@ -110,11 +110,11 @@ export default {
   mounted() {
     // console.log(this.type)
     if (this.is_show_option_div) {
-      console.log('aaaaaaaaa')
+      // console.log('aaaaaaaaa')
     }
-    console.log('******xia');
+    // console.log('******xia');
     console.log(this.video_item);
-    console.log('******shang');
+    // console.log('******shang');
 
     this.this_type = this.type
     this.this_menu = this.menu
