@@ -145,8 +145,8 @@
           <div class="video_file" v-for="(item, index) in filesArray" :key="index">
             <div class="video_attribute">
               <span class="p_part">P1</span>
-              <input type="text" class="p_name" :value="item.title" />
-              <span class="remain_word">{{ item.title ? item.title.length : '0' }}/45</span>
+              <input type="text" class="p_name" :value="item.name" />
+              <span class="remain_word" >{{ item.title ? item.title.length : '0' }}/45</span>
             </div>
             <div class="video_process">
               <div class="finish_part" :style="{ width: progress, height: '6px' }"></div>
@@ -329,6 +329,7 @@ export default {
       // 手写的input需要一个对象将本地图片转换为对应的格式来上传
       this.file = new FormData()
       // e.target.files就是选中的文件的一个数组
+      console.log(e)
       console.log(e.target.files)
       this.upload_video(e.target.files)
       // for (let index = 0; index < e.target.files.length; index++) {
