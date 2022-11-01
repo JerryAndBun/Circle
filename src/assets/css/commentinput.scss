@@ -98,13 +98,10 @@
     }
     .suggest {
       display: inline-block;
-      // position:absolute;
       bottom: 20px;
       margin-left: 530px;
       color: $unfocus;
       font-size: 14px;
-
-      // margin-right: 10px;
       right: 0px;
     }
     .text_area {
@@ -112,7 +109,7 @@
       max-height: 350px;
       overflow: auto;
       overflow-x: visible;
-      width: 94%;
+      width: 94% !important;
       max-width: 980px;
       border: #d5dbe0 1px solid;
       border-radius: 10px;
