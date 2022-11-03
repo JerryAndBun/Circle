@@ -76,13 +76,13 @@ export default {
     },
     sendMessage(e) {
       // 保留换行
-      var reg = new RegExp('\n', 'g')
-      // str = this.$refs.text_area_inner.innerHTML.replace(reg, '<br>')
+      var reg = new RegExp('\n', 'g'),
+        str = this.$refs.textarea.value.replace(reg, '<br>')
       // this.content = str
       // console.log(this.moment);
       // console.log(this.messageWindow);
       // console.log(this.comment_level);
-      this.content = this.$refs.textarea.value
+      this.content = str
 
       if (this.comment_level) {
         // 根据父组件传过来的props决定调用的是评论还是动态接口

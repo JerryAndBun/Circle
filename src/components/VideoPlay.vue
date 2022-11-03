@@ -698,7 +698,7 @@ export default {
       if (!this.fullscreened) {
         this.userclick = true
         this.fullscreen()
-        this.fullscreened = true
+        // this.fullscreened = true
         // 为了适配不同屏幕，居中
         // this.$refs.video.style.top = '50%'
         // this.$refs.video.style.transform = 'translateY(-50%)'
@@ -707,7 +707,6 @@ export default {
       } else {
         this.userclick = true
         this.exitFullscreen()
-        this.fullscreened = false
       }
     },
     // 全屏
@@ -721,12 +720,6 @@ export default {
       }
     },
     //退出全屏
-    // 退出全屏居中的函数
-    center_video() {
-      // this.fullscreened = false
-      // this.$refs.video.style.top = '0%'
-      // this.$refs.video.style.transform = 'translateY(0%)'
-    },
     exitFullscreen() {
       if (document.exitFullScreen) {
         document.exitFullScreen()
@@ -760,13 +753,6 @@ export default {
     this.check_click_for_more()
   },
   created() {
-    // 添加全局esc退出全屏事件
-    // document.addEventListener('exitFullscreen',()=>{
-    //   alert()
-    // })
-    // window.onresize=function () {
-    //   alert()
-    // }
     // 检测路由参数
     this.$watch(
       () => this.$route.params.cv, //要检测的字段
@@ -789,11 +775,8 @@ export default {
     console.log(this.auth_info)
     // 监听全屏事件变化
     document.addEventListener('fullscreenchange', (e) => {
+      this.fullscreened = !this.fullscreened
       console.log('是否全屏' + this.fullscreened)
-      if (!this.userclick) {
-        // this.exitFullScreen()
-        this.fullscreened = false
-      }
     })
   },
 }

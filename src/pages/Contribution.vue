@@ -145,8 +145,8 @@
           <div class="video_file" v-for="(item, index) in filesArray" :key="index">
             <div class="video_attribute">
               <span class="p_part">P1</span>
-              <input type="text" class="p_name" :value="item.name" />
-              <span class="remain_word" >{{ item.title ? item.title.length : '0' }}/45</span>
+              <input type="text" class="p_name" :value="item.names" />
+              <span class="remain_word">{{ item.title ? item.title.length : '0' }}/45</span>
             </div>
             <div class="video_process">
               <div class="finish_part" :style="{ width: progress, height: '6px' }"></div>
@@ -332,29 +332,27 @@ export default {
       console.log(e)
       console.log(e.target.files)
       this.upload_video(e.target.files)
-      // for (let index = 0; index < e.target.files.length; index++) {
-      //   this.file.append(`${e.target.files[index].name}`, e.target.files[index]);
-      // }
     },
     // 上传视频的函数，可以判断是否重复
     upload_video(List) {
       this.selected = true
       let double = 0
-      for (const iterator of List) {
-        for (const item of this.filesArray) {
-          if (iterator.name === item.name) {
-            console.log('文件重复')
-            double = 1
-            break
-          } else {
-            double = 0
-          }
-        }
-        if (double) {
-          break
-        }
-        this.filesArray.push(iterator)
-      }
+      // for (const iterator of List) {
+      //   for (const item of this.filesArray) {
+      //     if (iterator.name === item.name) {
+      //       console.log('文件重复')
+      //       double = 1
+      //       break
+      //     } else {
+      //       double = 0
+      //     }
+      //   }
+      //   if (double) {
+      //     break
+      //   }
+      //   this.filesArray.push(iterator)
+      // }
+      this.filesArray = List
       if (this.filesArray) {
         console.log(this.filesArray)
         this.selected = true
@@ -370,6 +368,10 @@ export default {
       for (const item of this.filesArray) {
         formData.append('videoFile', item)
         formData.append('cv', this.cv)
+        // ()里的.代表任意非换行字符 []里的.代表就就真的是个. ^. 就是除了.以外任意字符
+        let reg = /(.*)\.[^.]+$/
+        console.log(item.name.match(reg)[1])
+        item.names = item.name.match(reg)[1]
       }
       HttpManager.postVideo(formData, this.config).then(
         (response) => {
@@ -417,11 +419,14 @@ export default {
       e.preventDefault()
     },
     ondrop(e) {
-      console.log(this.filesArray)
+      console.log(e.dataTransfer.files)
       this.$refs.hoverdiv.style.backgroundColor = '#fff'
       e.stopPropagation()
       e.preventDefault()
       // 上传视频
+      console.log(e)
+      console.log(e.dataTransfer)
+      console.log(e.dataTransfer.files)
       this.upload_video(e.dataTransfer.files)
     },
     //选择本地图片
