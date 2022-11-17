@@ -7,8 +7,10 @@
     >
       <div class="user" @click="toThisUserpage">
         <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="nickname">{{ item.userInfo.nickname }}</div>
-        <div class="time">{{ item.createdAt }}</div>
+        <div class="waibao">
+          <div class="nickname">{{ item.userInfo.nickname }}</div>
+          <div class="time">{{ item.createdAt }}</div>
+        </div>
       </div>
       <div class="reasonDiv" id="reasonDiv">
         <div class="reason" ref="reason">
@@ -63,8 +65,10 @@
     <div class="forwardMoment" v-if="item.type == 'SHARE_DYNAMIC_CONTENT'">
       <div class="user" @click="toThisUserpage">
         <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="nickname">{{ item.userInfo.nickname }}</div>
-        <div class="time">{{ item.createdAt }}</div>
+        <div class="waibao">
+          <div class="nickname">{{ item.userInfo.nickname }}</div>
+          <div class="time">{{ item.createdAt }}</div>
+        </div>
       </div>
       <div class="reasonDiv" id="reasonDiv">
         <div class="reason" ref="reason">
@@ -140,8 +144,10 @@
     <div class="forwardVideo" v-if="item.type == 'SHARE_VIDEO'">
       <div class="user" @click="toThisUserpage">
         <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="nickname">{{ item.userInfo.nickname }}</div>
-        <div class="time">{{ item.createdAt }}</div>
+        <div class="waibao">
+          <div class="nickname">{{ item.userInfo.nickname }}</div>
+          <div class="time">{{ item.createdAt }}</div>
+        </div>
       </div>
       <div class="reasonDiv" id="reasonDiv">
         <div class="reason" ref="reason">
@@ -217,8 +223,10 @@
     >
       <div class="user">
         <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="nickname" @click="toThisUserpage">{{ item.userInfo.nickname }}</div>
-        <div class="time">{{ item.createdAt }}</div>
+        <div class="waibao">
+          <div class="nickname" @click="toThisUserpage">{{ item.userInfo.nickname }}</div>
+          <div class="time">{{ item.createdAt }}</div>
+        </div>
       </div>
       <main class="conVideoContent" @click="toThisVideo">
         <img :src="`${baseurl}${item.videoNoteDto.picPath}`" alt="" class="videoPic" />
@@ -324,7 +332,6 @@ export default {
       }).then((res) => {
         console.log(res)
         this.getComment()
-        
       })
     },
     // 给动态点赞的请求

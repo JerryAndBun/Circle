@@ -7,7 +7,7 @@ module.exports = defineConfig({
   publicPath: '',
   productionSourceMap: false,
   devServer: {
-    host: '100.71.0.124',
+    host: '100.71.23.30',
     port: '8080',
     // proxy: 'http://luoying.free.idcfengye.com',
     // proxy:'http://100.71.26.14:8081',
