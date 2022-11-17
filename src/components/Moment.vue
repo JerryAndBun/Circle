@@ -341,6 +341,17 @@ export default {
         )
       }
       if (this.this_type == 'unfocus') {
+        HttpManager.postUnFocusUser({
+          focusid: this.item.userInfo.uid,
+          uid: this.uid,
+        }).then(
+          (res) => {
+            console.log('动态取关成功')
+          },
+          (err) => {
+            console.log('动态取关失败')
+          }
+        )
       }
     },
     // 打开分享的窗口
