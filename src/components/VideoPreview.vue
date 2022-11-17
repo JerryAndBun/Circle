@@ -48,7 +48,7 @@
 import { BASE_URL } from '../api/config'
 import HttpManager from '@/api/index'
 export default {
-  props: ['video_item', 'type', 'is_operateable', 'menu', 'is_own'],
+  props: ['video_item', 'type', 'is_operateable', 'menu'],
   data() {
     return {
       // cv:'"a37ec456"',
@@ -108,17 +108,10 @@ export default {
   },
   created() {},
   mounted() {
-    // console.log(this.type)
-    if (this.is_show_option_div) {
-      // console.log('aaaaaaaaa')
-    }
-    // console.log('******xia');
-    console.log(this.video_item);
-    // console.log('******shang');
-
     this.this_type = this.type
     this.this_menu = this.menu
-    if (this.is_own) {
+    console.log('this.$attrs', this.$attrs)
+    if (this.$attrs.isown) {
     } else {
       this.this_menu = ['收藏']
       this.this_type = 'collect'

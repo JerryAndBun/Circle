@@ -2,7 +2,7 @@
   <div class="spacediv">
     <div ref="commentInputdiv" class="momentdiv">
       <CommentInput
-        v-if="isown"
+        v-if="$attrs.isown"
         v-model="article"
         :moment="1"
         @cleararticle="cleararticle"
@@ -12,6 +12,7 @@
     <div class="momentList">
       <Moment
         v-for="(item, index) in mommentList"
+        v-bind="$attrs"
         :key="item.contentId"
         :item="item"
         @open="openForwardWindow"
@@ -33,7 +34,7 @@ import HttpManager from '@/api/index'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['isown'],
+  // props: ['isown'],
   data() {
     return {
       article: '',
@@ -77,7 +78,7 @@ export default {
       //    //发送请求完成之后请求刷新动态列表
     },
     requestmoment() {
-      if (this.isown) {
+      if (this.$attrs.isown) {
         // 是已登录用户的动态
         HttpManager.getUserMoment(`/dynamicContentList`).then(
           (response) => {
@@ -118,7 +119,7 @@ export default {
   created() {
     this.$watch(
       // 主页所有者改变
-      () => this.isown,
+      () => this.$attrs.isown,
       (toParams, previousParams) => {
         // 对路由变化做出响应...
         this.requestmoment()
@@ -127,7 +128,8 @@ export default {
     )
     this.requestmoment()
   },
-  mounted() {},
+  mounted() {
+  },
 }
 </script>
 

@@ -15,7 +15,7 @@
             :key="index"
             :video_item="video_item"
             :menu="['删除投稿']"
-            :is_own="isown"
+            v-bind="$attrs"
             is_operateable="true"
             type="uncontribution"
             @operated="fillter_collects_list"
@@ -28,7 +28,6 @@
           <img src="../assets/imgs/这里什么都没有.png" class="empty" alt="" />
           <div class="emptytext">暂无投稿</div>
         </div>
-        <!-- <PageWrapper  :pageNo="2" :pageSize="3" :total="91" :continues="3"></PageWrapper> -->
       </div>
       <div class="collections_content">
         <div class="mycollects" v-if="ispage2 && !col_isempty">
@@ -37,7 +36,7 @@
             :key="index"
             :video_item="video_item"
             :menu="['取消收藏']"
-            :is_own="isown"
+            v-bind="$attrs"
             is_operateable="true"
             type="uncollect"
             @operated="fillter_collects_list"
@@ -63,7 +62,7 @@ import HttpManager from '@/api'
 import { mapGetters } from 'vuex'
 import ContributionVue from '@/pages/Contribution.vue'
 export default {
-  props: ['itemList', 'isown'],
+  props: ['itemList'],
   data() {
     return {
       ispage1: 1,

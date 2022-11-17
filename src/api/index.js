@@ -86,5 +86,8 @@ const HttpManager = {
   postForwardMoment: (params) => post(`/forwardDynamicContent`, params),
   // 根据sID号获取动态内容的评论 查询动态的所有评论
   getAllMomentComment: (url) => get(url),
+  // 点赞动态
+  // 删除动态
+  deleteMoment:(url)=>{deletemethods(url)}
 }
 export default HttpManager

@@ -5,18 +5,28 @@
       class="momentdiv"
       v-if="item.type == 'NORMAL_DYNAMIC_CONTENT' && item.videoNoteDto == null"
     >
-      <div class="user" @click="toThisUserpage">
-        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="waibao">
+      <div class="user">
+        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" @click="toThisUserpage" />
+        <div class="waibao" @click="toThisUserpage">
           <div class="nickname">{{ item.userInfo.nickname }}</div>
           <div class="time">{{ item.createdAt }}</div>
         </div>
+        <div class="option" ref="option" @click="is_show_option_div = !is_show_option_div">
+          <i class="iconfont icon-gengduo"></i>
+        </div>
+        <transition name="drop">
+          <div class="option_div" id="option_div" ref="option_div" v-if="is_show_option_div">
+            <ul>
+              <li v-for="(item, index) in this_menu" :key="index" @click="opreate_request(item)">
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </transition>
       </div>
       <div class="reasonDiv" id="reasonDiv">
         <div class="reason" ref="reason">
-          <span class="reasonText" ref="reasonText" v-html="item.reason">
-            <!-- {{item.reason}} -->
-          </span>
+          <span class="reasonText" ref="reasonText" v-html="item.reason"> </span>
         </div>
       </div>
       <div
@@ -63,9 +73,9 @@
     </div>
     <!-- 转发别人普通文字动态的动态 -->
     <div class="forwardMoment" v-if="item.type == 'SHARE_DYNAMIC_CONTENT'">
-      <div class="user" @click="toThisUserpage">
-        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="waibao">
+      <div class="user">
+        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" @click="toThisUserpage" />
+        <div class="waibao" @click="toThisUserpage">
           <div class="nickname">{{ item.userInfo.nickname }}</div>
           <div class="time">{{ item.createdAt }}</div>
         </div>
@@ -142,9 +152,9 @@
     </div>
     <!-- 转发视频的动态 -->
     <div class="forwardVideo" v-if="item.type == 'SHARE_VIDEO'">
-      <div class="user" @click="toThisUserpage">
-        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" />
-        <div class="waibao">
+      <div class="user">
+        <img class="avatar" :src="`${baseurl}${item.userInfo.avatar}`" @click="toThisUserpage" />
+        <div class="waibao" @click="toThisUserpage">
           <div class="nickname">{{ item.userInfo.nickname }}</div>
           <div class="time">{{ item.createdAt }}</div>
         </div>
@@ -290,7 +300,7 @@ import CommentInput from './CommentInput.vue'
 import HttpManager from '@/api'
 export default {
   components: { UserPage, VideoPlay, CommentDiv, CommentInput },
-  props: ['item'],
+  props: ['item', 'menu'],
   data() {
     return {
       type: 'conMoment',
@@ -307,12 +317,32 @@ export default {
       forwardIsfold: true,
       reasonClickformore: false,
       reasonIsfold: true,
+      // 是否显示动态的菜单
+      is_show_option_div: false,
+      // 动态菜单的类型
+      this_type: '',
     }
   },
   computed: {
     ...mapGetters('info', ['toast_list']),
+    ...mapGetters('user', ['uid']),
   },
   methods: {
+    // 动态的操作 删除或者取关
+    opreate_request() {
+      if (this.this_type == 'delete') {
+        HttpManager.deleteMoment(`/dynamicContent/${this.item.sid}`).then(
+          (res) => {
+            console.log('删除动态成功')
+          },
+          (err) => {
+            console.log('删除动态失败')
+          }
+        )
+      }
+      if (this.this_type == 'unfocus') {
+      }
+    },
     // 打开分享的窗口
     openForwardWindow() {
       // 通知UserPage页面打开对话框
@@ -352,8 +382,8 @@ export default {
     getComment() {
       HttpManager.getAllMomentComment(`/dynamicContent/comments/${this.item.sid}`).then(
         (res) => {
-          console.log('查动态的评论成功')
-          console.log(res)
+          // console.log('查动态的评论成功')
+          // console.log(res)
           this.momentComment = res
         },
         (err) => {
@@ -487,11 +517,19 @@ export default {
       this.myavatar = require('../assets/imgs/头像.jpg')
     }
     this.type = this.item.type
-
-    console.log(this.item)
-    console.log(this.item.videoNoteDto == null)
     // 检查是否需要折叠
     this.check_click_for_more()
+    // 复制父组件传来的动态菜单
+    this.this_menu = this.menu
+    // 根据动态发布者的UID判断是不是自己的动态，如果是自己的则是删除否则是取关
+    console.log(this.item)
+    if (this.item.userInfo.uid == this.uid) {
+      this.this_menu = ['删除动态']
+      this.this_type = 'delete'
+    } else {
+      this.this_menu = ['取消关注']
+      this.this_type = 'unfocus'
+    }
   },
   updated() {
     this.check_click_for_more()
@@ -501,4 +539,21 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/css/moment.scss';
+.drop-enter-active {
+  transition: all 0.3s ease;
+  //   opacity: 1;
+}
+.drop-leave-active {
+  transition: all 0.3s ease;
+}
+.drop-enter-to {
+  opacity: 1;
+  height: 112px;
+}
+.drop-enter, .drop-leave-to
+/* .drop-leave-active for below version 2.1.8 */ {
+  transform: translateY(-20px);
+  height: 0px;
+  opacity: 0;
+}
 </style>

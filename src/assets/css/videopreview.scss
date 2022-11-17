@@ -1,131 +1,129 @@
 @import './var';
 
 .vp_content {
-    // min-height: 100px;
-    // min-width: 180px;
-    // max-height: 130px;
-    // max-width: 234px;
+  // min-height: 100px;
+  // min-width: 180px;
+  // max-height: 130px;
+  // max-width: 234px;
+  width: 224px;
+  height: 200px;
+  // --title-font-size: 15px;
+  --title-font-size: 15px;
+  display: inline-block;
+
+  .vp_box {
     width: 224px;
-    height: 200px;
-    // --title-font-size: 15px;
-    --title-font-size: 15px;
+    height: 126px;
     display: inline-block;
+    border-radius: 10px;
+    // background-color: $main-blue;
+    cursor: pointer;
 
-    .vp_box {
+    .vp_pic {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    // margin-left: 20px;
+  }
+
+  .vp_info_div {
+    margin-top: 8px;
+    // margin-left: 4px;
+    position: relative;
+
+    width: 224px;
+    vertical-align: middle;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+
+    h3 {
+      cursor: pointer;
+      height: 42px;
+      font-weight: 400;
+      font-size: 15px;
+      word-break: break-all;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 200px;
+      /* 将对象作为弹性伸缩盒子模型显示 */
+      display: -webkit-box;
+      /* 限制在一个块元素显示的文本的行数 */
+      /* -webkit-line-clamp 其实是一个不规范属性，使用了WebKit的CSS扩展属性，该方法适用于WebKit浏览器及移动端；*/
+      -webkit-line-clamp: 2;
+      /* 设置或检索伸缩盒对象的子元素的排列方式 */
+      -webkit-box-orient: vertical;
+    }
+
+    i {
+      margin-right: 4px;
+      vertical-align: middle;
+      font-size: 16px;
+    }
+
+    a {
+      font-size: 16px;
+      text-decoration: none;
+      color: $focus;
+      margin-right: 8px;
+
+      h3 {
+        font-size: 15px;
         width: 224px;
-        height: 126px;
-        display: inline-block;
-        border-radius: 10px;
-        // background-color: $main-blue;
+      }
+    }
+
+    .vp_info {
+      // margin-top: 10px;
+      a {
+        font-size: 12px;
+        text-decoration: none;
+        color: $unfocus;
+      }
+      .option {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        right: -6px;
+        font-size: 50px;
+        text-align: center;
+        line-height: 30px;
+        top: 0px;
         cursor: pointer;
-
-        .vp_pic {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 100%;
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        // margin-left: 20px;
-    }
-
-    .vp_info_div {
-        margin-top: 8px;
-        // margin-left: 4px;
-        position: relative;
-
-        width: 224px;
-        vertical-align: middle;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        flex-direction: column;
-
-        h3 {
-            cursor: pointer;
-            height: 42px;
-            font-weight: 400;
-            font-size: 15px;
-            word-break: break-all;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 200px;
-            /* 将对象作为弹性伸缩盒子模型显示 */
-            display: -webkit-box;
-            /* 限制在一个块元素显示的文本的行数 */
-            /* -webkit-line-clamp 其实是一个不规范属性，使用了WebKit的CSS扩展属性，该方法适用于WebKit浏览器及移动端；*/
-            -webkit-line-clamp: 2;
-            /* 设置或检索伸缩盒对象的子元素的排列方式 */
-            -webkit-box-orient: vertical;
-
-        }
-
         i {
-            margin-right: 4px;
-            vertical-align: middle;
-            font-size: 16px;
+          font-size: 26px;
         }
-
-        a {
-            font-size: 16px;
-            text-decoration: none;
-            color: $focus;
-            margin-right: 8px;
-
-            h3 {
-                font-size: 15px;
-                width: 224px;
-            }
+      }
+      .option_div {
+        transform-origin: center top;
+        margin-top: 10px;
+        user-select: none;
+        position: absolute;
+        text-align: center;
+        right: 0px;
+        width: 100px;
+        height: 102px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid $font-grey;
+        overflow: hidden;
+        ul {
+          list-style: none;
+          li {
+            width: 100px;
+            height: 34px;
+            border-bottom: 1px solid $font-grey;
+            line-height: 34px;
+            background-color: $white;
+          }
         }
-
-        .vp_info {
-            // margin-top: 10px;
-            a {
-                font-size: 12px;
-                text-decoration: none;
-                color: $unfocus;
-            }
-            .option{
-                position: absolute;
-                width: 30px;
-                height: 30px;
-                right: -6px;
-                font-size: 50px;
-                text-align: center;
-                line-height: 30px;
-                top: 0px;
-                cursor: pointer;
-                i{
-                    font-size: 26px;
-                }
-            }
-            .option_div{
-                transform-origin: center top;
-                margin-top: 10px;
-                user-select: none;
-                position: absolute;
-                text-align: center;
-                right: 0px;
-                width: 100px;
-                height: 102px;
-                font-size: 14px;
-                border-radius: 6px;
-                border: 1px solid $font-grey;
-                overflow: hidden;
-                ul{
-                   list-style: none;
-                    li{
-                        width: 100px;
-                        height: 34px;
-                        border-bottom: 1px solid $font-grey;
-                        line-height: 34px;
-                        background-color: $white;
-                        
-                    }
-                }
-            }
-        }
+      }
     }
+  }
 }
