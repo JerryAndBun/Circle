@@ -88,6 +88,6 @@ const HttpManager = {
   getAllMomentComment: (url) => get(url),
   // 点赞动态
   // 删除动态
-  deleteMoment:(url)=>{deletemethods(url)}
+  deleteMoment:(url)=>deletemethods(url)
 }
 export default HttpManager
